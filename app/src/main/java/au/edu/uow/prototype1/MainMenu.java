@@ -89,8 +89,6 @@ public class MainMenu extends AppCompatActivity
         } else if (id == R.id.nav_events_viewer) {
             Intent intent = new Intent(this, Events.class);
             startActivity(intent);
-        } else if (id == R.id.nav_options) {
-
         } else if (id == R.id.nav_courses) {
 
         } else if (id == R.id.nav_group) {

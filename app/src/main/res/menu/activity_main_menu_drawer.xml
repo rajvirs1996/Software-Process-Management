@@ -1,50 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"
+        android:title="@string/group">
         <item
             android:id="@+id/nav_notifications"
             android:icon="@drawable/ic_info"
-            android:title="Notifications" />
+            android:title="@string/notifications"/>
         <item
             android:id="@+id/nav_calendar"
             android:icon="@drawable/ic_date"
-            android:title="Calendar" />
+            android:title="@string/calendar"/>
         <item
             android:id="@+id/nav_events_viewer"
             android:icon="@drawable/ic_events_viewer"
-            android:title="Events Viewer" />
+            android:title="@string/events_viewer"/>
         <item
             android:id="@+id/nav_courses"
             android:icon="@drawable/ic_courses"
-            android:title="Courses" />
+            android:title="@string/courses"/>
         <item
             android:id="@+id/nav_group"
             android:icon="@drawable/ic_group"
-            android:title="Group" />
+            android:title="@string/group"/>
         <item
             android:id="@+id/nav_chat"
             android:icon="@drawable/ic_chat"
-            android:title="Chat" />
+            android:title="@string/chat"/>
 
     </group>
 
-    <item android:title="Personal">
+    <item android:title="@string/personal">
         <menu>
             <item
                 android:id="@+id/nav_account"
                 android:icon="@drawable/ic_account"
-                android:title="Manage" />
+                android:title="@string/manage"/>
             <item
                 android:id="@+id/nav_contacts"
                 android:icon="@drawable/ic_contacts"
-                android:title="Contacts" />
+                android:title="@string/contacts"/>
             <item
                 android:id="@+id/nav_options"
                 android:icon="@drawable/ic_menu_manage"
-                android:title="Options" />
+                android:title="@string/options"/>
 
         </menu>
     </item>

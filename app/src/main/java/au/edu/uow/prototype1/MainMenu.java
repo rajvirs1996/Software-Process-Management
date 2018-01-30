@@ -90,19 +90,20 @@ public class MainMenu extends AppCompatActivity
             Intent intent = new Intent(this, Events.class);
             startActivity(intent);
         } else if (id == R.id.nav_courses) {
-
+            Intent intent = new Intent(this, Course.class);
+            startActivity(intent);
         } else if (id == R.id.nav_group) {
-
-        }
-
-        else if (id == R.id.nav_chat) {
-
-        }
-        else if (id == R.id.nav_contacts) {
-
-        }
-        else if (id == R.id.nav_options) {
-
+            Intent intent = new Intent(this, Group.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_chat) {
+            Intent intent = new Intent(this, Chat.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_contacts) {
+            Intent intent = new Intent(this, Contact.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_options) {
+            Intent intent = new Intent(this, Options.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

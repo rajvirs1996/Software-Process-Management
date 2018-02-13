@@ -20,32 +20,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".Calendar"/>
-        <activity android:name=".Events"/>
-        <activity
-            android:name=".Course"
-            android:label="@string/title_activity_course"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-            android:name=".Group"
-            android:label="@string/title_activity_group"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-            android:name=".Chat"
-            android:label="@string/title_activity_chat"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-            android:name=".Contact"
-            android:label="@string/title_activity_contact"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-            android:name=".Options"
-            android:label="@string/title_activity_options"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
     </application>
 
 </manifest>

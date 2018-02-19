@@ -1,0 +1,32 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_first_fragment"
+            android:icon="@drawable/ic_info"
+            android:title="@string/notifications"
+            android:checked="true"/>
+        <item
+            android:id="@+id/nav_second_fragment"
+            android:icon="@drawable/ic_calendar"
+            android:title="@string/calendar" />
+        <item
+            android:id="@+id/nav_third_fragment"
+            android:icon="@drawable/ic_events_viewer"
+            android:title="@string/events_viewer" />
+    </group>
+    <item android:title="Sub items">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:icon="@drawable/ic_menu_manage"
+                    android:title="Sub item 1" />
+                <item
+                    android:icon="@drawable/ic_contacts"
+                    android:title="Sub item 2" />
+            </group>
+        </menu>
+    </item>
+</menu>

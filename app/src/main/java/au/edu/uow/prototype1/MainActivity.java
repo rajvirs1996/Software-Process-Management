@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //
 //        return super.onOptionsItemSelected(item);
+        //noinspection SimplifiableIfStatement
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }

@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import au.edu.uow.prototype1.Fragment.FirstFragment;
+import au.edu.uow.prototype1.Fragment.FourthFragment;
 import au.edu.uow.prototype1.Fragment.SecondFragment;
 import au.edu.uow.prototype1.Fragment.ThirdFragment;
 
@@ -118,6 +119,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_third_fragment:
                 fragmentClass = ThirdFragment.class;
+                break;
+            case R.id.nav_fourth_fragment:
+                fragmentClass = FourthFragment.class;
                 break;
             default:
                 fragmentClass = FirstFragment.class;

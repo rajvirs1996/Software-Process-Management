@@ -54,6 +54,7 @@ public class FourthFragment extends Fragment{
                     String b = "Already added!";
                     Toast.makeText(getContext(), b, Toast.LENGTH_LONG).show();
                     inText.setText("");
+                    hasCSCI123 = true;
                 }
 
                 //wrong course

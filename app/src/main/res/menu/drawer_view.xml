@@ -16,6 +16,10 @@
             android:id="@+id/nav_third_fragment"
             android:icon="@drawable/ic_events_viewer"
             android:title="@string/events_viewer" />
+        <item
+            android:id="@+id/nav_fourth_fragment"
+            android:icon="@drawable/ic_courses"
+            android:title="@string/courses" />
     </group>
     <item android:title="Sub items">
         <menu>

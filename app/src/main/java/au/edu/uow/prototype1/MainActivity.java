@@ -1,17 +1,22 @@
 package au.edu.uow.prototype1;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import java.io.File;
+
+import au.edu.uow.prototype1.Activity.LoginActivity;
 import au.edu.uow.prototype1.Fragment.FirstFragment;
 import au.edu.uow.prototype1.Fragment.FourthFragment;
 import au.edu.uow.prototype1.Fragment.SecondFragment;
@@ -22,9 +27,17 @@ import au.edu.uow.prototype1.Fragment.ThirdFragment;
  */
 
 public class MainActivity extends AppCompatActivity {
+    //UI
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
     private NavigationView nvDrawer;
+
+    //UserInfo
+    public SharedPreferences userInfoSetting;
+    private static File userInfoFile;
+    String Username = null;
+    String Email = null;
+    String Password = null;
 
     // Make sure to be using android.support.v7.app.ActionBarDrawerToggle version.
     // The android.support.v4.app.ActionBarDrawerToggle has been deprecated.
@@ -34,24 +47,47 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Find UserInfo.xml in /data/data/au.edu.uow.prototype1
+        userInfoFile = new File(getApplicationContext().getFilesDir().getParent(), "UserInfo.xml");
+
+
+        if (!userInfoFile.exists()) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
+        ReadValue();
+        if (userInfoFile.exists() && Username.equals("")) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
+
+        // Set up the navigation menu view
         setContentView(R.layout.drawer_layout);
 
         // Set a Toolbar to replace the ActionBar.
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Find our drawer view
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawer = findViewById(R.id.drawer_layout);
         drawerToggle = setupDrawerToggle();
 
 
         // Find our drawer view
-        nvDrawer = (NavigationView) findViewById(R.id.nvView);
+        nvDrawer = findViewById(R.id.nvView);
         // Setup drawer view
         setupDrawerContent(nvDrawer);
 
         // Tie DrawerLayout events to the ActionBarToggle
         mDrawer.addDrawerListener(drawerToggle);
+    }
+
+    private void ReadValue() {
+        userInfoSetting = getSharedPreferences("LoginInfo", 0);
+        Username = userInfoSetting.getString("Username", "");
+        Email = userInfoSetting.getString("Email", "");
+        Password = userInfoSetting.getString("Password", "");
     }
 
     @Override
@@ -99,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                         selectDrawerItem(menuItem);
                         return true;
                     }

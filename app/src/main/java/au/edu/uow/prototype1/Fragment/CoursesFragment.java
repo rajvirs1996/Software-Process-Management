@@ -19,7 +19,7 @@ import au.edu.uow.prototype1.R;
  */
 
 //Courses
-public class FourthFragment extends Fragment{
+public class CoursesFragment extends Fragment{
     boolean hasCSCI123 = false;
 
     @Override

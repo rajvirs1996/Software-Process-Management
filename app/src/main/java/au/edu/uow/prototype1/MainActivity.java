@@ -19,15 +19,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
 
 import au.edu.uow.prototype1.Activity.LoginActivity;
-import au.edu.uow.prototype1.Fragment.FirstFragment;
-import au.edu.uow.prototype1.Fragment.FourthFragment;
-import au.edu.uow.prototype1.Fragment.SecondFragment;
-import au.edu.uow.prototype1.Fragment.ThirdFragment;
+import au.edu.uow.prototype1.Fragment.ContactsFragment;
+import au.edu.uow.prototype1.Fragment.NotificationFragment;
+import au.edu.uow.prototype1.Fragment.CoursesFragment;
+import au.edu.uow.prototype1.Fragment.CalendarFragment;
+import au.edu.uow.prototype1.Fragment.EventFragment;
 
 /**
  * Created by Tony on 19/2/2018.
@@ -177,20 +176,32 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         switch (menuItem.getItemId()) {
+
+            //notification
             case R.id.nav_first_fragment:
-                fragmentClass = FirstFragment.class;
+                fragmentClass = NotificationFragment.class;
                 break;
+            //calendar
             case R.id.nav_second_fragment:
-                fragmentClass = SecondFragment.class;
+                fragmentClass = CalendarFragment.class;
                 break;
+            //events viewer
             case R.id.nav_third_fragment:
-                fragmentClass = ThirdFragment.class;
+                fragmentClass = EventFragment.class;
                 break;
+
+            //courses
             case R.id.nav_fourth_fragment:
-                fragmentClass = FourthFragment.class;
+                fragmentClass = CoursesFragment.class;
                 break;
+
+            //contacts
+            case R.id.nav_sub_second:
+                fragmentClass = ContactsFragment.class;
+                break;
+
             default:
-                fragmentClass = FirstFragment.class;
+                fragmentClass = NotificationFragment.class;
                 break;
         }
 

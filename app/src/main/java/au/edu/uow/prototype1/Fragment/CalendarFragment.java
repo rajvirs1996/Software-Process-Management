@@ -12,7 +12,7 @@ import au.edu.uow.prototype1.R;
  * Created by Tony on 19/2/2018.
  */
 
-public class SecondFragment extends Fragment {
+public class CalendarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

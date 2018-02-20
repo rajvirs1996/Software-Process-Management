@@ -25,15 +25,19 @@
         <menu>
             <group android:checkableBehavior="single">
                 <item
+                    android:id="@+id/nav_sub_first"
                     android:icon="@drawable/ic_menu_manage"
                     android:title="@string/manage" />
                 <item
+                    android:id="@+id/nav_sub_second"
                     android:icon="@drawable/ic_contacts"
                     android:title="@string/contacts" />
                 <item
+                    android:id="@+id/nav_sub_third"
                     android:icon="@drawable/ic_build"
                     android:title="@string/options" />
                 <item
+                    android:id="@+id/nav_sub_fourth"
                     android:icon="@drawable/ic_logout"
                     android:title="@string/logout" />
             </group>

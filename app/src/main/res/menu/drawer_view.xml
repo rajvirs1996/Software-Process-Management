@@ -21,15 +21,21 @@
             android:icon="@drawable/ic_courses"
             android:title="@string/courses" />
     </group>
-    <item android:title="Sub items">
+    <item android:title="@string/personal">
         <menu>
             <group android:checkableBehavior="single">
                 <item
                     android:icon="@drawable/ic_menu_manage"
-                    android:title="Sub item 1" />
+                    android:title="@string/manage" />
                 <item
                     android:icon="@drawable/ic_contacts"
-                    android:title="Sub item 2" />
+                    android:title="@string/contacts" />
+                <item
+                    android:icon="@drawable/ic_build"
+                    android:title="@string/options" />
+                <item
+                    android:icon="@drawable/ic_logout"
+                    android:title="@string/logout" />
             </group>
         </menu>
     </item>

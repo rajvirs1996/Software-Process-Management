@@ -1,5 +1,6 @@
 package au.edu.uow.prototype1;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -56,17 +58,8 @@ public class MainActivity extends AppCompatActivity {
         //Find UserInfo.xml in /data/data/au.edu.uow.prototype1
         userInfoFile = new File(getApplicationContext().getFilesDir().getParent(), "UserInfo.xml");
 
-
-//        if (!userInfoFile.exists()) {
-//            Intent intent = new Intent(this, LoginActivity.class);
-//            startActivity(intent);
-//        }
+        //
         ReadValue();
-
-//        if (userInfoFile.exists() && Username.equals("")) {
-//            Intent intent = new Intent(this, LoginActivity.class);
-//            startActivity(intent);
-//        }
 
         // Set up the navigation menu view
         setContentView(R.layout.drawer_layout);
@@ -92,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = nvDrawer;
         // Inflate the header view at runtime
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header);
-        //
 
+        //Check if user is logged in
         if (!userInfoFile.exists() || userInfoFile.exists() && Username.equals("")) {
             ImageView ivHeaderPhoto = headerLayout.findViewById(R.id.headerImage);
             TextView usernameTV = headerLayout.findViewById(R.id.headUsername);
@@ -104,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Getting user's info from local file
     private void ReadValue() {
         userInfoSetting = getSharedPreferences("LoginInfo", 0);
         Username = userInfoSetting.getString("Username", "");
@@ -111,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         Password = userInfoSetting.getString("Password", "");
     }
 
+    //Useless stuff
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // The action bar home/up action should open or close the drawer_layout.
@@ -168,6 +163,19 @@ public class MainActivity extends AppCompatActivity {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         Class fragmentClass;
+
+        if (!userInfoFile.exists() || userInfoFile.exists() && Username.equals("")) {
+            Context context = getApplicationContext();
+            CharSequence text = "You have to login in order to use this function!";
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
         switch (menuItem.getItemId()) {
             case R.id.nav_first_fragment:
                 fragmentClass = FirstFragment.class;
@@ -183,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             default:
                 fragmentClass = FirstFragment.class;
+                break;
         }
 
         try {

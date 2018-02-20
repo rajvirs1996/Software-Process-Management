@@ -21,6 +21,7 @@ import java.io.File;
 
 import au.edu.uow.prototype1.Activity.LoginActivity;
 import au.edu.uow.prototype1.Fragment.ContactsFragment;
+import au.edu.uow.prototype1.Fragment.LogoutFragment;
 import au.edu.uow.prototype1.Fragment.NotificationFragment;
 import au.edu.uow.prototype1.Fragment.CoursesFragment;
 import au.edu.uow.prototype1.Fragment.CalendarFragment;
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Getting user's info from local file
     private void ReadValue() {
-        userInfoSetting = getSharedPreferences("LoginInfo", 0);
+        userInfoSetting = getSharedPreferences("UserInfo", 0);
         Username = userInfoSetting.getString("Username", "");
         Email = userInfoSetting.getString("Email", "");
         Password = userInfoSetting.getString("Password", "");
@@ -204,11 +205,7 @@ public class MainActivity extends AppCompatActivity {
 
             //logout
             case R.id.personal_logout:
-                userInfoSetting.edit().clear();
-                userInfoSetting.edit().apply();
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-                fragmentClass = null;
+                fragmentClass = LogoutFragment.class;
                 break;
             default:
                 fragmentClass = NotificationFragment.class;

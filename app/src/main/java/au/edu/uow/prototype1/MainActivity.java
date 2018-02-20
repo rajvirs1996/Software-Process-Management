@@ -13,6 +13,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 
@@ -52,18 +57,20 @@ public class MainActivity extends AppCompatActivity {
         userInfoFile = new File(getApplicationContext().getFilesDir().getParent(), "UserInfo.xml");
 
 
-        if (!userInfoFile.exists()) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }
+//        if (!userInfoFile.exists()) {
+//            Intent intent = new Intent(this, LoginActivity.class);
+//            startActivity(intent);
+//        }
         ReadValue();
-        if (userInfoFile.exists() && Username.equals("")) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }
+
+//        if (userInfoFile.exists() && Username.equals("")) {
+//            Intent intent = new Intent(this, LoginActivity.class);
+//            startActivity(intent);
+//        }
 
         // Set up the navigation menu view
         setContentView(R.layout.drawer_layout);
+
 
         // Set a Toolbar to replace the ActionBar.
         toolbar = findViewById(R.id.toolbar);
@@ -73,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawer = findViewById(R.id.drawer_layout);
         drawerToggle = setupDrawerToggle();
 
-
         // Find our drawer view
         nvDrawer = findViewById(R.id.nvView);
         // Setup drawer view
@@ -81,6 +87,21 @@ public class MainActivity extends AppCompatActivity {
 
         // Tie DrawerLayout events to the ActionBarToggle
         mDrawer.addDrawerListener(drawerToggle);
+
+        // Lookup navigation view
+        NavigationView navigationView = nvDrawer;
+        // Inflate the header view at runtime
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header);
+        //
+
+        if (!userInfoFile.exists() || userInfoFile.exists() && Username.equals("")) {
+            ImageView ivHeaderPhoto = headerLayout.findViewById(R.id.headerImage);
+            TextView usernameTV = headerLayout.findViewById(R.id.headUsername);
+            TextView emailTV = headerLayout.findViewById(R.id.headerUserEmail);
+            ivHeaderPhoto.setVisibility(View.INVISIBLE);
+            usernameTV.setText("");
+            emailTV.setText("");
+        }
     }
 
     private void ReadValue() {

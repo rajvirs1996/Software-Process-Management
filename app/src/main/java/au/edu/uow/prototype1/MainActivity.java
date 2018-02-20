@@ -1,6 +1,5 @@
 package au.edu.uow.prototype1;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -17,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 
@@ -54,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         //Find UserInfo.xml in /data/data/au.edu.uow.prototype1
         userInfoFile = new File(getApplicationContext().getFilesDir().getParent(), "UserInfo.xml");
 
@@ -85,15 +84,15 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the header view at runtime
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header);
 
-        //Check if user is logged in
-        if (!userInfoFile.exists() || userInfoFile.exists() && Username.equals("")) {
-            ImageView ivHeaderPhoto = headerLayout.findViewById(R.id.headerImage);
-            TextView usernameTV = headerLayout.findViewById(R.id.headUsername);
-            TextView emailTV = headerLayout.findViewById(R.id.headerUserEmail);
-            ivHeaderPhoto.setVisibility(View.INVISIBLE);
-            usernameTV.setText("");
-            emailTV.setText("");
-        }
+        //Setup header image/username/email
+
+        ImageView ivHeaderPhoto = headerLayout.findViewById(R.id.headerImage);
+        TextView usernameTV = headerLayout.findViewById(R.id.headUsername);
+        TextView emailTV = headerLayout.findViewById(R.id.headerUserEmail);
+        ivHeaderPhoto.setVisibility(View.INVISIBLE);
+        usernameTV.setText(Email); //TODO Use Username instead of Email after firebase inplementation
+        emailTV.setText(Email);
+
     }
 
     //Getting user's info from local file
@@ -163,18 +162,21 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = null;
         Class fragmentClass;
 
-        if (!userInfoFile.exists() || userInfoFile.exists() && Username.equals("")) {
-            Context context = getApplicationContext();
-            CharSequence text = "You have to login in order to use this function!";
-            int duration = Toast.LENGTH_LONG;
 
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+        //TODO remove?
+//        if (!userInfoFile.exists() || userInfoFile.exists() && Username.equals("")) {
+//            Context context = getApplicationContext();
+//            CharSequence text = "You have to login in order to use this function!";
+//            int duration = Toast.LENGTH_LONG;
+//
+//            Toast toast = Toast.makeText(context, text, duration);
+//            toast.show();
+//
+//
+//            Intent intent = new Intent(this, LoginActivity.class);
+//            startActivity(intent);
+//        }
 
-
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }
         switch (menuItem.getItemId()) {
 
             //notification
@@ -196,10 +198,18 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             //contacts
-            case R.id.nav_sub_second:
+            case R.id.personal_contact:
                 fragmentClass = ContactsFragment.class;
                 break;
 
+            //logout
+            case R.id.personal_logout:
+                userInfoSetting.edit().clear();
+                userInfoSetting.edit().apply();
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                fragmentClass = null;
+                break;
             default:
                 fragmentClass = NotificationFragment.class;
                 break;

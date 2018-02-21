@@ -5,6 +5,7 @@ android {
     defaultConfig {
         applicationId "au.edu.uow.prototype1"
         minSdkVersion 21
+        //noinspection OldTargetApi
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"

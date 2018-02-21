@@ -1,6 +1,5 @@
 package au.edu.uow.prototype1;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 
 import java.io.File;
 
-import au.edu.uow.prototype1.Activity.LoginActivity;
 import au.edu.uow.prototype1.Fragment.ContactsFragment;
 import au.edu.uow.prototype1.Fragment.LogoutFragment;
 import au.edu.uow.prototype1.Fragment.NotificationFragment;
@@ -35,14 +33,16 @@ public class MainActivity extends AppCompatActivity {
     //UI
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
+    @SuppressWarnings("FieldCanBeLocal")
     private NavigationView nvDrawer;
 
     //UserInfo
-    public SharedPreferences userInfoSetting;
+    private SharedPreferences userInfoSetting;
+    @SuppressWarnings("FieldCanBeLocal")
     private static File userInfoFile;
-    String Username = null;
-    String Email = null;
-    String Password = null;
+    private String Username = null;
+    private String Email = null;
+    private String Password = null;
 
     // Make sure to be using android.support.v7.app.ActionBarDrawerToggle version.
     // The android.support.v4.app.ActionBarDrawerToggle has been deprecated.
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         TextView usernameTV = headerLayout.findViewById(R.id.headUsername);
         TextView emailTV = headerLayout.findViewById(R.id.headerUserEmail);
         ivHeaderPhoto.setVisibility(View.INVISIBLE);
-        usernameTV.setText(Email); //TODO Use Username instead of Email after firebase inplementation
+        usernameTV.setText(Email); //TODO Use Username instead of Email after Firebase implementation
         emailTV.setText(Email);
 
     }
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public void selectDrawerItem(MenuItem menuItem) {
+    private void selectDrawerItem(MenuItem menuItem) {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         Class fragmentClass;

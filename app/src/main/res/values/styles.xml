@@ -5,6 +5,12 @@
         <item name="colorPrimaryDark">#512DA8</item>
         <item name="colorAccent">#FF4081</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        false
+        true
+        @android:color/transparent</style>
+
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 </resources>

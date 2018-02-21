@@ -27,4 +27,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="logout">Logout</string>
+    <string name="headerImage_description">This is the user icon</string>
+    <string name="headUsername_text">Android Studio</string>
+    <string name="headerUserEmail_text">android.studio@android.com</string>
 </resources>

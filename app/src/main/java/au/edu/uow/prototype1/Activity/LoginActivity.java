@@ -16,7 +16,7 @@ import au.edu.uow.prototype1.R;
  */
 
 public class LoginActivity extends AppCompatActivity {
-    public static final String PREFS_NAME = "UserInfo";
+    private static final String PREFS_NAME = "UserInfo";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

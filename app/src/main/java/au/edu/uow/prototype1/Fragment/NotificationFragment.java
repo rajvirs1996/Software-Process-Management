@@ -13,7 +13,7 @@ import au.edu.uow.prototype1.R;
  * Created by Tony on 19/2/2018.
  */
 
-public class FirstFragment extends Fragment {
+public class NotificationFragment extends Fragment {
 
 
 }

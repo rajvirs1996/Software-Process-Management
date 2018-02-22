@@ -1,6 +1,5 @@
 package au.edu.uow.prototype1;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -13,31 +12,41 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
 
-import au.edu.uow.prototype1.Activity.LoginActivity;
-import au.edu.uow.prototype1.Fragment.FirstFragment;
-import au.edu.uow.prototype1.Fragment.FourthFragment;
-import au.edu.uow.prototype1.Fragment.SecondFragment;
-import au.edu.uow.prototype1.Fragment.ThirdFragment;
+import au.edu.uow.prototype1.Fragment.CalendarFragment;
+import au.edu.uow.prototype1.Fragment.ContactsFragment;
+import au.edu.uow.prototype1.Fragment.CoursesFragment;
+import au.edu.uow.prototype1.Fragment.EventFragment;
+import au.edu.uow.prototype1.Fragment.LogoutFragment;
+import au.edu.uow.prototype1.Fragment.NotificationFragment;
 
 /**
  * Created by Tony on 19/2/2018.
  */
 
 public class MainActivity extends AppCompatActivity {
+    private FirebaseUser mUser;
     //UI
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
+    @SuppressWarnings("FieldCanBeLocal")
     private NavigationView nvDrawer;
 
     //UserInfo
-    public SharedPreferences userInfoSetting;
+    private SharedPreferences userInfoSetting;
+    @SuppressWarnings("FieldCanBeLocal")
     private static File userInfoFile;
-    String Username = null;
-    String Email = null;
-    String Password = null;
+    private String Username = null;
+    private String Email = null;
+    private String Password = null;
 
     // Make sure to be using android.support.v7.app.ActionBarDrawerToggle version.
     // The android.support.v4.app.ActionBarDrawerToggle has been deprecated.
@@ -48,22 +57,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        Username = mUser.getEmail(); // TODO use email when username is null
+        Email = mUser.getEmail();
+
         //Find UserInfo.xml in /data/data/au.edu.uow.prototype1
-        userInfoFile = new File(getApplicationContext().getFilesDir().getParent(), "UserInfo.xml");
+        //userInfoFile = new File(getApplicationContext().getFilesDir().getParent(), "UserInfo.xml");
 
+        //
+        //ReadValue();
+//        Bundle bundle = new Bundle();
+//        bundle = getIntent().getExtras();
+//        Email = bundle.getString("Email");
 
-        if (!userInfoFile.exists()) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }
-        ReadValue();
-        if (userInfoFile.exists() && Username.equals("")) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }
 
         // Set up the navigation menu view
         setContentView(R.layout.drawer_layout);
+
 
         // Set a Toolbar to replace the ActionBar.
         toolbar = findViewById(R.id.toolbar);
@@ -73,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawer = findViewById(R.id.drawer_layout);
         drawerToggle = setupDrawerToggle();
 
-
         // Find our drawer view
         nvDrawer = findViewById(R.id.nvView);
         // Setup drawer view
@@ -81,15 +90,32 @@ public class MainActivity extends AppCompatActivity {
 
         // Tie DrawerLayout events to the ActionBarToggle
         mDrawer.addDrawerListener(drawerToggle);
+
+        // Lookup navigation view
+        NavigationView navigationView = nvDrawer;
+        // Inflate the header view at runtime
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header);
+
+        //Setup header image/username/email
+
+        ImageView ivHeaderPhoto = headerLayout.findViewById(R.id.headerImage);
+        TextView usernameTV = headerLayout.findViewById(R.id.headUsername);
+        TextView emailTV = headerLayout.findViewById(R.id.headerUserEmail);
+        ivHeaderPhoto.setVisibility(View.INVISIBLE);
+        usernameTV.setText(Email); //TODO Use Username instead of Email after Firebase implementation
+        emailTV.setText(Email);
+
     }
 
+    //Getting user's info from local file
     private void ReadValue() {
-        userInfoSetting = getSharedPreferences("LoginInfo", 0);
-        Username = userInfoSetting.getString("Username", "");
-        Email = userInfoSetting.getString("Email", "");
-        Password = userInfoSetting.getString("Password", "");
+        //userInfoSetting = getSharedPreferences("UserInfo", 0);
+        //Username = userInfoSetting.getString("Username", "");
+//        Email = userInfoSetting.getString("Email", "");
+//        Password = userInfoSetting.getString("Password", "");
     }
 
+    //Useless stuff
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // The action bar home/up action should open or close the drawer_layout.
@@ -100,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //
 //        return super.onOptionsItemSelected(item);
+        //noinspection SimplifiableIfStatement
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -142,25 +169,58 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public void selectDrawerItem(MenuItem menuItem) {
+    private void selectDrawerItem(MenuItem menuItem) {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         Class fragmentClass;
+
+
+        //TODO remove?
+//        if (!userInfoFile.exists() || userInfoFile.exists() && Username.equals("")) {
+//            Context context = getApplicationContext();
+//            CharSequence text = "You have to login in order to use this function!";
+//            int duration = Toast.LENGTH_LONG;
+//
+//            Toast toast = Toast.makeText(context, text, duration);
+//            toast.show();
+//
+//
+//            Intent intent = new Intent(this, LoginActivity.class);
+//            startActivity(intent);
+//        }
+
         switch (menuItem.getItemId()) {
+
+            //notification
             case R.id.nav_first_fragment:
-                fragmentClass = FirstFragment.class;
+                fragmentClass = NotificationFragment.class;
                 break;
+            //calendar
             case R.id.nav_second_fragment:
-                fragmentClass = SecondFragment.class;
+                fragmentClass = CalendarFragment.class;
                 break;
+            //events viewer
             case R.id.nav_third_fragment:
-                fragmentClass = ThirdFragment.class;
+                fragmentClass = EventFragment.class;
                 break;
+
+            //courses
             case R.id.nav_fourth_fragment:
-                fragmentClass = FourthFragment.class;
+                fragmentClass = CoursesFragment.class;
+                break;
+
+            //contacts
+            case R.id.personal_contact:
+                fragmentClass = ContactsFragment.class;
+                break;
+
+            //logout
+            case R.id.personal_logout:
+                fragmentClass = LogoutFragment.class;
                 break;
             default:
-                fragmentClass = FirstFragment.class;
+                fragmentClass = NotificationFragment.class;
+                break;
         }
 
         try {

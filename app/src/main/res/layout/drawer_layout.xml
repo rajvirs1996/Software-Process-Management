@@ -26,7 +26,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
     </LinearLayout>
 
-    <!-- The navigatdrawer_layoutawer that comes from the left -->
+    <!-- The navigation drawer that comes from the left -->
     <!-- Note that `android:layout_gravity` needs to be set to 'start' -->
     <android.support.design.widget.NavigationView
         android:id="@+id/nvView"
@@ -34,6 +34,5 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@android:color/white"
-        app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_view"/>
 </android.support.v4.widget.DrawerLayout>

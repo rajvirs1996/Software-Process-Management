@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "648315604725",
+    "firebase_url": "https://csci311-9c3ec.firebaseio.com",
+    "project_id": "csci311-9c3ec",
+    "storage_bucket": "csci311-9c3ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648315604725:android:85f89076c4a79eb5",
+        "android_client_info": {
+          "package_name": "au.edu.uow.prototype1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "648315604725-snb0feap88c36odtpi2k02ucs10iu38u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "au.edu.uow.prototype1",
+            "certificate_hash": "9fac20e65e430345255aa28abbc11980481986c8"
+          }
+        },
+        {
+          "client_id": "648315604725-6pbppupf5af1321udi7baci03gdv9c7h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "au.edu.uow.prototype1",
+            "certificate_hash": "28b301fe7482793ba7c6a0aa1ee0ff8ae674ea24"
+          }
+        },
+        {
+          "client_id": "648315604725-r8hl16ej55e8lrghsaijo2g3oek22dpt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzB_X6WC1sERot-nwkhUKtmsYSyvZNu9I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "648315604725-r8hl16ej55e8lrghsaijo2g3oek22dpt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

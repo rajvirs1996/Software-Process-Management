@@ -2,6 +2,7 @@ package au.edu.uow.prototype1.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup.LayoutParams;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,7 @@ import au.edu.uow.prototype1.R;
  */
 
 //Courses
-public class FourthFragment extends Fragment{
+public class CoursesFragment extends Fragment{
     boolean hasCSCI123 = false;
 
     @Override
@@ -35,6 +36,7 @@ public class FourthFragment extends Fragment{
         final LayoutParams coursesParam = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         final TextView inText = view.findViewById(R.id.courseIn);
         View addBtn = view.findViewById(R.id.courseAddBtn);
+
         addBtn.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
@@ -46,7 +48,26 @@ public class FourthFragment extends Fragment{
                     Button newBtn = new Button(getContext());
                     newBtn.setText("CSCI123");
                     coursesList.addView(newBtn,coursesParam);
+
+
+                    newBtn.setOnClickListener(new Button.OnClickListener() {
+                        public void onClick(View v) {
+                            // Create new fragment and transaction
+                            Fragment newFragment = new CourseSelect();
+                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                            // Replace courseslayout with entire fragment containers
+                            transaction.replace(R.id.courseslayout, newFragment);
+                            transaction.addToBackStack(null);
+
+                            // Commit the transaction
+                            transaction.commit();
+                        }
+                    });
+
+
                     inText.setText("");
+                    hasCSCI123 = true;
                 }
 
                 //add CSCI123 but CSCI123 already added
@@ -54,7 +75,6 @@ public class FourthFragment extends Fragment{
                     String b = "Already added!";
                     Toast.makeText(getContext(), b, Toast.LENGTH_LONG).show();
                     inText.setText("");
-                    hasCSCI123 = true;
                 }
 
                 //wrong course

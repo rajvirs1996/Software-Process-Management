@@ -16,20 +16,24 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.io.File;
 
+import au.edu.uow.prototype1.Fragment.CalendarFragment;
 import au.edu.uow.prototype1.Fragment.ContactsFragment;
+import au.edu.uow.prototype1.Fragment.CoursesFragment;
+import au.edu.uow.prototype1.Fragment.EventFragment;
 import au.edu.uow.prototype1.Fragment.LogoutFragment;
 import au.edu.uow.prototype1.Fragment.NotificationFragment;
-import au.edu.uow.prototype1.Fragment.CoursesFragment;
-import au.edu.uow.prototype1.Fragment.CalendarFragment;
-import au.edu.uow.prototype1.Fragment.EventFragment;
 
 /**
  * Created by Tony on 19/2/2018.
  */
 
 public class MainActivity extends AppCompatActivity {
+    private FirebaseUser mUser;
     //UI
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
@@ -53,12 +57,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        Username = mUser.getEmail(); // TODO use email when username is null
+        Email = mUser.getEmail();
 
         //Find UserInfo.xml in /data/data/au.edu.uow.prototype1
-        userInfoFile = new File(getApplicationContext().getFilesDir().getParent(), "UserInfo.xml");
+        //userInfoFile = new File(getApplicationContext().getFilesDir().getParent(), "UserInfo.xml");
 
         //
-        ReadValue();
+        //ReadValue();
+//        Bundle bundle = new Bundle();
+//        bundle = getIntent().getExtras();
+//        Email = bundle.getString("Email");
+
 
         // Set up the navigation menu view
         setContentView(R.layout.drawer_layout);
@@ -98,10 +109,10 @@ public class MainActivity extends AppCompatActivity {
 
     //Getting user's info from local file
     private void ReadValue() {
-        userInfoSetting = getSharedPreferences("UserInfo", 0);
-        Username = userInfoSetting.getString("Username", "");
-        Email = userInfoSetting.getString("Email", "");
-        Password = userInfoSetting.getString("Password", "");
+        //userInfoSetting = getSharedPreferences("UserInfo", 0);
+        //Username = userInfoSetting.getString("Username", "");
+//        Email = userInfoSetting.getString("Email", "");
+//        Password = userInfoSetting.getString("Password", "");
     }
 
     //Useless stuff

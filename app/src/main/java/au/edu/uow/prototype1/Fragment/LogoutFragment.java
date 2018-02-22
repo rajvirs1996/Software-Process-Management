@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import au.edu.uow.prototype1.R;
 
 
@@ -23,9 +25,10 @@ public class LogoutFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        SharedPreferences settings = this.getActivity().getSharedPreferences("UserInfo",0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.clear().apply();
+//        SharedPreferences settings = this.getActivity().getSharedPreferences("UserInfo",0);
+//        SharedPreferences.Editor editor = settings.edit();
+//        editor.clear().apply();
+        FirebaseAuth.getInstance().signOut();
         getActivity().finish();
     }
 }

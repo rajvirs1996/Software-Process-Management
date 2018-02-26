@@ -1,4 +1,4 @@
-package au.edu.uow.prototype1;
+package au.edu.uow.e_planner_and_communication_system;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

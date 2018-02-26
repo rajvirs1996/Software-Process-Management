@@ -1,4 +1,4 @@
-package au.edu.uow.prototype1.Activity;
+package au.edu.uow.e_planner_and_communication_system.Activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-import au.edu.uow.prototype1.R;
+import au.edu.uow.e_planner_and_communication_system.R;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
     private FirebaseAuth mAuth;

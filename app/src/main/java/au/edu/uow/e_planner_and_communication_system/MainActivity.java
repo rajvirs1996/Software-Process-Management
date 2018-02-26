@@ -1,4 +1,4 @@
-package au.edu.uow.prototype1;
+package au.edu.uow.e_planner_and_communication_system;
 
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -21,12 +21,12 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
 
-import au.edu.uow.prototype1.Fragment.CalendarFragment;
-import au.edu.uow.prototype1.Fragment.ContactsFragment;
-import au.edu.uow.prototype1.Fragment.CoursesFragment;
-import au.edu.uow.prototype1.Fragment.EventFragment;
-import au.edu.uow.prototype1.Fragment.LogoutFragment;
-import au.edu.uow.prototype1.Fragment.NotificationFragment;
+import au.edu.uow.e_planner_and_communication_system.Fragment.CalendarFragment;
+import au.edu.uow.e_planner_and_communication_system.Fragment.ContactsFragment;
+import au.edu.uow.e_planner_and_communication_system.Fragment.CoursesFragment;
+import au.edu.uow.e_planner_and_communication_system.Fragment.EventFragment;
+import au.edu.uow.e_planner_and_communication_system.Fragment.LogoutFragment;
+import au.edu.uow.e_planner_and_communication_system.Fragment.NotificationFragment;
 
 /**
  * Created by Tony on 19/2/2018.

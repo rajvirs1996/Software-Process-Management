@@ -1,6 +1,5 @@
-package au.edu.uow.prototype1.Fragment;
+package au.edu.uow.e_planner_and_communication_system.Fragment;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import au.edu.uow.prototype1.R;
+import au.edu.uow.e_planner_and_communication_system.R;
 
 
 /**

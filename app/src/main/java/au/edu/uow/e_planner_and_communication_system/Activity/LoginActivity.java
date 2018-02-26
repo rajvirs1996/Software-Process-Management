@@ -1,4 +1,4 @@
-package au.edu.uow.prototype1.Activity;
+package au.edu.uow.e_planner_and_communication_system.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,8 +16,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import au.edu.uow.prototype1.MainActivity;
-import au.edu.uow.prototype1.R;
+import au.edu.uow.e_planner_and_communication_system.MainActivity;
+import au.edu.uow.e_planner_and_communication_system.R;
 
 /**
  * Created by Tony on 19/2/2018.

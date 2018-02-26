@@ -1,8 +1,7 @@
-package au.edu.uow.prototype1.Fragment;
+package au.edu.uow.e_planner_and_communication_system.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import au.edu.uow.prototype1.R;
+import au.edu.uow.e_planner_and_communication_system.R;
 
 /**
  * Created by Athens on 2/20/2018.

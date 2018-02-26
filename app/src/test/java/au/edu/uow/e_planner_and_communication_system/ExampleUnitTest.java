@@ -1,4 +1,4 @@
-package au.edu.uow.prototype1;
+package au.edu.uow.e_planner_and_communication_system;
 
 import org.junit.Test;
 

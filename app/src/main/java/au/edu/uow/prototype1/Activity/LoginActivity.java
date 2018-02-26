@@ -24,7 +24,7 @@ import au.edu.uow.prototype1.R;
  */
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String PREFS_NAME = "UserInfo";
+    //private static final String PREFS_NAME = "UserInfo";
     private String username;
     private FirebaseAuth mAuth;
     private EditText emailText;
@@ -41,8 +41,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         passwordText = findViewById(R.id.passwordText);
 
         //Button
-        //loginBtn = findViewById(R.id.loginBtn);
         findViewById(R.id.loginBtn).setOnClickListener(this);
+        findViewById(R.id.signUpBtn).setOnClickListener(this);
 
         //Initialise the Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -91,11 +91,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-    private void signIn(String email, String password) {
+    private void signIn() {
         if (!validateForm()) {
             return;
         }
-        mAuth.signInWithEmailAndPassword(email, password)
+        mAuth.signInWithEmailAndPassword(emailText.getText().toString(), passwordText.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -160,22 +160,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         int i = view.getId();
 
         if (i == R.id.loginBtn) {
-            signIn(emailText.getText().toString(), passwordText.getText().toString());
+            signIn();
         } else if (i == R.id.signUpBtn) {
             signUp();
         }
     }
 
     private void signUp() {
-        Toast.makeText(LoginActivity.this, "soonTM",
-                Toast.LENGTH_LONG).show();
-
         //TODO Finish sign up
-//        Intent intent = new Intent(this, SignUpActivity.class);
+        Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
 //        Bundle bundle = new Bundle();
 //        bundle.putString("Email", emailText.getText().toString());
 //        bundle.putString("Password", passwordText.getText().toString());
 //        intent.putExtras(bundle);
-//        startActivity(intent);
+        startActivity(intent);
     }
 }

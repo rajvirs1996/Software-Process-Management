@@ -1,12 +1,13 @@
 package au.edu.uow.e_planner_and_communication_system;
 
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,19 +36,20 @@ import au.edu.uow.e_planner_and_communication_system.Fragment.NotificationFragme
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseUser mUser;
-    //UI
+    // UI
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
     @SuppressWarnings("FieldCanBeLocal")
     private NavigationView nvDrawer;
 
-    //UserInfo
-    private SharedPreferences userInfoSetting;
+    // UserInfo
+    // private SharedPreferences userInfoSetting;
     @SuppressWarnings("FieldCanBeLocal")
     private static File userInfoFile;
     private String Username = null;
     private String Email = null;
     private String Password = null;
+    boolean doubleBackToExitPressedOnce = false;
 
     // Make sure to be using android.support.v7.app.ActionBarDrawerToggle version.
     // The android.support.v4.app.ActionBarDrawerToggle has been deprecated.
@@ -58,14 +61,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         mUser = FirebaseAuth.getInstance().getCurrentUser();
-        Username = mUser.getEmail(); // TODO use email when username is null
+        Username = mUser.getDisplayName(); // TODO use email when username is null
         Email = mUser.getEmail();
 
-        //Find UserInfo.xml in /data/data/au.edu.uow.prototype1
-        //userInfoFile = new File(getApplicationContext().getFilesDir().getParent(), "UserInfo.xml");
+//        Find UserInfo.xml in /data/data/au.edu.uow.prototype1
+//        userInfoFile = new File(getApplicationContext().getFilesDir().getParent(), "UserInfo.xml");
 
-        //
-        //ReadValue();
+//        ReadValue();
 //        Bundle bundle = new Bundle();
 //        bundle = getIntent().getExtras();
 //        Email = bundle.getString("Email");
@@ -96,24 +98,23 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the header view at runtime
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header);
 
-        //Setup header image/username/email
-
+        // Setup header image/username/email
         ImageView ivHeaderPhoto = headerLayout.findViewById(R.id.headerImage);
         TextView usernameTV = headerLayout.findViewById(R.id.headUsername);
         TextView emailTV = headerLayout.findViewById(R.id.headerUserEmail);
         ivHeaderPhoto.setVisibility(View.INVISIBLE);
-        usernameTV.setText(Email); //TODO Use Username instead of Email after Firebase implementation
+        usernameTV.setText(Username); //TODO Use Username instead of Email after Firebase implementation
         emailTV.setText(Email);
 
     }
 
-    //Getting user's info from local file
-    private void ReadValue() {
-        //userInfoSetting = getSharedPreferences("UserInfo", 0);
-        //Username = userInfoSetting.getString("Username", "");
+    // Getting user's info from local file
+//    private void ReadValue() {
+//        userInfoSetting = getSharedPreferences("UserInfo", 0);
+//        Username = userInfoSetting.getString("Username", "");
 //        Email = userInfoSetting.getString("Email", "");
 //        Password = userInfoSetting.getString("Password", "");
-    }
+//    }
 
     //Useless stuff
     @Override
@@ -169,13 +170,36 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    @Override
+    public void onBackPressed() {
+        // Pop up navigation drawer
+        mDrawer.openDrawer(GravityCompat.START);
+
+        // Close app after all processes finished processing
+        if (doubleBackToExitPressedOnce) {
+            finishAffinity();
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
+    }
+
     private void selectDrawerItem(MenuItem menuItem) {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         Class fragmentClass;
 
 
-        //TODO remove?
+        // TODO remove?
 //        if (!userInfoFile.exists() || userInfoFile.exists() && Username.equals("")) {
 //            Context context = getApplicationContext();
 //            CharSequence text = "You have to login in order to use this function!";

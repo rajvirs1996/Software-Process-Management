@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
 
+import au.edu.uow.e_planner_and_communication_system.Fragment.AccountManager;
 import au.edu.uow.e_planner_and_communication_system.Fragment.CalendarFragment;
 import au.edu.uow.e_planner_and_communication_system.Fragment.ContactsFragment;
 import au.edu.uow.e_planner_and_communication_system.Fragment.CoursesFragment;
@@ -232,6 +233,11 @@ public class MainActivity extends AppCompatActivity {
             //courses
             case R.id.nav_fourth_fragment:
                 fragmentClass = CoursesFragment.class;
+                break;
+
+            //manage
+            case R.id.personal_manager:
+                fragmentClass = AccountManager.class;
                 break;
 
             //contacts

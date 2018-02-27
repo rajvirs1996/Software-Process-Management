@@ -105,6 +105,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             //Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
 
+                            // Clear user password
+                            passwordText.setText("");
+
                             // Go into main app
                             // TODO remove bundle and let main act get info by itself
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -174,5 +177,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //        bundle.putString("Password", passwordText.getText().toString());
 //        intent.putExtras(bundle);
         startActivity(intent);
+        this.overridePendingTransition(R.anim.anim_slide_in_to_left, R.anim.anim_slide_out_to_left);
     }
 }

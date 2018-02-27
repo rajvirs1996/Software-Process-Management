@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         // Set a Toolbar to replace the ActionBar.
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("ECS");
 
         // Find our drawer view
         mDrawer = findViewById(R.id.drawer_layout);

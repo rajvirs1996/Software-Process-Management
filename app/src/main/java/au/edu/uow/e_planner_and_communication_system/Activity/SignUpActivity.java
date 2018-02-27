@@ -1,5 +1,6 @@
 package au.edu.uow.e_planner_and_communication_system.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import au.edu.uow.e_planner_and_communication_system.MainActivity;
 import au.edu.uow.e_planner_and_communication_system.R;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
@@ -55,6 +57,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             signUp();
         } else if (i == R.id.back) {
             finish();
+            this.overridePendingTransition(R.anim.anim_slide_in_to_right, R.anim.anim_slide_out_to_right);
         }
     }
 
@@ -69,16 +72,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            //Log.d(TAG, "createUserWithEmail:success");
+//                            Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             setUpUserInfo(user);
-                            //updateUI(user);
+//                            updateUI(user);
+                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                            getApplicationContext().startActivity(intent);
+                            overridePendingTransition(R.anim.anim_slide_in_to_right, R.anim.anim_slide_out_to_right);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(this.getClass().getSimpleName(), "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                            Toast.makeText(SignUpActivity.this, "User already existed.",
                                     Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
+//                            updateUI(null);
                         }
                         // ...
                     }

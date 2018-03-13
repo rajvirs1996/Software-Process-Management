@@ -2,6 +2,7 @@ package au.edu.uow.e_planner_and_communication_system.Fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Build;;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -20,7 +21,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import au.edu.uow.e_planner_and_communication_system.R;
 
@@ -32,7 +37,8 @@ public class CalendarFragment extends Fragment {
 
     private String m_Text = "";
     private String fulldate = "";
-
+    private String dateVar = "";
+    private String showdate= "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,13 +56,27 @@ public class CalendarFragment extends Fragment {
 
     }
 
+
+
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         final LinearLayout eventsList = view.findViewById(R.id.eventsList);
         final ViewGroup.LayoutParams eventsListParam = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
+
+        CompactCalendarView compactCalendar = view.findViewById(R.id.compactcalendar_view);
+        compactCalendar.setUseThreeLetterAbbreviation(true);
+
+
+
+
+        final TextView showdate = view.findViewById(R.id.showdate);
+        showdate.setText(new SimpleDateFormat("MM-yyyy").format(compactCalendar.getFirstDayOfCurrentMonth()));
+        /*
         //get selected date start
-        CalendarView calendar = view.findViewById(R.id.calView);
+        CalendarView calendar = view.findViewById(R.id.calendarView);
+
+
 
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
@@ -67,10 +87,27 @@ public class CalendarFragment extends Fragment {
             }
         });
         //get selected date end
-
+    */
 
         //Add Event start
         View addEventBtn = view.findViewById(R.id.addEventBtn);
+
+
+        compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
+            @Override
+            public void onDayClick(Date dateClicked) {
+                dateVar = new SimpleDateFormat("dd-MM-yyyy").format(dateClicked);
+
+                //TODO reiterate user's eventslist here (e.g. On day click: Show events of that day)
+                //here
+
+            }
+
+            @Override
+            public void onMonthScroll(Date firstDayOfNewMonth) {
+                showdate.setText(new SimpleDateFormat("MM-yyyy").format(firstDayOfNewMonth));
+            }
+        });
 
         addEventBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -96,7 +133,7 @@ public class CalendarFragment extends Fragment {
 
                         //create event
                         Button newBtn = new Button(getContext());
-                        newBtn.setText(fulldate + ":" + m_Text);
+                        newBtn.setText(dateVar + ":" + m_Text);
                         eventsList.addView(newBtn, eventsListParam);
                     }
                 });

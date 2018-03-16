@@ -62,7 +62,7 @@ public class AccountManager extends Fragment {
         String online_user_id = mAuth.getCurrentUser().getUid();
 
         getUserDataReference = FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id);
-    storeProfileImageStorageReference
+    //storeProfileImageStorageReference
 
         accountManagerDisplayImagae = (CircleImageView) view.findViewById(R.id.account_management_image);
         accountManagerDisplayName = (TextView) view.findViewById(R.id.display_name);

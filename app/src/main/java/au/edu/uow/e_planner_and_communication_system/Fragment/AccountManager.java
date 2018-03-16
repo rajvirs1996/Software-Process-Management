@@ -23,7 +23,6 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import com.theartofdev.edmodo.cropper.CropImageView.Guidelines;
 
 import au.edu.uow.e_planner_and_communication_system.R;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -33,7 +32,6 @@ import static android.app.Activity.RESULT_OK;
 
 public class AccountManager extends Fragment {
 
-    private CircleImageView accountManagerDisplayImagae;
     private TextView accountManagerDisplayName;
     private TextView getAccountManagerDisplaystatus;
     private Button accountManagerChangeStatus;
@@ -50,7 +48,6 @@ public class AccountManager extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
 
         return inflater.inflate(R.layout.accountmanager, container, false);
     }

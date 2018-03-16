@@ -23,6 +23,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import com.theartofdev.edmodo.cropper.CropImageView.Guidelines;
 
 import au.edu.uow.e_planner_and_communication_system.R;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -34,6 +35,7 @@ public class AccountManager extends Fragment {
 
     private TextView accountManagerDisplayName;
     private TextView getAccountManagerDisplaystatus;
+    private CircleImageView accountManagerDisplayImagae;
     private Button accountManagerChangeStatus;
     private Button accountManagerChangePassword;
     private Button accountManagerChangeImage;

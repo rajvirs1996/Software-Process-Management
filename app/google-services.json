@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "648315604725-idp8c2o25el4gqqcc1lj16r166dgbsev.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "au.edu.uow.prototype1",
+            "certificate_hash": "80db15699d34417eceb9256ae8abc1dfa03bddc3"
+          }
+        },
+        {
           "client_id": "648315604725-snb0feap88c36odtpi2k02ucs10iu38u.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

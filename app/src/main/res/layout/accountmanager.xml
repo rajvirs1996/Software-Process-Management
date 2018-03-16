@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/account_managment_button__status"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="12dp"
         android:text="Change Password" />
 
     <Button
@@ -27,8 +27,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/account_management_image"
         android:layout_width="match_parent"
-        android:layout_height="271dp"
-        android:layout_alignParentStart="true"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="21dp"
         android:src="@drawable/default_image_profile" />
@@ -49,10 +48,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/display_name"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="18dp"
         android:text="Online"
         android:textColor="@android:color/holo_green_dark"
         android:textColorLink="@color/colorAccent"
         android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/accountmanager_image_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/account_managment_password_button"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="11dp"
+        android:text="Change Image" />
 
 </RelativeLayout>

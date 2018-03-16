@@ -28,7 +28,7 @@ allprojects {
 
 ext{
 
-    compileSdkVersion = 26
+    compileSdkVersion = 27
     supportLibVersion = "27.1.0"
 
 }

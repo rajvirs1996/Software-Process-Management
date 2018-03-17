@@ -12,7 +12,7 @@ import au.edu.uow.e_planner_and_communication_system.R;
  * Created by Athens on 2/20/2018.
  */
 
-public class CourseSelect extends Fragment {
+public class CourseSelectFragment extends Fragment {
 
 
     @Override

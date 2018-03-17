@@ -29,12 +29,9 @@ public class EventsFragment extends Fragment {
 
     private RecyclerView allEventsList;
     private DatabaseReference allDatabaseEventReference;
-    private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
     private FirebaseRecyclerOptions<allEvents> options ;
     private FirebaseRecyclerAdapter<allEvents, allEventsViewHolder> firebaseRecyclerAdapter;
     private FirebaseDatabase mDatabse;
-    private Query query;
 
 
 
@@ -51,7 +48,6 @@ public class EventsFragment extends Fragment {
 
 
         mDatabse = FirebaseDatabase.getInstance();
-        Log.d("Success","We've passed this!");
 
         //List view
         allEventsList = (RecyclerView) view.findViewById(R.id.all_events_list);

@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,9 +37,7 @@ import au.edu.uow.e_planner_and_communication_system.R;
 public class CalendarFragment extends Fragment {
 
     private String m_Text = "";
-    private String fulldate = "";
     private String dateVar = "";
-    private String showdate= "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,14 +49,6 @@ public class CalendarFragment extends Fragment {
 
     }
 
-    public void setfulldate (int dayOfMonth, int month, int year){
-
-        fulldate = Integer.toString(dayOfMonth) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
-
-    }
-
-
-
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         final LinearLayout eventsList = view.findViewById(R.id.eventsList);
@@ -67,27 +58,12 @@ public class CalendarFragment extends Fragment {
         CompactCalendarView compactCalendar = view.findViewById(R.id.compactcalendar_view);
         compactCalendar.setUseThreeLetterAbbreviation(true);
 
-
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        dateVar = df.format(new Date());
 
 
         final TextView showdate = view.findViewById(R.id.showdate);
         showdate.setText(new SimpleDateFormat("MM-yyyy").format(compactCalendar.getFirstDayOfCurrentMonth()));
-        /*
-        //get selected date start
-        CalendarView calendar = view.findViewById(R.id.calendarView);
-
-
-
-        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-
-            @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month,
-                                            int dayOfMonth) {
-                setfulldate(dayOfMonth,month,year);
-            }
-        });
-        //get selected date end
-    */
 
         //Add Event start
         View addEventBtn = view.findViewById(R.id.addEventBtn);
@@ -133,7 +109,7 @@ public class CalendarFragment extends Fragment {
 
                         //create event
                         Button newBtn = new Button(getContext());
-                        newBtn.setText(dateVar + ":" + m_Text);
+                        newBtn.setText(dateVar + " : " + m_Text);
                         eventsList.addView(newBtn, eventsListParam);
                     }
                 });

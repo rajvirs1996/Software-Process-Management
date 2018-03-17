@@ -3,12 +3,14 @@ package au.edu.uow.e_planner_and_communication_system.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -34,17 +36,21 @@ public class EventsFragment extends Fragment {
     private FirebaseDatabase mDatabse;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        if (container != null) {
+            container.removeAllViews();
+        }
+
         return inflater.inflate(R.layout.events, container, false);
 
 
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
 
 
         mDatabse = FirebaseDatabase.getInstance();
@@ -99,7 +105,7 @@ public class EventsFragment extends Fragment {
     }
 
 
-    public static class allEventsViewHolder extends RecyclerView.ViewHolder
+    public class allEventsViewHolder extends RecyclerView.ViewHolder
     {
         View mView;
 
@@ -116,8 +122,30 @@ public class EventsFragment extends Fragment {
 
         public void setEvent_name(String event_name)
         {
-            TextView name_TextView = (TextView) mView.findViewById(R.id.all_events_title);
-            name_TextView.setText(event_name);
+            final Button name_ButtonView = mView.findViewById(R.id.Event_nameBtn);
+            name_ButtonView.setText(event_name);
+
+            name_ButtonView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view){
+                    //handle click
+                    Fragment newFragment = new EventDetailsFragment();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                    Bundle args = new Bundle();
+                    args.putString("eventname",name_ButtonView.getText().toString());
+                    newFragment.setArguments(args);
+
+                    transaction.replace(R.id.eventsFrame, newFragment);
+                    transaction.addToBackStack(null);
+
+                    transaction.commit();
+
+
+                }
+            });
+
+
         }
 
     }

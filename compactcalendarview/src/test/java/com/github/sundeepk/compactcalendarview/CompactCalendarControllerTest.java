@@ -260,6 +260,7 @@ public class CompactCalendarControllerTest {
     }
 
     @Ignore
+    @Test
     public void testItDrawsDaysOnCalender(){
         //simulate Feb month
         underTest.setGrowProgress(1000); //set grow progress so that it simulates the calendar being open

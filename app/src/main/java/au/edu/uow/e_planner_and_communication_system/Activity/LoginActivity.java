@@ -14,6 +14,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
 import au.edu.uow.e_planner_and_communication_system.MainActivity;
@@ -23,7 +25,7 @@ import au.edu.uow.e_planner_and_communication_system.R;
  * Created by Tony on 19/2/2018.
  */
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends BasicActivity implements View.OnClickListener {
     //private static final String PREFS_NAME = "UserInfo";
     private String username;
     private FirebaseAuth mAuth;
@@ -95,10 +97,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!validateForm()) {
             return;
         }
+
+        // Show loading dialog
+        showProgressDialog();
+
         mAuth.signInWithEmailAndPassword(emailText.getText().toString(), passwordText.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        // Hide loading dialog
+                        hideProgressDialog();
 
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
@@ -119,9 +128,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(this.getClass().getSimpleName(), "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            try {
+                                throw task.getException();
+                            } catch (FirebaseAuthInvalidUserException e) {
+                                passwordText.setText("");
+                                Toast.makeText(LoginActivity.this, "Authentication failed. \nUser does not exist!", Toast.LENGTH_LONG).show();
+                            } catch (FirebaseAuthInvalidCredentialsException e) {
+                                passwordText.setText("");
+                                Toast.makeText(LoginActivity.this, "Authentication failed. \nThe password is invalid.", Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                                Log.e("SignIN: ", e.getMessage());
+                            }
                         }
                     }
                 });

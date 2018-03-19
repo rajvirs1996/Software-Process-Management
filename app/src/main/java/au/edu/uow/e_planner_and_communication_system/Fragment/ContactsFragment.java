@@ -1,15 +1,17 @@
 package au.edu.uow.e_planner_and_communication_system.Fragment;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -20,7 +22,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.squareup.picasso.Picasso;
 
+import au.edu.uow.e_planner_and_communication_system.Activity.viewProfileFragment;
 import au.edu.uow.e_planner_and_communication_system.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -48,6 +52,18 @@ public class ContactsFragment extends Fragment {
         return inflater.inflate(R.layout.contacts, container, false);
     }
 
+    public void showDialog(View view, String ID)
+    {
+        String idToPass = ID;
+
+        FragmentManager manager = getFragmentManager();
+        viewProfileFragment viewProfileDialog = new viewProfileFragment();
+        viewProfileDialog.setID(idToPass);
+        viewProfileDialog.show(manager,"MyDialog");
+
+
+    }
+
     public void onViewCreated (View view, Bundle savedInstanceState){
 
         mDatabse = FirebaseDatabase.getInstance();
@@ -67,10 +83,27 @@ public class ContactsFragment extends Fragment {
         firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<allUsers, allUsersViewHolder>(options) {
                     @Override
-                    protected void onBindViewHolder(@NonNull allUsersViewHolder holder, int position, @NonNull allUsers model) {
+                    protected void onBindViewHolder(@NonNull allUsersViewHolder holder, final int position, @NonNull allUsers model) {
                         //Binding the object
                         holder.setName(model.getName());
                         holder.setUser_status(model.getUser_status());
+                        holder.setThumb_images(model.getUser_thumb_image());
+
+                        holder.mView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                //Gets the unique when selected
+                                String vist_profile_id = getRef(position).getKey();
+
+                                /*Intent profileIntent = new Intent(getActivity(), viewProfileFragment.class);
+                                profileIntent.putExtra("visit_profile_id",vist_profile_id);
+                                startActivity(profileIntent);*/
+
+                                showDialog(view,vist_profile_id);
+
+
+                            }
+                        });
                     }
 
                     @NonNull
@@ -97,6 +130,7 @@ public class ContactsFragment extends Fragment {
         firebaseRecyclerAdapter.stopListening();
     }
 
+
     public static class allUsersViewHolder extends RecyclerView.ViewHolder
     {
         View mView;
@@ -115,6 +149,13 @@ public class ContactsFragment extends Fragment {
         public void setUser_status(String user_status){
             TextView status = (TextView) mView.findViewById(R.id.all_users_status);
             status.setText(user_status);
+        }
+        public void setThumb_images(String user_thumb_image)
+        {
+
+            CircleImageView thumb_image = (CircleImageView) mView.findViewById(R.id.all_users_profile_image);
+            Picasso.get().load(user_thumb_image).placeholder(R.drawable.default_image_profile).into(thumb_image);
+
         }
 
     }

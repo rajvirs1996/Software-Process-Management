@@ -6,7 +6,7 @@ import java.util.Locale;
 
 public class WeekUtils {
 
-    static String[] getWeekdayNames(Locale locale, int day, boolean useThreeLetterAbbreviation){
+    static String[] getWeekdayNames(Locale locale, int day, boolean useThreeLetterAbbreviation) {
         DateFormatSymbols dateFormatSymbols = new DateFormatSymbols(locale);
         String[] dayNames = dateFormatSymbols.getShortWeekdays();
         if (dayNames == null) {

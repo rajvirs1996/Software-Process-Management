@@ -14,6 +14,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
 import au.edu.uow.e_planner_and_communication_system.MainActivity;
@@ -126,9 +128,17 @@ public class LoginActivity extends BasicActivity implements View.OnClickListener
 
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(this.getClass().getSimpleName(), "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            try {
+                                throw task.getException();
+                            } catch (FirebaseAuthInvalidUserException e) {
+                                passwordText.setText("");
+                                Toast.makeText(LoginActivity.this, "Authentication failed. \nUser does not exist!", Toast.LENGTH_LONG).show();
+                            } catch (FirebaseAuthInvalidCredentialsException e) {
+                                passwordText.setText("");
+                                Toast.makeText(LoginActivity.this, "Authentication failed. \nThe password is invalid.", Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                                Log.e("SignIN: ", e.getMessage());
+                            }
                         }
                     }
                 });

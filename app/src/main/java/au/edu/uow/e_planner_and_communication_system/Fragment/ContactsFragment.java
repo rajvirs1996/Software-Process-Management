@@ -1,16 +1,17 @@
 package au.edu.uow.e_planner_and_communication_system.Fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -23,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
 
+import au.edu.uow.e_planner_and_communication_system.Activity.viewProfileFragment;
 import au.edu.uow.e_planner_and_communication_system.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -48,6 +50,18 @@ public class ContactsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.contacts, container, false);
+    }
+
+    public void showDialog(View view, String ID)
+    {
+        String idToPass = ID;
+
+        FragmentManager manager = getFragmentManager();
+        viewProfileFragment viewProfileDialog = new viewProfileFragment();
+        viewProfileDialog.setID(idToPass);
+        viewProfileDialog.show(manager,"MyDialog");
+
+
     }
 
     public void onViewCreated (View view, Bundle savedInstanceState){
@@ -81,9 +95,13 @@ public class ContactsFragment extends Fragment {
                                 //Gets the unique when selected
                                 String vist_profile_id = getRef(position).getKey();
 
-                                Intent profileIntent = new Intent(getActivity(), viewProfileFragment.class);
+                                /*Intent profileIntent = new Intent(getActivity(), viewProfileFragment.class);
                                 profileIntent.putExtra("visit_profile_id",vist_profile_id);
-                                startActivity(profileIntent);
+                                startActivity(profileIntent);*/
+
+                                showDialog(view,vist_profile_id);
+
+
                             }
                         });
                     }
@@ -111,6 +129,7 @@ public class ContactsFragment extends Fragment {
         super.onStop();
         firebaseRecyclerAdapter.stopListening();
     }
+
 
     public static class allUsersViewHolder extends RecyclerView.ViewHolder
     {

@@ -2,17 +2,26 @@ package au.edu.uow.e_planner_and_communication_system;
 
 import android.support.annotation.NonNull;
 import android.support.test.espresso.NoMatchingViewException;
+import android.support.test.espresso.PerformException;
+import android.support.test.espresso.UiController;
+import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.contrib.NavigationViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.test.espresso.util.HumanReadables;
+import android.support.test.espresso.util.TreeIterables;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
 
+import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import au.edu.uow.e_planner_and_communication_system.Activity.LoginActivity;
 
@@ -25,6 +34,7 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.toPack
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.is;
@@ -41,7 +51,9 @@ public class LoginActivityTest {
     public IntentsTestRule<LoginActivity> mLoginActivityRule = new IntentsTestRule<>(LoginActivity.class);
 
     @Test
-    public void test_failedLoginWithValidInput() {
+    public void test_failedLoginWithValidInput() throws InterruptedException {
+        // Wait until all toast disappear
+        Thread.sleep(2000);
         // Generate random user
         String username = "user" + randomDigits();
         String email = username + "@test.com";
@@ -77,7 +89,9 @@ public class LoginActivityTest {
     }
 
     @Test
-    public void test_failedLoginWithInvalidEmail() {
+    public void test_failedLoginWithInvalidEmail() throws InterruptedException {
+        // Wait until all toast disappear
+        Thread.sleep(2000);
         // Generate random user
         String username = "user" + randomDigits();
         String email = username + "test.com";
@@ -111,7 +125,49 @@ public class LoginActivityTest {
     }
 
     @Test
-    public void test_failedLoginWithInvalidPassword() {
+    public void test_failedLoginWithWrongPassword() throws InterruptedException {
+        // Wait until all toast disappear
+        Thread.sleep(2000);
+        // Generate random user
+        String email = "uowfirst@uowmail.edu.au";
+        String password = "123465789";
+
+        // Go back to the sign in screen if we're logged in from a previous test
+        logOutIfPossible();
+
+        // Select email field
+        ViewInteraction viewInteractionEmailText = onView(
+                withId(R.id.emailText))
+                .check(matches(isDisplayed()));
+        viewInteractionEmailText.perform(click());
+        // Enter email address
+        viewInteractionEmailText.perform(replaceText(email));
+
+        // Create password ViewInteraction
+        ViewInteraction viewInteractionPasswordText = onView(
+                withId(R.id.passwordText))
+                .check(matches(isDisplayed()));
+        viewInteractionPasswordText.perform(replaceText(password));
+
+        // Click login in
+        ViewInteraction viewInteractionLoginBtn = onView(
+                withId(R.id.loginBtn))
+                .check(matches(isDisplayed()));
+        viewInteractionLoginBtn.perform(click());
+
+        // Wait previous toast disappear
+        //onView(isRoot()).perform(waitId(16908299, TimeUnit.SECONDS.toMillis(1)));
+
+        // It should should show an error
+        onView(withText("Authentication failed. \nThe password is invalid."))
+                .inRoot(withDecorView(not(is(mLoginActivityRule.getActivity().getWindow().getDecorView()))))
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void test_failedLoginWithInvalidPassword() throws InterruptedException {
+        // Wait until all toast disappear
+        Thread.sleep(2000);
         // Generate random user
         String username = "user" + randomDigits();
         String email = username + "@test.com";
@@ -141,41 +197,6 @@ public class LoginActivityTest {
 
         // It should should show an error
         viewInteractionPasswordText.check(matches(hasErrorText("Wrong password")));
-    }
-
-    @Test
-    public void test_failedLoginWithWrongPassword() {
-        // Generate random user
-        String email = "uowfirst@uowmail.edu.au";
-        String password = "123465789";
-
-        // Go back to the sign in screen if we're logged in from a previous test
-        logOutIfPossible();
-
-        // Select email field
-        ViewInteraction viewInteractionEmailText = onView(
-                withId(R.id.emailText))
-                .check(matches(isDisplayed()));
-        viewInteractionEmailText.perform(click());
-        // Enter email address
-        viewInteractionEmailText.perform(replaceText(email));
-
-        // Create password ViewInteraction
-        ViewInteraction viewInteractionPasswordText = onView(
-                withId(R.id.passwordText))
-                .check(matches(isDisplayed()));
-        viewInteractionPasswordText.perform(replaceText(password));
-
-        // Click login in
-        ViewInteraction viewInteractionLoginBtn = onView(
-                withId(R.id.loginBtn))
-                .check(matches(isDisplayed()));
-        viewInteractionLoginBtn.perform(click());
-
-        // It should should show an error
-        onView(withText("Authentication failed. \nThe password is invalid."))
-                .inRoot(withDecorView(not(is(mLoginActivityRule.getActivity().getWindow().getDecorView()))))
-                .check(matches(isDisplayed()));
     }
 
     @Test

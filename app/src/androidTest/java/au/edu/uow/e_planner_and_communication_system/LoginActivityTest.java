@@ -7,7 +7,6 @@ import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.contrib.NavigationViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -17,12 +16,9 @@ import java.util.Random;
 
 import au.edu.uow.e_planner_and_communication_system.Activity.LoginActivity;
 
-
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.toPackage;
@@ -31,7 +27,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
@@ -221,8 +216,7 @@ public class LoginActivityTest {
         try {
             // Open Navigation drawer
             onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-            //onView(withId(R.id.personal_logout)).perform(click());
-            //onView(withText(R.string.logout)).perform(scrollTo(), click());
+            // Scroll to item (prevent "at least 90 percent of the view's area is displayed to the user.")
             onView(withId(R.id.nvView)).perform(NavigationViewActions.navigateTo(R.id.personal_logout));
             onView(withId(R.id.personal_logout)).perform(click());
         } catch (NoMatchingViewException e) {

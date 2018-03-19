@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:648315604725:android:85f89076c4a79eb5",
         "android_client_info": {
-          "package_name": "au.edu.uow.prototype1"
+          "package_name": "au.edu.uow.e_planner_and_communication_system"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "648315604725-etpkdee3b7vlmmv455si8ktaak4mk62l.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "au.edu.uow.prototype1",
+            "package_name": "au.edu.uow.e_planner_and_communication_system",
             "certificate_hash": "7987ab7dee5e612f8a68f3380e170f736ae5f368"
           }
         },
@@ -26,7 +26,7 @@
           "client_id": "648315604725-idp8c2o25el4gqqcc1lj16r166dgbsev.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "au.edu.uow.prototype1",
+            "package_name": "au.edu.uow.e_planner_and_communication_system",
             "certificate_hash": "80db15699d34417eceb9256ae8abc1dfa03bddc3"
           }
         },
@@ -34,7 +34,7 @@
           "client_id": "648315604725-snb0feap88c36odtpi2k02ucs10iu38u.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "au.edu.uow.prototype1",
+            "package_name": "au.edu.uow.e_planner_and_communication_system",
             "certificate_hash": "9fac20e65e430345255aa28abbc11980481986c8"
           }
         },
@@ -42,7 +42,7 @@
           "client_id": "648315604725-6pbppupf5af1321udi7baci03gdv9c7h.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "au.edu.uow.prototype1",
+            "package_name": "au.edu.uow.e_planner_and_communication_system",
             "certificate_hash": "28b301fe7482793ba7c6a0aa1ee0ff8ae674ea24"
           }
         },

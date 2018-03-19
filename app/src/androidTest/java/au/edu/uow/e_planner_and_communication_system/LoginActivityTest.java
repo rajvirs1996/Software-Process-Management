@@ -230,7 +230,7 @@ public class LoginActivityTest {
         viewInteractionLoginBtn.perform(click());
 
         // It should enter main activity
-        intended(toPackage("au.edu.uow.prototype1"));
+        intended(toPackage("au.edu.uow.e_planner_and_communication_system"));
     }
 
     private void logOutIfPossible() {

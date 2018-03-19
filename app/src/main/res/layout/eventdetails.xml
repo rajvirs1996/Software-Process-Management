@@ -65,6 +65,11 @@
             android:text="Name" />
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date" />
+
+        <TextView
             android:id="@+id/event_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,11 +78,30 @@
             android:textSize="18sp" />
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description" />
+
+        <EditText
             android:id="@+id/event_description"
             android:layout_width="match_parent"
-            android:layout_height="236dp"
+            android:layout_height="145dp"
             android:text="Event_description"
             android:textColor="@color/browser_actions_text_color"
             android:textSize="18sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/deleteEventBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:clickable="true"
+                app:srcCompat="@android:drawable/ic_menu_delete" />
+        </RelativeLayout>
     </LinearLayout>
 </FrameLayout>

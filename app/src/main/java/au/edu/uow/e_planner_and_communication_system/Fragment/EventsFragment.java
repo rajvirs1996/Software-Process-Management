@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -29,6 +30,8 @@ import au.edu.uow.e_planner_and_communication_system.R;
 
 public class EventsFragment extends Fragment {
 
+    private FirebaseAuth firebaseAuth;
+    private String curruser;
     private RecyclerView allEventsList;
     private DatabaseReference allDatabaseEventReference;
     private FirebaseRecyclerOptions<allEvents> options ;
@@ -51,6 +54,8 @@ public class EventsFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
+        //get current user
+        curruser = firebaseAuth.getInstance().getCurrentUser().getUid();
 
 
         mDatabse = FirebaseDatabase.getInstance();
@@ -61,7 +66,7 @@ public class EventsFragment extends Fragment {
         //must set the layout
         allEventsList.setLayoutManager(new LinearLayoutManager(getContext()));
         //grab all the events
-        allDatabaseEventReference = mDatabse.getReference().child("Events");
+        allDatabaseEventReference = mDatabse.getReference().child("Events").child(curruser);
 
         //Options needed for the firebaserecyleadpater/list
         options = new FirebaseRecyclerOptions.Builder<allEvents>().
@@ -89,6 +94,7 @@ public class EventsFragment extends Fragment {
 
 
         allEventsList.setAdapter(firebaseRecyclerAdapter);
+
 
     }
 
@@ -133,6 +139,7 @@ public class EventsFragment extends Fragment {
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                     Bundle args = new Bundle();
+                    args.putString("eventowner",curruser);
                     args.putString("eventname",name_ButtonView.getText().toString());
                     newFragment.setArguments(args);
 

@@ -27,7 +27,7 @@ import au.edu.uow.e_planner_and_communication_system.Fragment.AccountManager;
 import au.edu.uow.e_planner_and_communication_system.Fragment.CalendarFragment;
 import au.edu.uow.e_planner_and_communication_system.Fragment.ContactsFragment;
 import au.edu.uow.e_planner_and_communication_system.Fragment.CoursesFragment;
-import au.edu.uow.e_planner_and_communication_system.Fragment.EventFragment;
+import au.edu.uow.e_planner_and_communication_system.Fragment.EventsFragment;
 import au.edu.uow.e_planner_and_communication_system.Fragment.LogoutFragment;
 import au.edu.uow.e_planner_and_communication_system.Fragment.NotificationFragment;
 
@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             //events viewer
             case R.id.nav_third_fragment:
-                fragmentClass = EventFragment.class;
+                fragmentClass = EventsFragment.class;
                 break;
 
             //courses

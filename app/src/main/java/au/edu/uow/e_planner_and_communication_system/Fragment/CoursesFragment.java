@@ -1,8 +1,12 @@
 package au.edu.uow.e_planner_and_communication_system.Fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ViewGroup.LayoutParams;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+
 import au.edu.uow.e_planner_and_communication_system.R;
 
 /**
@@ -20,7 +32,14 @@ import au.edu.uow.e_planner_and_communication_system.R;
 
 //Courses
 public class CoursesFragment extends Fragment{
-    boolean hasCSCI123 = false;
+
+    private RecyclerView allCoursesList;
+    private DatabaseReference allDatabaseCoursesReference;
+    private FirebaseRecyclerOptions<allCourses> options ;
+    private FirebaseRecyclerAdapter<allCourses, allCoursesViewHolder> firebaseRecyclerAdapter;
+    private FirebaseDatabase mDatabse;
+    private Query query;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,69 +51,91 @@ public class CoursesFragment extends Fragment{
     }
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-        final LinearLayout coursesList = view.findViewById(R.id.courseslayout);
-        final LayoutParams coursesParam = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        final TextView inText = view.findViewById(R.id.courseIn);
-        View addBtn = view.findViewById(R.id.courseAddBtn);
+        mDatabse = FirebaseDatabase.getInstance();
 
-        addBtn.setOnClickListener(new View.OnClickListener() {
+        //List view
+        allCoursesList = view.findViewById(R.id.coursesList);
+        allCoursesList.setHasFixedSize(true);
+        //set layout
+        allCoursesList.setLayoutManager(new LinearLayoutManager(getContext()));
+        //grab all courses from list
+        allDatabaseCoursesReference = mDatabse.getReference().child("Courses");
 
-            public void onClick(View view) {
-                String a = inText.getText().toString();
-                //on click off 'Add Courses Button'
+        //TODO VERIFY THAT USER IS FROM THE COURSE
+        //verify here
 
-                //add CSCI123
-                if (!hasCSCI123 && a.equals("CSCI123")) {
-                    Button newBtn = new Button(getContext());
-                    newBtn.setText("CSCI123");
-                    coursesList.addView(newBtn,coursesParam);
+        options = new FirebaseRecyclerOptions.Builder<allCourses>().
+                setQuery(allDatabaseCoursesReference,allCourses.class).build();
 
+        firebaseRecyclerAdapter =
+                new FirebaseRecyclerAdapter<allCourses, allCoursesViewHolder>(options) {
+                    @Override
+                    protected void onBindViewHolder(@NonNull allCoursesViewHolder holder, int position, @NonNull allCourses model) {
+                        //bind object
+                        holder.setCoursename(model.getCoursename());
+                    }
 
-                    newBtn.setOnClickListener(new Button.OnClickListener() {
-                        public void onClick(View v) {
-                            // Create new fragment and transaction
-                            Fragment newFragment = new CourseSelect();
-                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    @NonNull
+                    @Override
+                    public allCoursesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                        View view1 = LayoutInflater.from(parent.getContext())
+                                .inflate(R.layout.all_courses,parent,false);
+                        return new allCoursesViewHolder(view1);
+                    }
+                };
 
-                            // Replace courseslayout with entire fragment containers
-                            transaction.replace(R.id.courseslayout, newFragment);
-                            transaction.addToBackStack(null);
-
-                            // Commit the transaction
-                            transaction.commit();
-                        }
-                    });
-
-
-                    inText.setText("");
-                    hasCSCI123 = true;
-                }
-
-                //add CSCI123 but CSCI123 already added
-                else if (hasCSCI123 && a.equals("CSCI123")) {
-                    String b = "Already added!";
-                    Toast.makeText(getContext(), b, Toast.LENGTH_LONG).show();
-                    inText.setText("");
-                }
-
-                //wrong course
-                else {
-                    String b = "Course not found!";
-                    Toast.makeText(getContext(), b, Toast.LENGTH_LONG).show();
-                    inText.setText("");
-                }
-            }
-
-        });
-
-
-
-
-
-
+        allCoursesList.setAdapter(firebaseRecyclerAdapter);
 
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        firebaseRecyclerAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        firebaseRecyclerAdapter.stopListening();
+    }
+
+
+    public static class allCoursesViewHolder extends RecyclerView.ViewHolder
+    {
+        View mView;
+
+        public allCoursesViewHolder(View itemView)
+        {
+            super(itemView);
+            mView = itemView;
+        }
+
+        public void setCoursename(String coursename){
+            final Button courseBtn =  mView.findViewById(R.id.courseBtn);
+            courseBtn.setText(coursename);
+
+            //TODO ADD BUTTON STUFF HERE
+            //pseudocode
+            //OnClick start
+            // get button text
+            // check database for button's 'coursename'
+            // start fragment
+            //Onclick end
+
+            courseBtn.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view){
+                    //handle click
+                    Log.d("CLICKED",courseBtn.getText().toString());
+                }
+
+            });
+
+        }
+
+
+    }
 
 }

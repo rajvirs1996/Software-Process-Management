@@ -4,8 +4,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Build;;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,8 +25,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,10 +52,19 @@ import au.edu.uow.e_planner_and_communication_system.R;
 
 public class CalendarFragment extends Fragment {
 
+    //text to appear in button
     private String m_Text = "";
-    private String fulldate = "";
+    //this is for the date (Current date, selected date)
     private String dateVar = "";
-    private String showdate= "";
+    private RecyclerView eventsList;
+    private DatabaseReference dbref;
+    private FirebaseRecyclerOptions<allEvents> options;
+    private FirebaseRecyclerAdapter<allEvents, CalendarViewHolder> firebaseRecyclerAdapter;
+    private FirebaseDatabase database;
+    private FirebaseAuth firebaseAuth;
+    private String curruser;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,48 +76,111 @@ public class CalendarFragment extends Fragment {
 
     }
 
-    public void setfulldate (int dayOfMonth, int month, int year){
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
 
-        fulldate = Integer.toString(dayOfMonth) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+        //set up the vars
 
-    }
+        //current user
+        curruser = firebaseAuth.getInstance().getCurrentUser().getUid();
+        eventsList = view.findViewById(R.id.eventsList);
+        eventsList.setHasFixedSize(true);
+        //set layout
+        eventsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        //grab relevant events
 
 
 
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-
-        final LinearLayout eventsList = view.findViewById(R.id.eventsList);
         final ViewGroup.LayoutParams eventsListParam = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-
-        CompactCalendarView compactCalendar = view.findViewById(R.id.compactcalendar_view);
+        final CompactCalendarView compactCalendar = view.findViewById(R.id.compactcalendar_view);
         compactCalendar.setUseThreeLetterAbbreviation(true);
 
-
+        final SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        dateVar = df.format(new Date());
 
 
         final TextView showdate = view.findViewById(R.id.showdate);
         showdate.setText(new SimpleDateFormat("MM-yyyy").format(compactCalendar.getFirstDayOfCurrentMonth()));
+
+        database = FirebaseDatabase.getInstance();
+        dbref = database.getReference().child("Events").child(curruser);
+
+        //TESTPURPOSESONLY
         /*
-        //get selected date start
-        CalendarView calendar = view.findViewById(R.id.calendarView);
+        try {
+            long epoch2 = df.parse("25-03-2018").getTime();
+            Toast.makeText(getContext(), Long.toString(epoch2), Toast.LENGTH_LONG).show();
+            Event evtest = new Event(Color.RED,epoch2,"TEST");
+            compactCalendar.addEvent(evtest);
+        } catch (ParseException e) {
+            //
+        }
+        */
 
-
-
-        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        //populate calendar
+        dbref.orderByChild("date").addChildEventListener(new ChildEventListener(){
 
             @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month,
-                                            int dayOfMonth) {
-                setfulldate(dayOfMonth,month,year);
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                allEvents allev = dataSnapshot.getValue(allEvents.class);
+                try {
+                    long epoch = df.parse(allev.getDate()).getTime();
+                Event ev1 = new Event(Color.RED, epoch, allev.getEvent_name());
+                compactCalendar.addEvent(ev1);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
-        //get selected date end
-    */
 
-        //Add Event start
-        View addEventBtn = view.findViewById(R.id.addEventBtn);
+        //end populate calendar
 
+
+        options = new FirebaseRecyclerOptions.Builder<allEvents>().
+                setQuery(dbref.orderByChild("date").equalTo(dateVar),allEvents.class).build();
+
+
+        firebaseRecyclerAdapter =
+                new FirebaseRecyclerAdapter<allEvents, CalendarViewHolder>(options) {
+                    @Override
+                    protected void onBindViewHolder(@NonNull CalendarViewHolder holder, int position, @NonNull allEvents model) {
+                        //Binding the object
+                        holder.setDate(model.getDate());
+                        holder.setEvent_name(model.getEvent_name());
+
+                    }
+
+                    @NonNull
+                    @Override
+                    public CalendarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                        View view1 = LayoutInflater.from(parent.getContext())
+                                .inflate(R.layout.all_events_layout,parent,false);
+                        return new CalendarViewHolder(view1);
+                    }
+                };
+
+        eventsList.setAdapter(firebaseRecyclerAdapter);
+        //end fetching today's list
 
         compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
@@ -100,7 +189,32 @@ public class CalendarFragment extends Fragment {
 
                 //TODO reiterate user's eventslist here (e.g. On day click: Show events of that day)
                 //here
+                //options needed for firebaseadapterlist
+                //grab events on date
 
+                options = new FirebaseRecyclerOptions.Builder<allEvents>().
+                        setQuery(dbref.orderByChild("date").equalTo(dateVar),allEvents.class).build();
+
+                firebaseRecyclerAdapter =
+                        new FirebaseRecyclerAdapter<allEvents, CalendarViewHolder>(options) {
+                            @Override
+                            protected void onBindViewHolder(@NonNull CalendarViewHolder holder, int position, @NonNull allEvents model) {
+                                //Binding the object
+                                holder.setDate(model.getDate());
+                                holder.setEvent_name(model.getEvent_name());
+
+                            }
+
+                            @NonNull
+                            @Override
+                            public CalendarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                                View view1 = LayoutInflater.from(parent.getContext())
+                                        .inflate(R.layout.all_events_layout,parent,false);
+                                return new CalendarViewHolder(view1);
+                            }
+                        };
+
+                eventsList.setAdapter(firebaseRecyclerAdapter);
             }
 
             @Override
@@ -109,6 +223,8 @@ public class CalendarFragment extends Fragment {
             }
         });
 
+        //ADD EVENT
+        View addEventBtn = view.findViewById(R.id.addEventBtn);
         addEventBtn.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
@@ -133,7 +249,7 @@ public class CalendarFragment extends Fragment {
 
                         //create event
                         Button newBtn = new Button(getContext());
-                        newBtn.setText(dateVar + ":" + m_Text);
+                        newBtn.setText(dateVar + " : " + m_Text);
                         eventsList.addView(newBtn, eventsListParam);
                     }
                 });
@@ -150,10 +266,71 @@ public class CalendarFragment extends Fragment {
             }
 
         });
-    }
+        //Add event end
 
 
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        firebaseRecyclerAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        firebaseRecyclerAdapter.stopListening();
+    }
+
+
+        public class CalendarViewHolder extends RecyclerView.ViewHolder {
+            View mView;
+
+            public CalendarViewHolder(View itemView) {
+                super(itemView);
+                mView = itemView;
+            }
+
+            public void setDate(String date) {
+                TextView date_TextView = (TextView) mView.findViewById(R.id.all_events_date);
+                date_TextView.setText(date);
+            }
+
+            public void setEvent_name(String event_name)
+            {
+                final Button name_ButtonView = mView.findViewById(R.id.Event_nameBtn);
+                name_ButtonView.setText(event_name);
+
+                name_ButtonView.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view){
+                        //handle click
+                        Fragment newFragment = new EventDetailsFragment();
+                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                        Bundle args = new Bundle();
+                        args.putString("eventowner",curruser);
+                        args.putString("eventname",name_ButtonView.getText().toString());
+                        newFragment.setArguments(args);
+
+                        transaction.replace(R.id.calendarFrame, newFragment);
+                        transaction.addToBackStack(null);
+
+                        transaction.commit();
+
+
+                    }
+                });
+
+
+            }
+        }
+
+    }
+
+
+
 
 
 

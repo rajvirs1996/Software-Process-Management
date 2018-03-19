@@ -23,7 +23,7 @@ import au.edu.uow.e_planner_and_communication_system.R;
  * Created by Tony on 19/2/2018.
  */
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends BasicActivity implements View.OnClickListener {
     //private static final String PREFS_NAME = "UserInfo";
     private String username;
     private FirebaseAuth mAuth;
@@ -95,10 +95,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!validateForm()) {
             return;
         }
+
+        // Show loading dialog
+        showProgressDialog();
+
         mAuth.signInWithEmailAndPassword(emailText.getText().toString(), passwordText.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        // Hide loading dialog
+                        hideProgressDialog();
 
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information

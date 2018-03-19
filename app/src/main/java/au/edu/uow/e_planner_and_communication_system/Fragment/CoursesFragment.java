@@ -102,7 +102,7 @@ public class CoursesFragment extends Fragment{
     }
 
 
-    public static class allCoursesViewHolder extends RecyclerView.ViewHolder
+    public class allCoursesViewHolder extends RecyclerView.ViewHolder
     {
         View mView;
 
@@ -112,7 +112,7 @@ public class CoursesFragment extends Fragment{
             mView = itemView;
         }
 
-        public void setCoursename(String coursename){
+        public void setCoursename(final String coursename){
             final Button courseBtn =  mView.findViewById(R.id.courseBtn);
             courseBtn.setText(coursename);
 
@@ -123,12 +123,20 @@ public class CoursesFragment extends Fragment{
             // check database for button's 'coursename'
             // start fragment
             //Onclick end
-
             courseBtn.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view){
-                    //handle click
-                    Log.d("CLICKED",courseBtn.getText().toString());
+                    Fragment newFragment = new CourseSelectFragment();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                    Bundle args = new Bundle();
+                    args.putString("coursename",coursename);
+                    newFragment.setArguments(args);
+
+                    transaction.replace(R.id.coursesListFrame, newFragment);
+                    transaction.addToBackStack(null);
+
+                    transaction.commit();
                 }
 
             });

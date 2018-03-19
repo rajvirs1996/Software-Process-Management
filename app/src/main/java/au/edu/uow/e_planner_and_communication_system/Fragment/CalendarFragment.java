@@ -43,6 +43,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import au.edu.uow.e_planner_and_communication_system.R;
 
@@ -157,7 +160,7 @@ public class CalendarFragment extends Fragment {
 
 
         options = new FirebaseRecyclerOptions.Builder<allEvents>().
-                setQuery(dbref.orderByChild("date").equalTo(dateVar),allEvents.class).build();
+                setQuery(dbref.orderByChild("date"),allEvents.class).build();
 
 
         firebaseRecyclerAdapter =
@@ -187,41 +190,20 @@ public class CalendarFragment extends Fragment {
             public void onDayClick(Date dateClicked) {
                 dateVar = new SimpleDateFormat("dd-MM-yyyy").format(dateClicked);
 
-                //TODO reiterate user's eventslist here (e.g. On day click: Show events of that day)
-                //here
-                //options needed for firebaseadapterlist
-                //grab events on date
 
-                options = new FirebaseRecyclerOptions.Builder<allEvents>().
-                        setQuery(dbref.orderByChild("date").equalTo(dateVar),allEvents.class).build();
 
-                firebaseRecyclerAdapter =
-                        new FirebaseRecyclerAdapter<allEvents, CalendarViewHolder>(options) {
-                            @Override
-                            protected void onBindViewHolder(@NonNull CalendarViewHolder holder, int position, @NonNull allEvents model) {
-                                //Binding the object
-                                holder.setDate(model.getDate());
-                                holder.setEvent_name(model.getEvent_name());
-
-                            }
-
-                            @NonNull
-                            @Override
-                            public CalendarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                                View view1 = LayoutInflater.from(parent.getContext())
-                                        .inflate(R.layout.all_events_layout,parent,false);
-                                return new CalendarViewHolder(view1);
-                            }
-                        };
-
-                eventsList.setAdapter(firebaseRecyclerAdapter);
-            }
+        }
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 showdate.setText(new SimpleDateFormat("MM-yyyy").format(firstDayOfNewMonth));
             }
+
+
+
+
         });
+
 
         //ADD EVENT
         View addEventBtn = view.findViewById(R.id.addEventBtn);
@@ -247,10 +229,33 @@ public class CalendarFragment extends Fragment {
 
                         m_Text = input.getText().toString();
 
-                        //create event
-                        Button newBtn = new Button(getContext());
-                        newBtn.setText(dateVar + " : " + m_Text);
-                        eventsList.addView(newBtn, eventsListParam);
+                        //create a new unique event ID
+                        String uid = UUID.randomUUID().toString();
+
+                        //get user input
+                        Map<String,Object> addToDatabase = new HashMap<>();
+                        addToDatabase.put("date",dateVar.toString() );
+                        addToDatabase.put("event_name",m_Text);
+                        addToDatabase.put("event_description","");
+
+                        //push to database
+                        dbref.child(uid).updateChildren(addToDatabase);
+
+                        //escape to eventdetails
+                        Fragment newFragment = new EventDetailsFragment();
+                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                        Bundle args = new Bundle();
+                        args.putString("eventowner",curruser);
+                        args.putString("eventname",m_Text.toString());
+                        newFragment.setArguments(args);
+
+                        transaction.replace(R.id.calendarFrame, newFragment);
+                        transaction.addToBackStack(null);
+
+                        transaction.commit();
+
+
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

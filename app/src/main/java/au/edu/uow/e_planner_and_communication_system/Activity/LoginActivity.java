@@ -159,9 +159,10 @@ public class LoginActivity extends BasicActivity implements View.OnClickListener
             emailText.setError(null);
         }
 
-        if (TextUtils.isEmpty(password) && !valid) {
+        if (TextUtils.isEmpty(password) && valid) {
             passwordText.setError("Wrong password");
             passwordText.requestFocus();
+            valid = false;
         } else {
             passwordText.setError(null);
         }

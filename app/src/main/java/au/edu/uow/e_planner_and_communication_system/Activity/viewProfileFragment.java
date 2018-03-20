@@ -1,5 +1,6 @@
 package au.edu.uow.e_planner_and_communication_system.Activity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -32,6 +33,7 @@ public class viewProfileFragment extends DialogFragment {
     private TextView email;
     private CircleImageView profilePic;
     private String ID;
+    private String namePass;
 
     private DatabaseReference usersReference;
 
@@ -57,7 +59,7 @@ public class viewProfileFragment extends DialogFragment {
 
 
 
-        String visit_profile_id = ID;
+        final String visit_profile_id = ID;
 
         messageButton = (Button) view.findViewById(R.id.viewprofile_message);
         addButton = (Button) view.findViewById(R.id.viewprofile_add);
@@ -73,6 +75,7 @@ public class viewProfileFragment extends DialogFragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 String sName = dataSnapshot.child("name").getValue().toString();
+                namePass=sName;
                 String sid = dataSnapshot.child("SID").getValue().toString();
                 String sEmail = dataSnapshot.child("login_email").getValue().toString();
                 String sImage = dataSnapshot.child("user_image").getValue().toString();
@@ -89,5 +92,16 @@ public class viewProfileFragment extends DialogFragment {
 
             }
         });
+
+        messageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent individualChat = new Intent(getContext(),individualChatActivity.class);
+                individualChat.putExtra("visit_profile_id",visit_profile_id);
+                individualChat.putExtra("name",namePass);
+                startActivity(individualChat);
+            }
+        });
+
     }
 }

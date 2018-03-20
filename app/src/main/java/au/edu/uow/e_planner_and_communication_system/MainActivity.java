@@ -20,6 +20,9 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 import java.io.File;
 
@@ -37,6 +40,7 @@ import au.edu.uow.e_planner_and_communication_system.Fragment.NotificationFragme
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseUser mUser;
+    private DatabaseReference userDatabaseReference;
     // UI
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
@@ -108,15 +112,14 @@ public class MainActivity extends AppCompatActivity {
         usernameTV.setText(Username); //TODO Use Username instead of Email after Firebase implementation
         emailTV.setText(Email);
 
-    }
+        if (mUser!=null){
 
-    // Getting user's info from local file
-//    private void ReadValue() {
-//        userInfoSetting = getSharedPreferences("UserInfo", 0);
-//        Username = userInfoSetting.getString("Username", "");
-//        Email = userInfoSetting.getString("Email", "");
-//        Password = userInfoSetting.getString("Password", "");
-//    }
+            String online_user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id);
+
+        }
+
+    }
 
     //Useless stuff
     @Override
@@ -133,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -272,4 +274,5 @@ public class MainActivity extends AppCompatActivity {
         // Close the navigation drawer
         mDrawer.closeDrawers();
     }
+
 }

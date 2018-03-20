@@ -34,4 +34,5 @@
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="title_activity_basic">BasicActivity</string>
     <string name="title_activity_profile_view">profileView</string>
+    <string name="title_activity_chat_individual">chatIndividualActivity</string>
 </resources>

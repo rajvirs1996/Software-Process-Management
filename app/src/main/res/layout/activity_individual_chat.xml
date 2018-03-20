@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
 
         android:layout_height="match_parent"
+        android:layout_above="@+id/linearLayout"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/chatBar"></android.support.v7.widget.RecyclerView>
     
@@ -25,7 +26,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:orientation="horizontal"
-        android:padding="5dp">
+        android:padding="5dp"
+        android:id="@+id/linearLayout">
 
         <ImageButton
             android:id="@+id/individual_chat_select_image"

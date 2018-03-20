@@ -206,6 +206,7 @@ rootRef.child("Users").child(ID_user).addValueEventListener(new ValueEventListen
             messageTextBody.put("seen",false);
             messageTextBody.put("type","text");
             messageTextBody.put("time", ServerValue.TIMESTAMP);
+            messageTextBody.put("from",messageSenderID);
 
             //Sender
             Map messageBodyDetails = new HashMap();

@@ -27,6 +27,7 @@ import com.google.firebase.database.ServerValue;
 import java.io.File;
 
 import au.edu.uow.e_planner_and_communication_system.Fragment.AccountManager;
+import au.edu.uow.e_planner_and_communication_system.Fragment.AllMessagesFragment;
 import au.edu.uow.e_planner_and_communication_system.Fragment.CalendarFragment;
 import au.edu.uow.e_planner_and_communication_system.Fragment.ContactsFragment;
 import au.edu.uow.e_planner_and_communication_system.Fragment.CoursesFragment;
@@ -236,6 +237,11 @@ public class MainActivity extends AppCompatActivity {
             //courses
             case R.id.nav_fourth_fragment:
                 fragmentClass = CoursesFragment.class;
+                break;
+
+            //all messages
+            case R.id.nav_fifth_fragment:
+                fragmentClass = AllMessagesFragment.class;
                 break;
 
             //manage

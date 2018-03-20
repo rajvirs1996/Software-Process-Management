@@ -59,7 +59,7 @@ public class CompactCalendarControllerTest {
     @Mock
     private EventsContainer eventsContainer;
 
-    private static final String[] dayColumnNames = {"M", "T", "W", "T", "F", "S", "S"};
+    private static final String[] dayColumnNames = {"S", "S", "M", "T", "W", "T", "F"};
 
     CompactCalendarController underTest;
 
@@ -136,19 +136,19 @@ public class CompactCalendarControllerTest {
         when(calendar.get(Calendar.MONTH)).thenReturn(1);
         when(calendar.getActualMaximum(Calendar.DAY_OF_MONTH)).thenReturn(28);
 
-        String[] dayNames = {"Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"};
+        String[] dayNames = {"Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"};
         underTest.setGrowProgress(1000); //set grow progress so that it simulates the calendar being open
         underTest.setDayColumnNames(dayNames);
         underTest.drawMonth(canvas, calendar, 0);
 
         InOrder inOrder = inOrder(canvas);
+        inOrder.verify(canvas).drawText(eq("Sun"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("Mon"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("Tue"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("Wed"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("Thur"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("Fri"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("Sat"), anyInt(), anyInt(), eq(paint));
-        inOrder.verify(canvas).drawText(eq("Sun"), anyInt(), anyInt(), eq(paint));
     }
 
     @Test
@@ -189,13 +189,13 @@ public class CompactCalendarControllerTest {
         String[] dayNames = dateFormatSymbols.getShortWeekdays();
 
         InOrder inOrder = inOrder(canvas);
+        inOrder.verify(canvas).drawText(eq(dayNames[1]), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq(dayNames[2]), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq(dayNames[3]), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq(dayNames[4]), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq(dayNames[5]), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq(dayNames[6]), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq(dayNames[7]), anyInt(), anyInt(), eq(paint));
-        inOrder.verify(canvas).drawText(eq(dayNames[1]), anyInt(), anyInt(), eq(paint));
     }
 
     @Test
@@ -258,12 +258,12 @@ public class CompactCalendarControllerTest {
         underTest.drawMonth(canvas, calendar, 0);
 
         InOrder inOrder = inOrder(canvas);
+        inOrder.verify(canvas).drawText(eq("S"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("M"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("T"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("W"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("T"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("F"), anyInt(), anyInt(), eq(paint));
-        inOrder.verify(canvas).drawText(eq("S"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("S"), anyInt(), anyInt(), eq(paint));
     }
 

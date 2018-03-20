@@ -121,14 +121,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // Getting user's info from local file
-//    private void ReadValue() {
-//        userInfoSetting = getSharedPreferences("UserInfo", 0);
-//        Username = userInfoSetting.getString("Username", "");
-//        Email = userInfoSetting.getString("Email", "");
-//        Password = userInfoSetting.getString("Password", "");
-//    }
-
     //Useless stuff
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -144,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

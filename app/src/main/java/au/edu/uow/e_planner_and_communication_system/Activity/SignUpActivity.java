@@ -182,14 +182,16 @@ public class SignUpActivity extends BasicActivity implements View.OnClickListene
             confPasswordSignUp.setError(null);
         }
 
-        if ((!TextUtils.equals(password, confPassword)) && valid) {
-            confPasswordSignUp.setError("Password does not match the confirm password");
-            passwordSignUp.setText("");
-            confPasswordSignUp.setText("");
-            passwordSignUp.requestFocus();
-            valid = false;
-        } else {
-            confPasswordSignUp.setError(null);
+        if ((!TextUtils.isEmpty(password) && !TextUtils.isEmpty(confPassword)) && valid) {
+            if (!TextUtils.equals(password, confPassword)) {
+                passwordSignUp.setText("");
+                confPasswordSignUp.setText("");
+                //passwordSignUp.requestFocus();
+                confPasswordSignUp.setError("Password does not match the confirm password");
+                valid = false;
+            } else {
+                confPasswordSignUp.setError(null);
+            }
         }
         //</editor-fold>
 

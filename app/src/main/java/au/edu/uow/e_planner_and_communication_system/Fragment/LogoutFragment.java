@@ -24,9 +24,6 @@ public class LogoutFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-//        SharedPreferences settings = this.getActivity().getSharedPreferences("UserInfo",0);
-//        SharedPreferences.Editor editor = settings.edit();
-//        editor.clear().apply();
         FirebaseAuth.getInstance().signOut();
         getActivity().finish();
     }

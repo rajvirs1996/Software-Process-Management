@@ -36,19 +36,26 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:11.8.0'
     implementation 'com.google.firebase:firebase-messaging:11.8.0'
     testImplementation 'junit:junit:4.12'
+
+    // AndroidJUnitRunner and JUnit Rules
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test:rules:1.0.1'
+    // Espresso dependencies
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.1'
+
     compile 'de.hdodenhof:circleimageview:2.2.0'
     compile 'com.google.firebase:firebase-core:11.8.0'
     compile 'com.google.firebase:firebase-database:11.8.0'
 
     // FirebaseUI for Firebase Realtime Database
     implementation 'com.firebaseui:firebase-ui-database:3.2.2'
-// FirebaseUI for Cloud Firestore
+    // FirebaseUI for Cloud Firestore
     implementation 'com.firebaseui:firebase-ui-firestore:3.2.2'
-// FirebaseUI for Firebase Auth
+    // FirebaseUI for Firebase Auth
     implementation 'com.firebaseui:firebase-ui-auth:3.2.2'
-// FirebaseUI for Cloud Storage
+    // FirebaseUI for Cloud Storage
     implementation 'com.firebaseui:firebase-ui-storage:3.2.2'
 
     implementation 'com.squareup.picasso:picasso:2.71828'
@@ -57,15 +64,18 @@ dependencies {
     implementation "com.android.support:support-v4:27.1.0"
     implementation "com.android.support:recyclerview-v7:27.1.0"
 
-    compile 'com.theartofdev.edmodo:android-image-cropper:2.6.+'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.6.+'
     implementation "com.google.firebase:firebase-storage:11.8.0"
 
     //compile 'com.github.sundeepk:compact-calendar-view:2.0.2.3'
-    compile project(':compactcalendarview');
+    compile project(':compactcalendarview')
 
-    compile 'id.zelory:compressor:2.1.0'
+    implementation 'id.zelory:compressor:2.1.0'
 
 }
+
+
+
 
 
 

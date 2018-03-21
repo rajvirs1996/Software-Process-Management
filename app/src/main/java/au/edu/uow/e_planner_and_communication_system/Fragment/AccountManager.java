@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.*;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,9 +27,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageActivity;
-import com.theartofdev.edmodo.cropper.CropImageView;
-import com.theartofdev.edmodo.cropper.CropImageView.Guidelines;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -76,7 +73,7 @@ public class AccountManager extends Fragment {
         return inflater.inflate(R.layout.accountmanager, container, false);
     }
 
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
 
         //Get the uid
         mAuth = FirebaseAuth.getInstance();
@@ -109,11 +106,10 @@ public class AccountManager extends Fragment {
                 getAccountManagerDisplaystatus.setText(status);
 
 
-                if(!image.equals("default_image")){
+                if (!image.equals("default_image")) {
                     //Load Profile Picture
                     Picasso.get().load(image).placeholder(R.drawable.default_image_profile).into(accountManagerDisplayImagae);
                 }
-
             }
 
             @Override
@@ -128,7 +124,7 @@ public class AccountManager extends Fragment {
                 Intent galleryFragment = new Intent();
                 galleryFragment.setAction(Intent.ACTION_GET_CONTENT);
                 galleryFragment.setType("image/");
-                startActivityForResult(galleryFragment,Gallery_pick);
+                startActivityForResult(galleryFragment, Gallery_pick);
             }
         });
 
@@ -139,37 +135,33 @@ public class AccountManager extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == Gallery_pick&&resultCode==RESULT_OK && data!=null)
-        {
+        if (requestCode == Gallery_pick && resultCode == RESULT_OK && data != null) {
             Uri ImageUri = data.getData();
             //Intent Code
             // CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).start(getActivity());
 
             //Fragment-based
-            CropImage.activity().setAspectRatio(1,1).start(getContext(), this);
+            CropImage.activity().setAspectRatio(1, 1).start(getContext(), this);
 
         }
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
-        {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
-            if (resultCode == RESULT_OK)
-            {
+            if (resultCode == RESULT_OK) {
                 loadingBar.setTitle("Updating Profile Picture");
                 loadingBar.setMessage("Please wait while we are updating your selected profile image");
-               loadingBar.show();
+                loadingBar.show();
                 Uri resultUri = result.getUri();
 
                 File thumb_file_path = new File(resultUri.getPath());
 
 
-                try
-                {
+                try {
                     thumb_bitmap = new Compressor(getActivity()).
                             setMaxHeight(200).setMaxWidth(200).
                             setQuality(50).
                             compressToBitmap(thumb_file_path);
-                } catch (IOException e){
+                } catch (IOException e) {
 
                     e.printStackTrace();
 
@@ -178,62 +170,49 @@ public class AccountManager extends Fragment {
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 thumb_bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
                 //Convert and compress
-                final byte[]  thumb_byte = byteArrayOutputStream.toByteArray();
+                final byte[] thumb_byte = byteArrayOutputStream.toByteArray();
 
 
                 String user_id = mAuth.getCurrentUser().getUid();
                 StorageReference filePath = storeProfileImageStorageReference.child(user_id + ".jpg");
 
-                final StorageReference thumbfilePath = thumb_image_ref.child(user_id+".jpg");
-
+                final StorageReference thumbfilePath = thumb_image_ref.child(user_id + ".jpg");
 
 
                 filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull final Task<UploadTask.TaskSnapshot> task)
-                    {
-                        if(task.isSuccessful()){
-                            Toast.makeText(getActivity(),"Saving your Profile Image",Toast.LENGTH_LONG).show();
+                    public void onComplete(@NonNull final Task<UploadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getActivity(), "Saving your Profile Image", Toast.LENGTH_LONG).show();
 
-                           final String downloadURL = task.getResult().getDownloadUrl().toString();
+                            final String downloadURL = task.getResult().getDownloadUrl().toString();
 
-                           UploadTask uploadTask = thumbfilePath.putBytes(thumb_byte);
+                            UploadTask uploadTask = thumbfilePath.putBytes(thumb_byte);
 
-                           uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                               @Override
-                               public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> thumb_task)
-                               {
-                                String thumb_download_url = thumb_task.getResult().getDownloadUrl().toString();
+                            uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> thumb_task) {
+                                    String thumb_download_url = thumb_task.getResult().getDownloadUrl().toString();
 
-                                if(task.isSuccessful())
-                                {
-                                    Map update_user_data = new HashMap();
-                                    update_user_data.put("user_image",downloadURL);
-                                    update_user_data.put("user_thumb_image",thumb_download_url);
+                                    if (task.isSuccessful()) {
+                                        Map update_user_data = new HashMap();
+                                        update_user_data.put("user_image", downloadURL);
+                                        update_user_data.put("user_thumb_image", thumb_download_url);
 
-                                    getUserDataReference.updateChildren(update_user_data).
-                                            addOnCompleteListener(new OnCompleteListener<Void>() //Ensure success
-                                            {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
+                                        getUserDataReference.updateChildren(update_user_data).
+                                                addOnCompleteListener(new OnCompleteListener<Void>() //Ensure success
+                                                {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
 
-                                                    Toast.makeText(getActivity(), "Image Profile Updates Successfully", Toast.LENGTH_SHORT).show();
-
-
-                                                    loadingBar.dismiss();
-                                                }
-                                            });
-
+                                                        Toast.makeText(getActivity(), "Image Profile Updates Successfully", Toast.LENGTH_SHORT).show();
+                                                        loadingBar.dismiss();
+                                                    }
+                                                });
+                                    }
                                 }
-
-                               }
-                           });
-
-
-
-
-
-                        } else{
+                            });
+                        } else {
                             Toast.makeText(getActivity(), "Error occurred!", Toast.LENGTH_LONG).show();
 
                             loadingBar.dismiss();

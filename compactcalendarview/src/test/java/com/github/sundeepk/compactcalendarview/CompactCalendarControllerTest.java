@@ -42,21 +42,29 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class CompactCalendarControllerTest {
 
-    @Mock private Paint paint;
-    @Mock private OverScroller overScroller;
-    @Mock private Canvas canvas;
-    @Mock private Rect rect;
-    @Mock private Calendar calendar;
-    @Mock private MotionEvent motionEvent;
-    @Mock private VelocityTracker velocityTracker;
-    @Mock private EventsContainer eventsContainer;
+    @Mock
+    private Paint paint;
+    @Mock
+    private OverScroller overScroller;
+    @Mock
+    private Canvas canvas;
+    @Mock
+    private Rect rect;
+    @Mock
+    private Calendar calendar;
+    @Mock
+    private MotionEvent motionEvent;
+    @Mock
+    private VelocityTracker velocityTracker;
+    @Mock
+    private EventsContainer eventsContainer;
 
-    private static final String[] dayColumnNames = {"M", "T", "W", "T", "F", "S", "S"};
+    private static final String[] dayColumnNames = {"S", "S", "M", "T", "W", "T", "F"};
 
     CompactCalendarController underTest;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         Locale.setDefault(Locale.ENGLISH);
         TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
 
@@ -65,14 +73,14 @@ public class CompactCalendarControllerTest {
                 new CompactCalendarController(paint, overScroller, rect, null, null, 0, 0, 0, velocityTracker, 0, eventsContainer, Locale.getDefault(), TimeZone.getDefault());
     }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void testItThrowsWhenDayColumnsIsNotLengthSeven(){
+    @Test(expected = IllegalArgumentException.class)
+    public void testItThrowsWhenDayColumnsIsNotLengthSeven() {
         String[] dayNames = {"Mon", "Tue", "Wed", "Thur", "Fri"};
         underTest.setDayColumnNames(dayNames);
     }
 
     @Test
-    public void testManualScrollAndGestureScrollPlayNicelyTogether(){
+    public void testManualScrollAndGestureScrollPlayNicelyTogether() {
         //Set width of view so that scrolling will return a correct value
         underTest.onMeasure(720, 1080, 0, 0);
 
@@ -98,7 +106,7 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItScrollsToNextMonth(){
+    public void testItScrollsToNextMonth() {
         //Sun, 08 Feb 2015 00:00:00 GMT
         underTest.setCurrentDate(new Date(1423353600000L));
 
@@ -110,7 +118,7 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItScrollsToPreviousMonth(){
+    public void testItScrollsToPreviousMonth() {
         //Sun, 08 Feb 2015 00:00:00 GMT
         underTest.setCurrentDate(new Date(1423353600000L));
 
@@ -122,29 +130,29 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItSetsDayColumns(){
+    public void testItSetsDayColumns() {
         //simulate Feb month
         when(calendar.get(Calendar.DAY_OF_WEEK)).thenReturn(1);
         when(calendar.get(Calendar.MONTH)).thenReturn(1);
         when(calendar.getActualMaximum(Calendar.DAY_OF_MONTH)).thenReturn(28);
 
-        String[] dayNames = {"Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"};
+        String[] dayNames = {"Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"};
         underTest.setGrowProgress(1000); //set grow progress so that it simulates the calendar being open
         underTest.setDayColumnNames(dayNames);
         underTest.drawMonth(canvas, calendar, 0);
 
         InOrder inOrder = inOrder(canvas);
+        inOrder.verify(canvas).drawText(eq("Sun"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("Mon"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("Tue"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("Wed"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("Thur"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("Fri"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("Sat"), anyInt(), anyInt(), eq(paint));
-        inOrder.verify(canvas).drawText(eq("Sun"), anyInt(), anyInt(), eq(paint));
     }
 
     @Test
-    public void testListenerIsCalledOnMonthScroll(){
+    public void testListenerIsCalledOnMonthScroll() {
         //Sun, 01 Mar 2015 00:00:00 GMT
         Date expectedDateOnScroll = new Date(1425168000000L);
 
@@ -164,7 +172,7 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItAbbreviatesDayNames(){
+    public void testItAbbreviatesDayNames() {
         //simulate Feb month
         when(calendar.get(Calendar.DAY_OF_WEEK)).thenReturn(1);
         when(calendar.get(Calendar.MONTH)).thenReturn(1);
@@ -181,17 +189,17 @@ public class CompactCalendarControllerTest {
         String[] dayNames = dateFormatSymbols.getShortWeekdays();
 
         InOrder inOrder = inOrder(canvas);
+        inOrder.verify(canvas).drawText(eq(dayNames[1]), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq(dayNames[2]), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq(dayNames[3]), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq(dayNames[4]), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq(dayNames[5]), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq(dayNames[6]), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq(dayNames[7]), anyInt(), anyInt(), eq(paint));
-        inOrder.verify(canvas).drawText(eq(dayNames[1]), anyInt(), anyInt(), eq(paint));
     }
 
     @Test
-    public void testItReturnsFirstDayOfMonthAfterDateHasBeenSet(){
+    public void testItReturnsFirstDayOfMonthAfterDateHasBeenSet() {
         //Sun, 01 Feb 2015 00:00:00 GMT
         Date expectedDate = new Date(1422748800000L);
 
@@ -203,8 +211,8 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItReturnsFirstDayOfMonth(){
-        Calendar currentCalender =  Calendar.getInstance();
+    public void testItReturnsFirstDayOfMonth() {
+        Calendar currentCalender = Calendar.getInstance();
         currentCalender.set(Calendar.DAY_OF_MONTH, 1);
         currentCalender.set(Calendar.HOUR_OF_DAY, 0);
         currentCalender.set(Calendar.MINUTE, 0);
@@ -218,7 +226,7 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItDrawsSundayAsFirstDay(){
+    public void testItDrawsSundayAsFirstDay() {
         //simulate Feb month
         when(calendar.get(Calendar.DAY_OF_WEEK)).thenReturn(1);
         when(calendar.get(Calendar.MONTH)).thenReturn(1);
@@ -240,7 +248,7 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItDrawsFirstLetterOfEachDay(){
+    public void testItDrawsFirstLetterOfEachDay() {
         //simulate Feb month
         when(calendar.get(Calendar.DAY_OF_WEEK)).thenReturn(1);
         when(calendar.get(Calendar.MONTH)).thenReturn(1);
@@ -250,17 +258,18 @@ public class CompactCalendarControllerTest {
         underTest.drawMonth(canvas, calendar, 0);
 
         InOrder inOrder = inOrder(canvas);
+        inOrder.verify(canvas).drawText(eq("S"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("M"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("T"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("W"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("T"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("F"), anyInt(), anyInt(), eq(paint));
         inOrder.verify(canvas).drawText(eq("S"), anyInt(), anyInt(), eq(paint));
-        inOrder.verify(canvas).drawText(eq("S"), anyInt(), anyInt(), eq(paint));
     }
 
     @Ignore
-    public void testItDrawsDaysOnCalender(){
+    @Test
+    public void testItDrawsDaysOnCalender() {
         //simulate Feb month
         underTest.setGrowProgress(1000); //set grow progress so that it simulates the calendar being open
         when(calendar.get(Calendar.DAY_OF_WEEK)).thenReturn(1);
@@ -269,21 +278,21 @@ public class CompactCalendarControllerTest {
 
         underTest.drawMonth(canvas, calendar, 0);
 
-        for(int dayColumn = 0, dayRow = 0; dayColumn <= 6; dayRow++){
-            if(dayRow == 7){
+        for (int dayColumn = 0, dayRow = 0; dayColumn <= 6; dayRow++) {
+            if (dayRow == 7) {
                 dayRow = 0;
-                if(dayColumn <= 6){
+                if (dayColumn <= 6) {
                     dayColumn++;
                 }
             }
-            if(dayColumn == dayColumnNames.length){
+            if (dayColumn == dayColumnNames.length) {
                 break;
             }
-            if(dayColumn == 0){
+            if (dayColumn == 0) {
                 verify(canvas).drawText(eq(dayColumnNames[dayColumn]), anyInt(), anyInt(), eq(paint));
-            }else{
+            } else {
                 int day = ((dayRow - 1) * 7 + dayColumn + 1) - 6;
-                if( day > 0 && day <= 28){
+                if (day > 0 && day <= 28) {
                     verify(canvas).drawText(eq(String.valueOf(day)), anyInt(), anyInt(), eq(paint));
                 }
             }
@@ -291,7 +300,7 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItDrawsEventDaysOnCalendar(){
+    public void testItDrawsEventDaysOnCalendar() {
         //Sun, 07 Jun 2015 18:20:51 GMT
         //get 30 events in total
         int numberOfDaysWithEvents = 30;
@@ -309,7 +318,7 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItDrawsMultipleEventDaysOnCalendar(){
+    public void testItDrawsMultipleEventDaysOnCalendar() {
         //Sun, 07 Jun 2015 18:20:51 GMT
         //get 60 events in total
         int numberOfDaysWithEvents = 30;
@@ -327,7 +336,7 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItDrawsMultipleEventDaysOnCalendarWithPlusIndicator(){
+    public void testItDrawsMultipleEventDaysOnCalendarWithPlusIndicator() {
         //Sun, 07 Jun 2015 18:20:51 GMT
         //get 120 events in total but only draw 3 event indicators per a day
         int numberOfDaysWithEvents = 30;
@@ -349,7 +358,7 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItDrawsEventDaysOnCalendarForCurrentMonth(){
+    public void testItDrawsEventDaysOnCalendarForCurrentMonth() {
         Calendar todayCalendar = Calendar.getInstance();
         int numberOfDaysInMonth = todayCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         int todayMonth = todayCalendar.get(Calendar.MONTH);
@@ -369,7 +378,7 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItDrawsEventDaysOnCalendarWithSelectedDay(){
+    public void testItDrawsEventDaysOnCalendarWithSelectedDay() {
         //Sun, 07 Jun 2015 18:20:51 GMT
         long selectedDayTimestamp = 1433701251000L;
         //get 30 events in total
@@ -389,7 +398,7 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItDrawsEventDaysOnCalendarForCurrentMonthWithSelectedDay(){
+    public void testItDrawsEventDaysOnCalendarForCurrentMonthWithSelectedDay() {
         Calendar todayCalendar = Calendar.getInstance();
         int numberOfDaysInMonth = todayCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         int todayMonth = todayCalendar.get(Calendar.MONTH);
@@ -422,7 +431,7 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItAddsEvent(){
+    public void testItAddsEvent() {
         Event event = CompactCalendarHelper.getOneEventPerDayForMonth(0, 30, 1433701251000L).get(0);
         underTest.addEvent(event);
         verify(eventsContainer).addEvent(event);
@@ -430,7 +439,7 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItAddsEvents(){
+    public void testItAddsEvents() {
         List<Event> events = CompactCalendarHelper.getOneEventPerDayForMonth(0, 30, 1433701251000L);
         underTest.addEvents(events);
         verify(eventsContainer).addEvents(events);
@@ -438,7 +447,7 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItRemovesEvent(){
+    public void testItRemovesEvent() {
         Event event = CompactCalendarHelper.getOneEventPerDayForMonth(0, 30, 1433701251000L).get(0);
         underTest.removeEvent(event);
         verify(eventsContainer).removeEvent(event);
@@ -446,7 +455,7 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItRemovesEvents(){
+    public void testItRemovesEvents() {
         List<Event> events = CompactCalendarHelper.getOneEventPerDayForMonth(0, 30, 1433701251000L);
         underTest.removeEvents(events);
         verify(eventsContainer).removeEvents(events);
@@ -454,46 +463,46 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItGetCalendarEventsForADate(){
+    public void testItGetCalendarEventsForADate() {
         underTest.getCalendarEventsFor(1433701251000L);
         verify(eventsContainer).getEventsFor(1433701251000L);
         verifyNoMoreInteractions(eventsContainer);
     }
 
     @Test
-    public void testItRemovesCalendarEventsForADate(){
+    public void testItRemovesCalendarEventsForADate() {
         underTest.removeEventsFor(1433701251000L);
         verify(eventsContainer).removeEventByEpochMillis(1433701251000L);
         verifyNoMoreInteractions(eventsContainer);
     }
 
     @Test
-    public void testItRemovesAllEvents(){
+    public void testItRemovesAllEvents() {
         underTest.removeAllEvents();
         verify(eventsContainer).removeAllEvents();
         verifyNoMoreInteractions(eventsContainer);
     }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void testItThrowsWhenZeroIsUsedAsFirstDayOfWeek(){
+    @Test(expected = IllegalArgumentException.class)
+    public void testItThrowsWhenZeroIsUsedAsFirstDayOfWeek() {
         underTest.setFirstDayOfWeek(0);
     }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void testItThrowsWhenValuesGreaterThanSevenIsUsedAsFirstDayOfWeek(){
+    @Test(expected = IllegalArgumentException.class)
+    public void testItThrowsWhenValuesGreaterThanSevenIsUsedAsFirstDayOfWeek() {
         underTest.setFirstDayOfWeek(8);
     }
 
     @Test
-    public void testItGetsDayOfWeekWhenSundayIsFirstDayOfWeek(){
+    public void testItGetsDayOfWeekWhenSundayIsFirstDayOfWeek() {
         // zero based indexes used internally so instead of returning range of 1-7 it returns 0-6
         // Sunday as first day means Saturday is last day of week
         // first index corresponds to Sunday and last is Saturday
-        int[] expectedDaysOfWeekOrder = {0,1,2,3,4,5,6};
+        int[] expectedDaysOfWeekOrder = {0, 1, 2, 3, 4, 5, 6};
         int[] actualDaysOfWeekOrder = new int[7];
         Calendar calendar = Calendar.getInstance();
         underTest.setFirstDayOfWeek(Calendar.SUNDAY);
-        for (int day = 1; day <= 7 ; day++){
+        for (int day = 1; day <= 7; day++) {
             calendar.set(Calendar.DAY_OF_WEEK, day);
             actualDaysOfWeekOrder[day - 1] = underTest.getDayOfWeek(calendar);
         }
@@ -501,15 +510,15 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItGetsDayOfWeekWhenMondayIsFirstDayOfWeek(){
+    public void testItGetsDayOfWeekWhenMondayIsFirstDayOfWeek() {
         // zero based indexes used internally so instead of returning range of 1-7 it returns 0-6
         // Monday as first day means Sunday is last day of week
         // first index corresponds to Sunday and last is Saturday
-        int[] expectedDaysOfWeekOrder = {6,0,1,2,3,4,5};
+        int[] expectedDaysOfWeekOrder = {6, 0, 1, 2, 3, 4, 5};
         int[] actualDaysOfWeekOrder = new int[7];
         Calendar calendar = Calendar.getInstance();
         underTest.setFirstDayOfWeek(Calendar.MONDAY);
-        for (int day = 1; day <= 7 ; day++){
+        for (int day = 1; day <= 7; day++) {
             calendar.set(Calendar.DAY_OF_WEEK, day);
             actualDaysOfWeekOrder[day - 1] = underTest.getDayOfWeek(calendar);
         }
@@ -517,15 +526,15 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItGetsDayOfWeekWhenTuesdayIsFirstDayOfWeek(){
+    public void testItGetsDayOfWeekWhenTuesdayIsFirstDayOfWeek() {
         // zero based indexes used internally so instead of returning range of 1-7 it returns 0-6
         // Tuesday as first day means Monday is last day of week
         // first index corresponds to Sunday and last is Saturday
-        int[] expectedDaysOfWeekOrder = {5,6,0,1,2,3,4};
+        int[] expectedDaysOfWeekOrder = {5, 6, 0, 1, 2, 3, 4};
         int[] actualDaysOfWeekOrder = new int[7];
         Calendar calendar = Calendar.getInstance();
         underTest.setFirstDayOfWeek(Calendar.TUESDAY);
-        for (int day = 1; day <= 7 ; day++){
+        for (int day = 1; day <= 7; day++) {
             calendar.set(Calendar.DAY_OF_WEEK, day);
             actualDaysOfWeekOrder[day - 1] = underTest.getDayOfWeek(calendar);
         }
@@ -533,15 +542,15 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItGetsDayOfWeekWhenWednesdayIsFirstDayOfWeek(){
+    public void testItGetsDayOfWeekWhenWednesdayIsFirstDayOfWeek() {
         // zero based indexes used internally so instead of returning range of 1-7 it returns 0-6
         // Wednesday as first day means Tuesday is last day of week
         // first index corresponds to Sunday and last is Saturday
-        int[] expectedDaysOfWeekOrder = {4,5,6,0,1,2,3};
+        int[] expectedDaysOfWeekOrder = {4, 5, 6, 0, 1, 2, 3};
         int[] actualDaysOfWeekOrder = new int[7];
         Calendar calendar = Calendar.getInstance();
         underTest.setFirstDayOfWeek(Calendar.WEDNESDAY);
-        for (int day = 1; day <= 7 ; day++){
+        for (int day = 1; day <= 7; day++) {
             calendar.set(Calendar.DAY_OF_WEEK, day);
             actualDaysOfWeekOrder[day - 1] = underTest.getDayOfWeek(calendar);
         }
@@ -549,15 +558,15 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItGetsDayOfWeekWhenThursdayIsFirstDayOfWeek(){
+    public void testItGetsDayOfWeekWhenThursdayIsFirstDayOfWeek() {
         // zero based indexes used internally so instead of returning range of 1-7 it returns 0-6
         // Thursday as first day means Wednesday is last day of week
         // first index corresponds to Sunday and last is Saturday
-        int[] expectedDaysOfWeekOrder = {3,4,5,6,0,1,2};
+        int[] expectedDaysOfWeekOrder = {3, 4, 5, 6, 0, 1, 2};
         int[] actualDaysOfWeekOrder = new int[7];
         Calendar calendar = Calendar.getInstance();
         underTest.setFirstDayOfWeek(Calendar.THURSDAY);
-        for (int day = 1; day <= 7 ; day++){
+        for (int day = 1; day <= 7; day++) {
             calendar.set(Calendar.DAY_OF_WEEK, day);
             actualDaysOfWeekOrder[day - 1] = underTest.getDayOfWeek(calendar);
         }
@@ -565,15 +574,15 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItGetsDayOfWeekWhenFridayIsFirstDayOfWeek(){
+    public void testItGetsDayOfWeekWhenFridayIsFirstDayOfWeek() {
         // zero based indexes used internally so instead of returning range of 1-7 it returns 0-6
         // Friday as first day means Wednesday is last day of week
         // first index corresponds to Sunday and last is Saturday
-        int[] expectedDaysOfWeekOrder = {2,3,4,5,6,0,1};
+        int[] expectedDaysOfWeekOrder = {2, 3, 4, 5, 6, 0, 1};
         int[] actualDaysOfWeekOrder = new int[7];
         Calendar calendar = Calendar.getInstance();
         underTest.setFirstDayOfWeek(Calendar.FRIDAY);
-        for (int day = 1; day <= 7 ; day++){
+        for (int day = 1; day <= 7; day++) {
             calendar.set(Calendar.DAY_OF_WEEK, day);
             actualDaysOfWeekOrder[day - 1] = underTest.getDayOfWeek(calendar);
         }
@@ -581,15 +590,15 @@ public class CompactCalendarControllerTest {
     }
 
     @Test
-    public void testItGetsDayOfWeekWhenSaturdayIsFirstDayOfWeek(){
+    public void testItGetsDayOfWeekWhenSaturdayIsFirstDayOfWeek() {
         // zero based indexes used internally so instead of returning range of 1-7 it returns 0-6
         // Saturday as first day means Friday is last day of week
         // first index corresponds to Sunday and last is Saturday
-        int[] expectedDaysOfWeekOrder = {1,2,3,4,5,6,0};
+        int[] expectedDaysOfWeekOrder = {1, 2, 3, 4, 5, 6, 0};
         int[] actualDaysOfWeekOrder = new int[7];
         Calendar calendar = Calendar.getInstance();
         underTest.setFirstDayOfWeek(Calendar.SATURDAY);
-        for (int day = 1; day <= 7 ; day++){
+        for (int day = 1; day <= 7; day++) {
             calendar.set(Calendar.DAY_OF_WEEK, day);
             actualDaysOfWeekOrder[day - 1] = underTest.getDayOfWeek(calendar);
         }

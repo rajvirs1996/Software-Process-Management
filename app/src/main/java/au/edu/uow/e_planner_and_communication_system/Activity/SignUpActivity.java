@@ -3,7 +3,6 @@ package au.edu.uow.e_planner_and_communication_system.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -22,15 +21,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import au.edu.uow.e_planner_and_communication_system.MainActivity;
 import au.edu.uow.e_planner_and_communication_system.R;
 
-public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignUpActivity extends BasicActivity implements View.OnClickListener {
     private FirebaseAuth mAuth;
     private DatabaseReference storeUserDefaultDataReference;
 
     private EditText nameSignUp;
     private EditText emailSignUp;
+    private EditText studentIDSignUp;
     private EditText passwordSignUp;
     private EditText confPasswordSignUp;
-    private EditText studentIDSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +39,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         //View
         nameSignUp = findViewById(R.id.nameSignUp);
         emailSignUp = findViewById(R.id.emailSignUp);
+        studentIDSignUp = findViewById(R.id.studentIDSignUp);
         passwordSignUp = findViewById(R.id.passwordSignUp);
         confPasswordSignUp = findViewById(R.id.confPasswordText);
-        studentIDSignUp = findViewById(R.id.studentIDSignUp);
 
         //Button
         findViewById(R.id.signUp).setOnClickListener(this);
@@ -64,17 +63,26 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        this.overridePendingTransition(R.anim.anim_slide_in_to_right, R.anim.anim_slide_out_to_right);
+    }
 
     private void signUp(final String emailSignup, final String name, final String SID) {
         if (!validateForm()) {
             return;
         }
+
+        // Show loading dialog
+        showProgressDialog();
+
         mAuth.createUserWithEmailAndPassword(emailSignUp.getText().toString(), passwordSignUp.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            //Capture UID
+                            // Capture UID
                             String currentUserID = mAuth.getCurrentUser().getUid();
 
                             //Creates a reference and stores the reference in the variable in which is the root->->
@@ -85,31 +93,25 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                             storeUserDefaultDataReference.child("SID").setValue(SID);
                             storeUserDefaultDataReference.child("user_status").setValue("Online");
                             storeUserDefaultDataReference.child("user_image").setValue("default_profile");
-                            storeUserDefaultDataReference.child("user_thumb_image").setValue("default_image").addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
-//                            Log.d(TAG, "createUserWithEmail:success");
-                                        FirebaseUser user = mAuth.getCurrentUser();
-                                        setUpUserInfo(user);
-//                            updateUI(user);
-                                        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                                        getApplicationContext().startActivity(intent);
-                                        overridePendingTransition(R.anim.anim_slide_in_to_right, R.anim.anim_slide_out_to_right);
-                                    }
-                                }
-                            });
+                            storeUserDefaultDataReference.child("user_thumb_image").setValue("default_image");
 
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            setUpUserInfo(user);
+
+                            // Hide loading dialog
+                            hideProgressDialog();
+
+                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                            getApplicationContext().startActivity(intent);
+                            overridePendingTransition(R.anim.anim_slide_in_to_right, R.anim.anim_slide_out_to_right);
+                            finish();
 
                         } else {
-                            // If sign in fails, display a message to the user.
+                            // If sign up fails, display a message to the user.
                             Log.w(this.getClass().getSimpleName(), "createUserWithEmail:failure", task.getException());
                             Toast.makeText(SignUpActivity.this, "User already existed.",
                                     Toast.LENGTH_SHORT).show();
-//                            updateUI(null);
                         }
-                        // ...
                     }
 
                     private void setUpUserInfo(FirebaseUser user) {
@@ -180,14 +182,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             confPasswordSignUp.setError(null);
         }
 
-        if (!TextUtils.equals(password, confPassword) && valid) {
-            passwordSignUp.setError("Password does not match the confirm password");
+        if ((!TextUtils.equals(password, confPassword)) && valid) {
+            confPasswordSignUp.setError("Password does not match the confirm password");
             passwordSignUp.setText("");
             confPasswordSignUp.setText("");
             passwordSignUp.requestFocus();
             valid = false;
         } else {
-            passwordSignUp.setError(null);
+            confPasswordSignUp.setError(null);
         }
         //</editor-fold>
 

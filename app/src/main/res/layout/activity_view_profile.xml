@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
-    tools:context="au.edu.uow.e_planner_and_communication_system.Fragment.viewProfileFragment">
+    tools:context="au.edu.uow.e_planner_and_communication_system.Activity.viewProfileFragment">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/viewprofile_image"
@@ -52,30 +52,26 @@
 
     <Button
         android:id="@+id/viewprofile_add"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="58dp"
-        android:layout_marginEnd="21dp"
-        android:layout_toStartOf="@+id/viewprofile_email_text"
+        android:layout_above="@+id/viewprofile_remove"
+        android:layout_centerHorizontal="true"
         android:text="Add..." />
 
     <Button
         android:id="@+id/viewprofile_remove"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/viewprofile_add"
-        android:layout_alignBottom="@+id/viewprofile_add"
-        android:layout_marginStart="20dp"
-        android:layout_toEndOf="@+id/viewprofile_email_text"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:text="Remove..." />
 
     <Button
         android:id="@+id/viewprofile_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/viewprofile_remove"
-        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/viewprofile_add"
+        android:layout_alignParentStart="true"
         android:text="Message" />
 
 </RelativeLayout>

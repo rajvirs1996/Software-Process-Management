@@ -107,10 +107,53 @@ public class CalendarFragment extends Fragment {
         showdate.setText(new SimpleDateFormat("MM-yyyy").format(compactCalendar.getFirstDayOfCurrentMonth()));
 
         database = FirebaseDatabase.getInstance();
+
+        //get holidays//
+        dbref = database.getReference().child("Events").child("HongKong2018");
+
+        dbref.orderByChild("date").addChildEventListener(new ChildEventListener(){
+
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                final allEvents allev = dataSnapshot.getValue(allEvents.class);
+                try {
+                    long epoch = df.parse(allev.getDate()).getTime();
+                    Event ev1 = new Event(Color.RED, epoch, allev.getEvent_name());
+                    compactCalendar.addEvent(ev1);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        //end getting holidays
+
+
+
+
         dbref = database.getReference().child("Events").child(curruser);
-
-
-
         //populate calendar
         dbref.orderByChild("date").addChildEventListener(new ChildEventListener(){
 

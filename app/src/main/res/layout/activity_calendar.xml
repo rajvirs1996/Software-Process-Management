@@ -70,7 +70,14 @@
                         android:id="@+id/eventsList"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical" />
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/textView10"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Click on a date to view events" />
+                    </LinearLayout>
                 </ScrollView>
 
             </RelativeLayout>

@@ -137,6 +137,9 @@ public class LoginActivity extends BasicActivity implements View.OnClickListener
                                 Toast.makeText(LoginActivity.this, "Authentication failed. \nThe password is invalid.", Toast.LENGTH_LONG).show();
                             } catch (Exception e) {
                                 Log.e("SignIN: ", e.getMessage());
+                            }finally{
+                                // Hide loading dialog
+                                hideProgressDialog();
                             }
                         }
                     }

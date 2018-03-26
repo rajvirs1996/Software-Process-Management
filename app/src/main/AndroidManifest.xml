@@ -3,8 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="au.edu.uow.e_planner_and_communication_system">
 
+<<<<<<< HEAD
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+=======
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+>>>>>>> 0d82f5258f885815cc16ffa03edb9f954e23ae2a
 
     <application
         android:allowBackup="true"
@@ -32,11 +38,16 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
+            android:theme="@style/Base.Theme.AppCompat"/>
         <activity
             android:name=".Activity.individualChatActivity"
+<<<<<<< HEAD
             android:parentActivityName=".MainActivity" />
         <activity android:name=".Activity.removeFrom"></activity>
+=======
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".Activity.addTo"></activity>
+>>>>>>> 0d82f5258f885815cc16ffa03edb9f954e23ae2a
     </application>
 
 </manifest>

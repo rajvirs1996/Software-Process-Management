@@ -62,7 +62,7 @@ public class CourseSelectFragment extends Fragment {
 
         //BACK BUTTON
         //GOES BACK TO COURSES
-        final Button backBtn = view.findViewById(R.id.courseBackBtn);
+        final View backBtn = view.findViewById(R.id.courseBackBtn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

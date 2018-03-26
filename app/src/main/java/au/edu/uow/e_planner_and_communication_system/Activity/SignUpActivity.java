@@ -94,6 +94,23 @@ public class SignUpActivity extends BasicActivity implements View.OnClickListene
                             storeUserDefaultDataReference.child("user_status").setValue("Online");
                             storeUserDefaultDataReference.child("user_image").setValue("default_profile");
                             storeUserDefaultDataReference.child("user_thumb_image").setValue("default_image");
+                            storeUserDefaultDataReference.child("isStudent").setValue(true);
+                            storeUserDefaultDataReference.child("isAdmin").setValue(false);
+                            storeUserDefaultDataReference.child("isTeachingStaff").setValue(false);
+
+                            DatabaseReference studentListRef = FirebaseDatabase.getInstance().getReference().child("Students").child(currentUserID);
+                            //DatabaseReference adminListRef  = FirebaseDatabase.getInstance().getReference().child("Admins");
+                            //DatabaseReference teacherListRef  = FirebaseDatabase.getInstance().getReference().child("Teachers");
+
+                            studentListRef.child("name").setValue(name);
+                            studentListRef.child("SID").setValue(SID);
+
+                            //To be removed
+                            /*
+                            teacherListRef.child("name").setValue(name);
+                            teacherListRef.child("ID").setValue(SID);
+                            */
+
 
                             FirebaseUser user = mAuth.getCurrentUser();
                             setUpUserInfo(user);

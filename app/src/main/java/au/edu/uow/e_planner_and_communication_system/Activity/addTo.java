@@ -21,8 +21,10 @@ public class addTo extends DialogFragment {
     private TextView choice;
     private TextView groupOrCourse;
     private TextView titleText;
+    private TextView groupTextView;
     private Spinner firstSpinner;
     private Spinner secondSpinner;
+    private Spinner thirdSpinner;
     private Button confirmButton;
     private Button cancelButton;
 
@@ -41,12 +43,22 @@ public class addTo extends DialogFragment {
     choice = (TextView) view.findViewById(R.id.add_to_choice);
     groupOrCourse = (TextView) view.findViewById(R.id.add_to_towhere_text);
     titleText = (TextView) view.findViewById(R.id.add_to_title_text);
+    groupTextView = (TextView) view.findViewById(R.id.add_to_gorup_text);
+
     firstSpinner = (Spinner) view.findViewById(R.id.add_to_spinner_1);
     secondSpinner = (Spinner) view.findViewById(R.id.add_to_spinner_2);
+    thirdSpinner = (Spinner) view.findViewById(R.id.add_to_third_Spinner);
+
     confirmButton = (Button) view.findViewById(R.id.add_to_ok_button);
     cancelButton = (Button) view.findViewById(R.id.add_to_cancel_button);
 
+    choice.setVisibility(TextView.INVISIBLE);
+    groupTextView.setVisibility(TextView.INVISIBLE);
+    secondSpinner.setVisibility(Spinner.INVISIBLE);
+    thirdSpinner.setVisibility(Spinner.INVISIBLE);
 
+    titleText.setText("Add:");
+    titleText.setVisibility(TextView.VISIBLE);
 
     String [] itemsSpinner1 = new String[] {"Please Select","Course","Group"};
     ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,itemsSpinner1);
@@ -59,11 +71,29 @@ public class addTo extends DialogFragment {
             switch (i)
             {
                 case 0:
+                    choice.setVisibility(TextView.INVISIBLE);
+                    groupTextView.setVisibility(TextView.INVISIBLE);
+                    secondSpinner.setVisibility(Spinner.INVISIBLE);
+                    thirdSpinner.setVisibility(Spinner.INVISIBLE);
                     break;
                 case 1:
-                    groupOrCourse.setText("Course");
+                    thirdSpinner.setVisibility(Spinner.INVISIBLE);
+                    groupTextView.setVisibility(TextView.INVISIBLE);
+
+                    choice.setText("Course");
+                    choice.setVisibility(TextView.VISIBLE);
+                    secondSpinner.setVisibility(Spinner.VISIBLE);
                     break;
-                case 3:
+                case 2:
+
+                    choice.setText("Course");
+
+                    choice.setVisibility(TextView.VISIBLE);
+                    secondSpinner.setVisibility(Spinner.VISIBLE);
+
+                    groupTextView.setVisibility(TextView.VISIBLE);
+                    thirdSpinner.setVisibility(Spinner.VISIBLE);
+
                     break;
 
 

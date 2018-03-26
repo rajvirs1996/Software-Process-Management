@@ -1,17 +1,21 @@
 package au.edu.uow.e_planner_and_communication_system.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.ViewGroup.LayoutParams;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +27,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import au.edu.uow.e_planner_and_communication_system.R;
 
@@ -44,6 +52,9 @@ public class CoursesFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if (container != null) {
+            container.removeAllViews();
+        }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.courses, container, false);
 
@@ -86,6 +97,58 @@ public class CoursesFragment extends Fragment{
 
         allCoursesList.setAdapter(firebaseRecyclerAdapter);
 
+        //
+        //TODO hide add button from students
+        //
+        Button createCourseBtn = view.findViewById(R.id.createCourseBtn);
+
+        createCourseBtn.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Add new course: ");
+
+                // Set up the input
+                final EditText input = new EditText(getContext());
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                builder.setView(input);
+
+                // Set up the buttons
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        //get user input
+                        Map<String,Object> addToDatabase = new HashMap<>();
+                        addToDatabase.put("coursehead", "" );
+                        addToDatabase.put("coursename", input.getText().toString());
+
+                        //push to database
+                        DatabaseReference tempref = allDatabaseCoursesReference
+                                .child(input.getText().toString());
+
+                        tempref.updateChildren(addToDatabase);
+
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+
+
+            }
+
+        });
+        //Add event end
 
     }
 

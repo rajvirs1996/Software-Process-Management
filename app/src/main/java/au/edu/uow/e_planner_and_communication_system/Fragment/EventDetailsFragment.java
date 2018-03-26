@@ -135,7 +135,7 @@ public class EventDetailsFragment extends Fragment {
 
                 //put the needed data into hashtable
                 // .put (KEY, THE NEW VALUES)
-                updateDatabase.put("event_date", event_date.getText().toString());
+                updateDatabase.put("date", event_date.getText().toString());
                 updateDatabase.put("event_name",event_title.getText().toString());
                 updateDatabase.put("event_description", event_description
                 .getText().toString());

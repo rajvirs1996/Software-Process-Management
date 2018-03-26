@@ -35,6 +35,7 @@ import au.edu.uow.e_planner_and_communication_system.Fragment.MessagesAdpater;
 import au.edu.uow.e_planner_and_communication_system.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+
 public class individualChatActivity extends AppCompatActivity {
 
     private String ID_user;
@@ -194,20 +195,53 @@ rootRef.child("Users").child(ID_user).addValueEventListener(new ValueEventListen
             String messenger_receiver_ref =  "Messages/" + ID_user +  "/" + messageSenderID;
 
             //Create unique message key
-
+            //---------------------------------------------------------------------------------------//
             DatabaseReference user_message_key = rootRef.child("Messages").child(messageSenderID).
                     child(ID_user).push();
 
+
+            //---------------------------------------------------------------------------------------//
+
+            //---------------------------------------------------------------------------------------//
             String message_push_id = user_message_key.getKey();
 
-            Map messageTextBody = new HashMap();
+            //---------------------------------------------------------------------------------------//
 
+            //---------------------------------------------------------------------------------------//
+            Map messageTextBody = new HashMap();
+            //---------------------------------------------------------------------------------------//
+
+            //---------------------------------------------------------------------------------------//
             messageTextBody.put("message",messaeText);
             messageTextBody.put("seen",false);
             messageTextBody.put("type","text");
             messageTextBody.put("time", ServerValue.TIMESTAMP);
             messageTextBody.put("from",messageSenderID);
+            messageTextBody.put("to",ID_user);
 
+
+            DatabaseReference usersConnected1 = FirebaseDatabase.getInstance().getReference().
+                    child("Messengers-Linked").child(messageSenderID).child(ID_user);
+
+            DatabaseReference usersConnected2 = FirebaseDatabase.getInstance().getReference().
+                    child("Messengers-Linked").child(ID_user).child(messageSenderID);
+
+            String name2 = mAuth.getCurrentUser().getDisplayName().toString();
+
+
+            String lastMessage = messaeText;
+
+            usersConnected1.child("name").setValue(name_of_user);
+            usersConnected1.child("last-message").setValue(messaeText);
+            usersConnected1.child("time").setValue(ServerValue.TIMESTAMP);
+
+            usersConnected2.child("name").setValue(name2);
+            usersConnected2.child("last-message").setValue(messaeText);
+            usersConnected2.child("time").setValue(ServerValue.TIMESTAMP);
+
+            //---------------------------------------------------------------------------------------//
+
+            //---------------------------------------------------------------------------------------//
             //Sender
             Map messageBodyDetails = new HashMap();
             messageBodyDetails.put(messenger_sender_ref + "/" + message_push_id, messageTextBody);
@@ -228,6 +262,9 @@ rootRef.child("Users").child(ID_user).addValueEventListener(new ValueEventListen
                     inputtedMessae.setText("");
                 }
             });
+
+
+            //---------------------------------------------------------------------------------------//
         }
     }
 }

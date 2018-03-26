@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -48,6 +49,18 @@ public class viewProfileFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         return inflater.inflate(R.layout.activity_view_profile,null);
+
+    }
+
+    public void showDialog(View view)
+    {
+        String idToPass = ID;
+
+        FragmentManager manager = getFragmentManager();
+        addTo addToDialog = new addTo();
+        //viewProfileDialog.setID(idToPass);
+        addToDialog.show(manager,"MyDialog");
+
 
     }
 
@@ -100,6 +113,13 @@ public class viewProfileFragment extends DialogFragment {
                 individualChat.putExtra("visit_profile_id",visit_profile_id);
                 individualChat.putExtra("name",namePass);
                 startActivity(individualChat);
+            }
+        });
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog(view);
             }
         });
 

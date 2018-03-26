@@ -17,11 +17,11 @@
             android:id="@+id/coursetextview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
+            android:background="@color/colorPrimary5"
             android:text="Courses"
             android:textAlignment="center"
             android:textColor="@color/browser_actions_text_color"
-            android:textSize="14sp" />
+            android:textSize="24sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/coursesList"

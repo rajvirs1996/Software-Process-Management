@@ -158,6 +158,15 @@
                 android:clickable="true"
                 app:backgroundTint="@color/colorPrimaryDark"
                 app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/floatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/courseBackBtn"
+                android:layout_toStartOf="@+id/courseBackBtn"
+                android:clickable="true"
+                app:srcCompat="@android:drawable/ic_menu_edit" />
         </RelativeLayout>
 
     </LinearLayout>

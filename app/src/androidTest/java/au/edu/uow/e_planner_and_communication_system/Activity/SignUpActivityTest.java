@@ -155,6 +155,7 @@ public class SignUpActivityTest {
         ViewInteraction viewInteractionEmailText = onView(withId(R.id.emailSignUp)).check(matches(isDisplayed()));
         ViewInteraction viewInteractionSIDText = onView(withId(R.id.studentIDSignUp)).check(matches(isDisplayed()));
         ViewInteraction viewInteractionPasswordText = onView(withId(R.id.passwordSignUp)).check(matches(isDisplayed()));
+        ViewInteraction viewInteractionConfPasswordText = onView(withId(R.id.confPasswordText)).check(matches(isDisplayed()));
         ViewInteraction viewInteractionSignUpBtn = onView(withId(R.id.signUp)).check(matches(isDisplayed()));
 
         String name = "test" + randomDigit();

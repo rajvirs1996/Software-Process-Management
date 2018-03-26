@@ -66,8 +66,6 @@ public class CalendarFragment extends Fragment {
     private LinearLayout eventsList;
     private LinearLayout.LayoutParams eventsParam;
     private DatabaseReference dbref;
-    private FirebaseRecyclerOptions<allEvents> options;
-    private FirebaseRecyclerAdapter<allEvents, CalendarViewHolder> firebaseRecyclerAdapter;
     private FirebaseDatabase database;
     private FirebaseAuth firebaseAuth;
     private String curruser;
@@ -267,7 +265,6 @@ public class CalendarFragment extends Fragment {
 
             public void onClick(View view) {
 
-                System.out.println("Test");
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Add event: ");
@@ -331,52 +328,6 @@ public class CalendarFragment extends Fragment {
 
 
     }
-
-
-
-
-        public class CalendarViewHolder extends RecyclerView.ViewHolder {
-            View mView;
-
-            public CalendarViewHolder(View itemView) {
-                super(itemView);
-                mView = itemView;
-            }
-
-            public void setDate(String date) {
-                TextView date_TextView = (TextView) mView.findViewById(R.id.all_events_date);
-                date_TextView.setText(date);
-            }
-
-            public void setEvent_name(String event_name)
-            {
-                final Button name_ButtonView = mView.findViewById(R.id.Event_nameBtn);
-                name_ButtonView.setText(event_name);
-
-                name_ButtonView.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View view){
-                        //handle click
-                        Fragment newFragment = new EventDetailsFragment();
-                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-                        Bundle args = new Bundle();
-                        args.putString("eventowner",curruser);
-                        args.putString("eventname",name_ButtonView.getText().toString());
-                        newFragment.setArguments(args);
-
-                        transaction.replace(R.id.calendarFrame, newFragment);
-                        transaction.addToBackStack(null);
-
-                        transaction.commit();
-
-
-                    }
-                });
-
-
-            }
-        }
 
         public void setCalendar(CompactCalendarView calendar1){
         this.compactCalendar = calendar1;

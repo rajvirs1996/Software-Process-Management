@@ -100,7 +100,7 @@ public class CoursesFragment extends Fragment{
         //
         //TODO hide add button from students
         //
-        Button createCourseBtn = view.findViewById(R.id.createCourseBtn);
+        View createCourseBtn = view.findViewById(R.id.createCourseBtn);
 
         createCourseBtn.setOnClickListener(new View.OnClickListener() {
 

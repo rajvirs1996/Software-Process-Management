@@ -2,31 +2,23 @@ package au.edu.uow.e_planner_and_communication_system;
 
 import android.support.annotation.NonNull;
 import android.support.test.espresso.NoMatchingViewException;
-import android.support.test.espresso.PerformException;
-import android.support.test.espresso.UiController;
-import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.contrib.NavigationViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
-import android.support.test.espresso.util.HumanReadables;
-import android.support.test.espresso.util.TreeIterables;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.View;
 
-import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import au.edu.uow.e_planner_and_communication_system.Activity.LoginActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
@@ -34,7 +26,6 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.toPack
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.is;
@@ -76,6 +67,9 @@ public class LoginActivityTest {
                 .check(matches(isDisplayed()));
         viewInteractionPasswordText.perform(replaceText(password));
 
+        // Close softKeyboard
+        onView(withId(R.id.emailText)).perform(closeSoftKeyboard());
+
         // Click login in
         ViewInteraction viewInteractionLoginBtn = onView(
                 withId(R.id.loginBtn))
@@ -114,6 +108,9 @@ public class LoginActivityTest {
                 .check(matches(isDisplayed()));
         viewInteractionPasswordText.perform(replaceText(password));
 
+        // Close softKeyboard
+        onView(withId(R.id.emailText)).perform(closeSoftKeyboard());
+
         // Click login in
         ViewInteraction viewInteractionLoginBtn = onView(
                 withId(R.id.loginBtn))
@@ -148,6 +145,9 @@ public class LoginActivityTest {
                 withId(R.id.passwordText))
                 .check(matches(isDisplayed()));
         viewInteractionPasswordText.perform(replaceText(password));
+
+        // Close softKeyboard
+        onView(withId(R.id.emailText)).perform(closeSoftKeyboard());
 
         // Click login in
         ViewInteraction viewInteractionLoginBtn = onView(
@@ -189,6 +189,9 @@ public class LoginActivityTest {
                 withId(R.id.passwordText))
                 .check(matches(isDisplayed()));
 
+        // Close softKeyboard
+        onView(withId(R.id.emailText)).perform(closeSoftKeyboard());
+
         // Click login in
         ViewInteraction viewInteractionLoginBtn = onView(
                 withId(R.id.loginBtn))
@@ -223,6 +226,9 @@ public class LoginActivityTest {
                 .check(matches(isDisplayed()));
         viewInteractionPasswordText.perform(replaceText(password));
 
+        // Close softKeyboard
+        onView(withId(R.id.emailText)).perform(closeSoftKeyboard());
+
         // Click login in
         ViewInteraction viewInteractionLoginBtn = onView(
                 withId(R.id.loginBtn))
@@ -249,6 +255,6 @@ public class LoginActivityTest {
     @NonNull
     private String randomDigits() {
         Random random = new Random();
-        return String.valueOf(random.nextInt(99999999));
+        return String.valueOf(random.nextInt(99999));
     }
 }

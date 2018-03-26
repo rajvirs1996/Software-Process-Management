@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import au.edu.uow.e_planner_and_communication_system.R;
 
@@ -78,6 +79,7 @@ public class GroupListFragment extends Fragment {
                 };
         listofGroupsRecycler.setAdapter(firebaseRecyclerAdapter);
 
+        //add new group
         View addNewGroupBtn = view.findViewById(R.id.addNewGroupBtn);
         addNewGroupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,9 +101,11 @@ public class GroupListFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
 
                         //get user input
+
+                        String uid = UUID.randomUUID().toString();
                         Map<String,Object> addToDatabase = new HashMap<>();
                         addToDatabase.put("groupname", input.getText().toString() );
-                        dbref.updateChildren(addToDatabase);
+                        dbref.child(uid).updateChildren(addToDatabase);
 
 
                     }

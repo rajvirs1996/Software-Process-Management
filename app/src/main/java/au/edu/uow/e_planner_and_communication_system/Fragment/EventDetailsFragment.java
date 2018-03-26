@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +63,41 @@ public class EventDetailsFragment extends Fragment {
         final TextView event_date = view.findViewById(R.id.event_date);
         final EditText event_description = view.findViewById(R.id.event_description);
 
+        event_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+                builder.setTitle("Change date: ");
+
+                // Set up the input
+                final EditText input = new EditText(getContext());
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                builder.setView(input);
+
+                // Set up the buttons
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        event_date.setText(input.getText().toString());
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+
+
+        //Add event end
+            }
+        });
+
         //initialize the start
         reference = FirebaseDatabase.getInstance()
                 .getReference().child("Events").child(eventOwnerFromEvents);
@@ -99,6 +135,7 @@ public class EventDetailsFragment extends Fragment {
 
                 //put the needed data into hashtable
                 // .put (KEY, THE NEW VALUES)
+                updateDatabase.put("event_date", event_date.getText().toString());
                 updateDatabase.put("event_name",event_title.getText().toString());
                 updateDatabase.put("event_description", event_description
                 .getText().toString());

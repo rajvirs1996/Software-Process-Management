@@ -160,13 +160,22 @@
                 app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/floatingActionButton"
+                android:id="@+id/editCourseBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/courseBackBtn"
                 android:layout_toStartOf="@+id/courseBackBtn"
                 android:clickable="true"
                 app:srcCompat="@android:drawable/ic_menu_edit" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/deleteCourseBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toStartOf="@+id/editCourseBtn"
+                android:clickable="true"
+                app:srcCompat="@android:drawable/ic_menu_delete" />
         </RelativeLayout>
 
     </LinearLayout>

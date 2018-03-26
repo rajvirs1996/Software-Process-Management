@@ -4,18 +4,19 @@ package au.edu.uow.e_planner_and_communication_system.Fragment;
  * Created by Manish on 14/03/2018.
  */
 
-public class allUsers {
+public class allUsers
+{
 
     public String name;
     public String user_image;
     public String user_status;
     private String user_thumb_image;
 
-    public allUsers() {
+    public allUsers(){
 
     }
 
-    public allUsers(String name, String user_image, String user_status, String user_thumb_image) {
+    public allUsers(String name, String user_image, String user_status,String user_thumb_image) {
         this.name = name;
         this.user_image = user_image;
         this.user_status = user_status;
@@ -47,13 +48,8 @@ public class allUsers {
         this.user_status = user_status;
     }
 
-    public String getUser_thumb_image() {
-        return user_thumb_image;
-    }
-
-    public void setUser_thumb_image(String user_thumb_image) {
-        this.user_thumb_image = user_thumb_image;
-    }
+    public String getUser_thumb_image() { return  user_thumb_image;}
+    public void  setUser_thumb_image(String user_thumb_image){this.user_thumb_image = user_thumb_image;}
 
 
 }

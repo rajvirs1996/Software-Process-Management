@@ -5,7 +5,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "au.edu.uow.e_planner_and_communication_system"
-        minSdkVersion 21
+        minSdkVersion 23
         //noinspection
         resConfig "auto"
         //noinspection OldTargetApi
@@ -58,10 +58,6 @@ dependencies {
     // FirebaseUI for Cloud Storage
     implementation 'com.firebaseui:firebase-ui-storage:3.2.2'
 
-    // Glide
-    implementation 'com.github.bumptech.glide:glide:4.6.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
-
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation "com.android.support:customtabs:27.1.0"
     implementation "com.android.support:cardview-v7:27.1.0"
@@ -78,7 +74,6 @@ dependencies {
 
 }
 
-<<<<<<< HEAD
 
 
 
@@ -88,6 +83,4 @@ dependencies {
 
 
 
-=======
->>>>>>> 0d82f5258f885815cc16ffa03edb9f954e23ae2a
 apply plugin: 'com.google.gms.google-services'

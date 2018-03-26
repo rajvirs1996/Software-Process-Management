@@ -18,14 +18,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.google.firebase.database.ServerValue;
+
+import java.io.File;
 
 import au.edu.uow.e_planner_and_communication_system.Fragment.AccountManager;
 import au.edu.uow.e_planner_and_communication_system.Fragment.AllMessagesFragment;
@@ -43,7 +42,6 @@ import au.edu.uow.e_planner_and_communication_system.Fragment.NotificationFragme
 public class MainActivity extends AppCompatActivity {
     private FirebaseUser mUser;
     private DatabaseReference userDatabaseReference;
-    private StorageReference pictureStorageReference;
     // UI
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
@@ -53,11 +51,11 @@ public class MainActivity extends AppCompatActivity {
     // UserInfo
     // private SharedPreferences userInfoSetting;
     @SuppressWarnings("FieldCanBeLocal")
+    private static File userInfoFile;
     private String Username = null;
     private String Email = null;
     private String Password = null;
     boolean doubleBackToExitPressedOnce = false;
-    private String online_user_id;
 
     // Make sure to be using android.support.v7.app.ActionBarDrawerToggle version.
     // The android.support.v4.app.ActionBarDrawerToggle has been deprecated.
@@ -68,17 +66,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // String online_user_id;
-
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         Username = mUser.getDisplayName(); // TODO use email when username is null
         Email = mUser.getEmail();
-
-        if (mUser != null) {
-            online_user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id);
-            pictureStorageReference = FirebaseStorage.getInstance().getReference();
-        }
 
 //        Find UserInfo.xml in /data/data/au.edu.uow.prototype1
 //        userInfoFile = new File(getApplicationContext().getFilesDir().getParent(), "UserInfo.xml");
@@ -119,14 +109,17 @@ public class MainActivity extends AppCompatActivity {
         ImageView ivHeaderPhoto = headerLayout.findViewById(R.id.headerImage);
         TextView usernameTV = headerLayout.findViewById(R.id.headUsername);
         TextView emailTV = headerLayout.findViewById(R.id.headerUserEmail);
-        // TODO Use usericon from firebase db using glide
-        //Glide.with(ivHeaderPhoto.getContext()).load("https://www.w3schools.com/howto/img_fjords.jpg")
-        Glide.with(ivHeaderPhoto.getContext())
-                .load(pictureStorageReference + "/thumb_images/" + online_user_id)
-                .apply(new RequestOptions().circleCrop().placeholder(R.drawable.default_image_profile))
-                .into(ivHeaderPhoto);
-        usernameTV.setText(Username);
+        ivHeaderPhoto.setVisibility(View.INVISIBLE);
+        usernameTV.setText(Username); //TODO Use Username instead of Email after Firebase implementation
         emailTV.setText(Email);
+
+        if (mUser!=null){
+
+            String online_user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id);
+
+        }
+
     }
 
     //Useless stuff

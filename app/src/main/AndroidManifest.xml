@@ -32,18 +32,11 @@
             android:theme="@style/AppTheme"/>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-<<<<<<< HEAD
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".Activity.individualChatActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".Activity.addTo"></activity>
-=======
-            android:theme="@style/Base.Theme.AppCompat"/>
-        <activity
-            android:name=".Activity.individualChatActivity"
-            android:parentActivityName=".MainActivity"></activity>
->>>>>>> a19ea663c406dd51da8846b497dbea7b416d03d6
     </application>
 
 </manifest>

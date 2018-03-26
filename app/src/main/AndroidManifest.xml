@@ -36,7 +36,7 @@
         <activity
             android:name=".Activity.individualChatActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".Activity.addTo"></activity>
+
     </application>
 
 </manifest>

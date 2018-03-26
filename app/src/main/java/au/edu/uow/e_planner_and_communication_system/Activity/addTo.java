@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -17,10 +18,13 @@ import au.edu.uow.e_planner_and_communication_system.R;
 
 public class addTo extends DialogFragment {
 
-    TextView choice;
-    TextView groupOrCourse;
-    Spinner firstSpinner;
-    Spinner secondSpinner;
+    private TextView choice;
+    private TextView groupOrCourse;
+    private TextView titleText;
+    private Spinner firstSpinner;
+    private Spinner secondSpinner;
+    private Button confirmButton;
+    private Button cancelButton;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -36,8 +40,13 @@ public class addTo extends DialogFragment {
 
     choice = (TextView) view.findViewById(R.id.add_to_choice);
     groupOrCourse = (TextView) view.findViewById(R.id.add_to_towhere_text);
+    titleText = (TextView) view.findViewById(R.id.add_to_title_text);
     firstSpinner = (Spinner) view.findViewById(R.id.add_to_spinner_1);
     secondSpinner = (Spinner) view.findViewById(R.id.add_to_spinner_2);
+    confirmButton = (Button) view.findViewById(R.id.add_to_ok_button);
+    cancelButton = (Button) view.findViewById(R.id.add_to_cancel_button);
+
+
 
     String [] itemsSpinner1 = new String[] {"Please Select","Course","Group"};
     ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,itemsSpinner1);

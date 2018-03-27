@@ -14,6 +14,15 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import au.edu.uow.e_planner_and_communication_system.R;
 
 public class addTo extends DialogFragment {
@@ -77,6 +86,29 @@ public class addTo extends DialogFragment {
                     thirdSpinner.setVisibility(Spinner.INVISIBLE);
                     break;
                 case 1:
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
+                    reference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            final List<String> courseList = new ArrayList<String>();
+
+                            for (DataSnapshot courseSnapshot: dataSnapshot.getChildren())
+                            {
+                                String courseName = courseSnapshot.getValue().toString();
+
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
                     thirdSpinner.setVisibility(Spinner.INVISIBLE);
                     groupTextView.setVisibility(TextView.INVISIBLE);
 

@@ -3,6 +3,7 @@ package au.edu.uow.e_planner_and_communication_system.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -106,6 +107,7 @@ public class AccountManager extends Fragment {
                 getAccountManagerDisplaystatus.setText(status);
 
 
+
                 if (!image.equals("default_image")) {
                     //Load Profile Picture
                     Picasso.get().load(image).placeholder(R.drawable.default_image_profile).into(accountManagerDisplayImagae);
@@ -129,6 +131,7 @@ public class AccountManager extends Fragment {
         });
 
 
+
        DatabaseReference user_statusRef = FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id)
                .child("user_status");
        user_statusRef.addValueEventListener(new ValueEventListener() {
@@ -137,15 +140,24 @@ public class AccountManager extends Fragment {
 
                final String status = (String) dataSnapshot.getValue();
 
+               if(status.equals("Offline")){
+
+                   getAccountManagerDisplaystatus.setTextColor(Color.RED);
+
+               } else if(status.equals("Online"))
+               {
+                   getAccountManagerDisplaystatus.setTextColor(Color.GREEN);
+               }
+
                accountManagerChangeStatus.setOnClickListener(new View.OnClickListener() {
                    @Override
                    public void onClick(View view) {
                        if (status.equals("Online")){
                            FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id).child("user_status").setValue("Offline");
-
+                           getAccountManagerDisplaystatus.setTextColor(Color.RED);
                        } else if (status.equals("Offline")){
                            FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id).child("user_status").setValue("Online");
-                           
+                           getAccountManagerDisplaystatus.setTextColor(Color.GREEN);
                        }
                    }
                });
@@ -157,6 +169,8 @@ public class AccountManager extends Fragment {
 
            }
        });
+
+
 
 
     }

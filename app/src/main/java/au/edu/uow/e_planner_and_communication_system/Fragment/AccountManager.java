@@ -138,7 +138,7 @@ public class AccountManager extends Fragment {
            @Override
            public void onDataChange(DataSnapshot dataSnapshot) {
 
-               final String status = (String) dataSnapshot.getValue();
+                final String status = (String) dataSnapshot.getValue();
 
                if(status.equals("Offline")){
 
@@ -162,14 +162,17 @@ public class AccountManager extends Fragment {
                    }
                });
 
-           }
+                        }
+                    }
+                });
 
-           @Override
-           public void onCancelled(DatabaseError databaseError) {
+            }
 
-           }
-       });
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
 
 
 

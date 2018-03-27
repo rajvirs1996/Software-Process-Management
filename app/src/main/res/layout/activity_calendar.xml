@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:layout_editor_absoluteY="25dp">
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             tools:layout_editor_absoluteY="25dp">
 
     <FrameLayout
         android:id="@+id/calendarFrame"
@@ -27,21 +27,21 @@
                 <TextView
                     android:id="@+id/showdate"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
                 <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/compactcalendar_view"
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    app:compactCalendarBackgroundColor="#ffffff"
-                    app:compactCalendarCurrentDayBackgroundColor="#5dd15b"
-                    app:compactCalendarCurrentSelectedDayBackgroundColor="#6579be"
-                    app:compactCalendarMultiEventIndicatorColor="#c62525"
-                    app:compactCalendarTargetHeight="250dp"
-                    app:compactCalendarTextColor="#000000"
-                    app:compactCalendarTextSize="12sp" />
+                                                                             android:id="@+id/compactcalendar_view"
+                                                                             android:layout_width="fill_parent"
+                                                                             android:layout_height="match_parent"
+                                                                             android:paddingLeft="10dp"
+                                                                             android:paddingRight="10dp"
+                                                                             app:compactCalendarBackgroundColor="#ffffff"
+                                                                             app:compactCalendarCurrentDayBackgroundColor="#5dd15b"
+                                                                             app:compactCalendarCurrentSelectedDayBackgroundColor="#6579be"
+                                                                             app:compactCalendarMultiEventIndicatorColor="#c62525"
+                                                                             app:compactCalendarTargetHeight="250dp"
+                                                                             app:compactCalendarTextColor="#000000"
+                                                                             app:compactCalendarTextSize="12sp"/>
 
             </LinearLayout>
 
@@ -58,7 +58,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
                     android:clickable="true"
-                    android:src="@android:drawable/ic_input_add" />
+                    android:src="@android:drawable/ic_input_add"/>
 
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/calendarBackBtn"
@@ -68,7 +68,7 @@
                     android:layout_toStartOf="@+id/addEventBtn"
                     android:clickable="true"
                     android:visibility="visible"
-                    app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+                    app:srcCompat="@drawable/ic_arrow_back_black_24dp"/>
 
                 <ScrollView
                     android:layout_width="match_parent"
@@ -86,7 +86,7 @@
                             android:id="@+id/textView11"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Select a date to show events" />
+                            android:text="Select a date to show events"/>
                     </LinearLayout>
 
                 </ScrollView>

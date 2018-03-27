@@ -10,9 +10,10 @@ public class allEvents {
     public String event_description;
     public String event_name;
 
-    public allEvents(){}
+    public allEvents() {
+    }
 
-    public allEvents (String date, String event_description, String event_name){
+    public allEvents(String date, String event_description, String event_name) {
 
         this.date = date;
         this.event_description = event_description;

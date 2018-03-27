@@ -1,10 +1,9 @@
 package au.edu.uow.e_planner_and_communication_system.Activity;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +29,9 @@ public class removeFrom extends DialogFragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.activity_add_to,null);
+        return inflater.inflate(R.layout.activity_add_to, null);
 
     }
-
 
 
     @Override
@@ -60,16 +58,15 @@ public class removeFrom extends DialogFragment {
         titleText.setText("Remove:");
         titleText.setVisibility(TextView.VISIBLE);
 
-        String [] itemsSpinner1 = new String[] {"Please Select","Course","Group"};
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,itemsSpinner1);
+        String[] itemsSpinner1 = new String[]{"Please Select", "Course", "Group"};
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, itemsSpinner1);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_item);
         firstSpinner.setAdapter(adapter1);
         firstSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                switch (i)
-                {
+                switch (i) {
                     case 0:
                         choice.setVisibility(TextView.INVISIBLE);
                         groupTextView.setVisibility(TextView.INVISIBLE);

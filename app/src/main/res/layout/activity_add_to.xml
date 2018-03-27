@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="au.edu.uow.e_planner_and_communication_system.Activity.addTo">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="au.edu.uow.e_planner_and_communication_system.Activity.addTo">
 
     <TextView
         android:id="@+id/add_to_towhere_text"
@@ -14,14 +13,14 @@
         android:layout_below="@+id/add_to_title_text"
         android:layout_marginStart="42dp"
         android:layout_marginTop="34dp"
-        android:text="Choice:" />
+        android:text="Choice:"/>
 
     <Spinner
         android:id="@+id/add_to_spinner_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/add_to_towhere_text"
-        android:layout_toEndOf="@+id/add_to_towhere_text" />
+        android:layout_toEndOf="@+id/add_to_towhere_text"/>
 
     <TextView
         android:id="@+id/add_to_choice"
@@ -29,14 +28,14 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/add_to_towhere_text"
         android:layout_below="@+id/add_to_spinner_1"
-        android:text="Select:" />
+        android:text="Select:"/>
 
     <Spinner
         android:id="@+id/add_to_spinner_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/add_to_choice"
-        android:layout_toEndOf="@+id/add_to_choice" />
+        android:layout_toEndOf="@+id/add_to_choice"/>
 
     <Button
         android:id="@+id/add_to_ok_button"
@@ -46,7 +45,7 @@
         android:layout_below="@+id/add_to_third_Spinner"
         android:layout_marginTop="62dp"
         android:text="Confirm"
-        android:textSize="14sp" />
+        android:textSize="14sp"/>
 
     <Button
         android:id="@+id/add_to_cancel_button"
@@ -56,7 +55,7 @@
         android:layout_alignBottom="@+id/add_to_ok_button"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="37dp"
-        android:text="Cancel" />
+        android:text="Cancel"/>
 
     <TextView
         android:id="@+id/add_to_gorup_text"
@@ -64,14 +63,14 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/add_to_choice"
         android:layout_below="@+id/add_to_spinner_2"
-        android:text="Group" />
+        android:text="Group"/>
 
     <Spinner
         android:id="@+id/add_to_third_Spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/add_to_spinner_1"
-        android:layout_below="@+id/add_to_spinner_2" />
+        android:layout_below="@+id/add_to_spinner_2"/>
 
     <TextView
         android:id="@+id/add_to_title_text"
@@ -81,6 +80,6 @@
         android:layout_alignStart="@+id/add_to_towhere_text"
         android:layout_marginTop="78dp"
         android:textSize="30sp"
-        tools:text="Add:" />
+        tools:text="Add:"/>
 
 </RelativeLayout>

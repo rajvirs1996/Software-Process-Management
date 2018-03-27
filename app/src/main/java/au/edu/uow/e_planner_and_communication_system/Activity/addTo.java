@@ -1,10 +1,9 @@
 package au.edu.uow.e_planner_and_communication_system.Activity;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,36 +58,36 @@ public class addTo extends DialogFragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.activity_add_to,null);
+        return inflater.inflate(R.layout.activity_add_to, null);
 
     }
-
 
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-    choice = (TextView) view.findViewById(R.id.add_to_choice);
-    groupOrCourse = (TextView) view.findViewById(R.id.add_to_towhere_text);
-    titleText = (TextView) view.findViewById(R.id.add_to_title_text);
-    groupTextView = (TextView) view.findViewById(R.id.add_to_gorup_text);
+        choice = (TextView) view.findViewById(R.id.add_to_choice);
+        groupOrCourse = (TextView) view.findViewById(R.id.add_to_towhere_text);
+        titleText = (TextView) view.findViewById(R.id.add_to_title_text);
+        groupTextView = (TextView) view.findViewById(R.id.add_to_gorup_text);
 
-    firstSpinner = (Spinner) view.findViewById(R.id.add_to_spinner_1);
-    secondSpinner = (Spinner) view.findViewById(R.id.add_to_spinner_2);
-    thirdSpinner = (Spinner) view.findViewById(R.id.add_to_third_Spinner);
+        firstSpinner = (Spinner) view.findViewById(R.id.add_to_spinner_1);
+        secondSpinner = (Spinner) view.findViewById(R.id.add_to_spinner_2);
+        thirdSpinner = (Spinner) view.findViewById(R.id.add_to_third_Spinner);
 
-    confirmButton = (Button) view.findViewById(R.id.add_to_ok_button);
-    cancelButton = (Button) view.findViewById(R.id.add_to_cancel_button);
+        confirmButton = (Button) view.findViewById(R.id.add_to_ok_button);
+        cancelButton = (Button) view.findViewById(R.id.add_to_cancel_button);
 
-    choice.setVisibility(TextView.INVISIBLE);
-    groupTextView.setVisibility(TextView.INVISIBLE);
-    secondSpinner.setVisibility(Spinner.INVISIBLE);
-    thirdSpinner.setVisibility(Spinner.INVISIBLE);
+        choice.setVisibility(TextView.INVISIBLE);
+        groupTextView.setVisibility(TextView.INVISIBLE);
+        secondSpinner.setVisibility(Spinner.INVISIBLE);
+        thirdSpinner.setVisibility(Spinner.INVISIBLE);
 
-    titleText.setText("Add:");
-    titleText.setVisibility(TextView.VISIBLE);
+        titleText.setText("Add:");
+        titleText.setVisibility(TextView.VISIBLE);
 
+<<<<<<< HEAD
     String [] itemsSpinner1 = new String[] {"Please Select","Course","Group"};
     ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,itemsSpinner1);
     adapter1.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -97,6 +96,15 @@ public class addTo extends DialogFragment {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, final View view, int i, long l) {
             final View mView = view;
+=======
+        String[] itemsSpinner1 = new String[]{"Please Select", "Course", "Group"};
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, itemsSpinner1);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        firstSpinner.setAdapter(adapter1);
+        firstSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+>>>>>>> 8017459e8e0b4d2d8d943828bc8a7c132a6faa60
 
             switch (i)
             {
@@ -136,6 +144,7 @@ public class addTo extends DialogFragment {
                     thirdSpinner.setVisibility(Spinner.INVISIBLE);
                     groupTextView.setVisibility(TextView.INVISIBLE);
 
+<<<<<<< HEAD
                     choice.setText("Course");
                     choice.setVisibility(TextView.VISIBLE);
                     secondSpinner.setVisibility(Spinner.VISIBLE);
@@ -285,16 +294,33 @@ public class addTo extends DialogFragment {
                     });
 
                     break;
+=======
+                        choice.setText("Course");
+                        choice.setVisibility(TextView.VISIBLE);
+                        secondSpinner.setVisibility(Spinner.VISIBLE);
+                        break;
+                    case 2:
 
+                        choice.setText("Course");
+
+                        choice.setVisibility(TextView.VISIBLE);
+                        secondSpinner.setVisibility(Spinner.VISIBLE);
+
+                        groupTextView.setVisibility(TextView.VISIBLE);
+                        thirdSpinner.setVisibility(Spinner.VISIBLE);
+
+                        break;
+>>>>>>> 8017459e8e0b4d2d8d943828bc8a7c132a6faa60
+
+
+                }
 
             }
 
-        }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
-        @Override
-        public void onNothingSelected(AdapterView<?> adapterView) {
-
-        }
-    });
+            }
+        });
     }
 }

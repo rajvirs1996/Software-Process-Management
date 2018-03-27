@@ -3,7 +3,7 @@ package com.github.sundeepk.compactcalendarview;
 
 import android.animation.Animator;
 
-public abstract class AnimatorListener implements Animator.AnimatorListener{
+public abstract class AnimatorListener implements Animator.AnimatorListener {
 
     @Override
     public void onAnimationStart(Animator animation) {

@@ -2,11 +2,11 @@
 
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/eventdetailsFrame"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/eventdetailsFrame"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 android:layout_height="match_parent"
                 android:text="Edit Event"
                 android:textColor="@color/cardview_light_background"
-                android:textSize="24sp" />
+                android:textSize="24sp"/>
 
             <Button
                 android:id="@+id/saveEventDetailsBtn"
@@ -35,7 +35,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/colorPrimaryDark"
-                android:text="Save" />
+                android:text="Save"/>
 
             <Button
                 android:id="@+id/backEventDetailsBtn"
@@ -43,7 +43,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/colorPrimaryDark"
-                android:text="Back" />
+                android:text="Back"/>
 
         </LinearLayout>
 
@@ -54,7 +54,7 @@
             android:text="Event_Title"
             android:textAlignment="center"
             android:textColor="@color/browser_actions_text_color"
-            android:textSize="18sp" />
+            android:textSize="18sp"/>
 
         <EditText
             android:id="@+id/event_title"
@@ -62,12 +62,12 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name" />
+            android:text="Name"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Date" />
+            android:text="Date"/>
 
         <TextView
             android:id="@+id/event_date"
@@ -75,12 +75,12 @@
             android:layout_height="wrap_content"
             android:text="Event_date"
             android:textColor="@color/browser_actions_text_color"
-            android:textSize="18sp" />
+            android:textSize="18sp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Description" />
+            android:text="Description"/>
 
         <EditText
             android:id="@+id/event_description"
@@ -88,7 +88,7 @@
             android:layout_height="145dp"
             android:text="Event_description"
             android:textColor="@color/browser_actions_text_color"
-            android:textSize="18sp" />
+            android:textSize="18sp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -101,7 +101,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:clickable="true"
-                app:srcCompat="@android:drawable/ic_menu_delete" />
+                app:srcCompat="@android:drawable/ic_menu_delete"/>
 
         </RelativeLayout>
     </LinearLayout>

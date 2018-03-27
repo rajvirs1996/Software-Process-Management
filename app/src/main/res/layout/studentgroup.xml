@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/studentGroupFrame"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:id="@+id/studentGroupFrame"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,12 +17,12 @@
             android:text="Group_name"
             android:textAlignment="center"
             android:textColorLink="@color/browser_actions_text_color"
-            android:textSize="24sp" />
+            android:textSize="24sp"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/studentGroupListRecycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,7 +41,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/colorPrimary"
                     android:tint="@color/cardview_light_background"
-                    app:srcCompat="@drawable/ic_calendar" />
+                    app:srcCompat="@drawable/ic_calendar"/>
             </LinearLayout>
 
             <TextView
@@ -53,7 +53,7 @@
                 android:text="Group Calendar"
                 android:textColor="@color/browser_actions_bg_grey"
                 android:textColorLink="@color/browser_actions_bg_grey"
-                android:textSize="24sp" />
+                android:textSize="24sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -72,7 +72,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/colorPrimary2"
                     android:tint="@color/browser_actions_bg_grey"
-                    app:srcCompat="@drawable/ic_format_list_bulleted_black_24dp" />
+                    app:srcCompat="@drawable/ic_format_list_bulleted_black_24dp"/>
             </LinearLayout>
 
             <TextView
@@ -84,7 +84,7 @@
                 android:text="Group Events"
                 android:textColor="@color/browser_actions_bg_grey"
                 android:textColorLink="@color/browser_actions_bg_grey"
-                android:textSize="24sp" />
+                android:textSize="24sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -103,7 +103,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/colorPrimary4"
                     android:tint="@color/browser_actions_bg_grey"
-                    app:srcCompat="@drawable/ic_chat" />
+                    app:srcCompat="@drawable/ic_chat"/>
             </LinearLayout>
 
             <TextView
@@ -115,7 +115,7 @@
                 android:text="Group Chat"
                 android:textColor="@color/browser_actions_bg_grey"
                 android:textColorLink="@color/browser_actions_bg_grey"
-                android:textSize="24sp" />
+                android:textSize="24sp"/>
         </LinearLayout>
 
         <RelativeLayout
@@ -129,7 +129,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:clickable="true"
-                app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+                app:srcCompat="@drawable/ic_arrow_back_black_24dp"/>
         </RelativeLayout>
 
     </LinearLayout>

@@ -117,6 +117,50 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648315604725:android:31629e43dbc2b67c",
+        "android_client_info": {
+          "package_name": "au.edu.uow.e_planner_and_communication_system"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "648315604725-ce6vj9baq904vj961f8ucd73gqvst1hp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "au.edu.uow.e_planner_and_communication_system",
+            "certificate_hash": "28b301fe7482793ba7c6a0aa1ee0ff8ae674ea24"
+          }
+        },
+        {
+          "client_id": "648315604725-r8hl16ej55e8lrghsaijo2g3oek22dpt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzB_X6WC1sERot-nwkhUKtmsYSyvZNu9I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "648315604725-r8hl16ej55e8lrghsaijo2g3oek22dpt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"

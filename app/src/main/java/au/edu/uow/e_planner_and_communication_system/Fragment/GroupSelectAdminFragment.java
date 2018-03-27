@@ -4,8 +4,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,11 +46,11 @@ public class GroupSelectAdminFragment extends Fragment {
 
     private String coursename;
     private String groupname;
-    private List<String> studentList;
+    private RecyclerView group_ListStudents_admin;
+    private FirebaseRecyclerOptions<GroupStudentListModel> options;
+    private FirebaseRecyclerAdapter<GroupStudentListModel, GroupStudentListModelViewHolder> firebaseRecyclerAdapter;
     private DatabaseReference dbref;
     private FirebaseDatabase database;
-    private LinearLayout group_ListStudents_admin;
-    private LinearLayout.LayoutParams group_ListStudent_param;
     private Query query;
 
     @Override
@@ -65,18 +70,40 @@ public class GroupSelectAdminFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-        studentList = new ArrayList<String>();
 
-        group_ListStudents_admin = view.findViewById(R.id.group_ListStudents_admin);
-        group_ListStudent_param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
         TextView groupName = view.findViewById(R.id.group_name_admin);
         groupName.setText(groupname);
 
         //start database for queries
         database = FirebaseDatabase.getInstance();
         //set reference to Groups > COURSENAME
-        dbref = database.getReference().child("Groups").child(coursename);
+        dbref = database.getReference().child("GroupsLists").child(coursename);
 
+        group_ListStudents_admin = view.findViewById(R.id.group_ListStudents_admin);
+        group_ListStudents_admin.setHasFixedSize(true);
+        group_ListStudents_admin.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        options = new FirebaseRecyclerOptions.Builder<GroupStudentListModel>().
+                setQuery(dbref.orderByChild("isMemberOf").equalTo(groupname),GroupStudentListModel.class).build();
+
+        firebaseRecyclerAdapter =
+                new FirebaseRecyclerAdapter<GroupStudentListModel, GroupStudentListModelViewHolder>(options) {
+                    @Override
+                    protected void onBindViewHolder(@NonNull GroupStudentListModelViewHolder holder, int position, @NonNull GroupStudentListModel model) {
+                        holder.setFullname(model.getFullname());
+                        holder.setSid(model.getSid());
+                    }
+
+                    @NonNull
+                    @Override
+                    public GroupStudentListModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                        View view1 = LayoutInflater.from(parent.getContext())
+                                .inflate(R.layout.all_studentlist,parent,false);
+                        return new GroupStudentListModelViewHolder(view1);
+                    }
+                };
+        group_ListStudents_admin.setAdapter(firebaseRecyclerAdapter);
 
         Button group_Add_Student = view.findViewById(R.id.group_Add_Student);
         group_Add_Student.setText("Add Student");
@@ -118,32 +145,13 @@ public class GroupSelectAdminFragment extends Fragment {
 
                         //get user input
                         final Map<String,Object> addToDatabase = new HashMap<>();
-                        addToDatabase.put("SID", input1.getText().toString() );
+                        addToDatabase.put("sid", input1.getText().toString() );
                         addToDatabase.put("fullname", input2.getText().toString());
+                        addToDatabase.put("isMemberOf", groupname);
 
-                        //push to database
-                        query = dbref.orderByChild("groupname").equalTo(groupname);
-                        query.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                if (dataSnapshot.exists()){
-                                    for (DataSnapshot issue : dataSnapshot.getChildren()){
-
-                                        //update using snapshot
-                                        issue.getRef().updateChildren(addToDatabase);
-                                        Toast.makeText(getContext(), "Added new student into group!", Toast.LENGTH_LONG).show();
+                        dbref.child(input1.getText().toString()).updateChildren(addToDatabase);
 
 
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -180,24 +188,33 @@ public class GroupSelectAdminFragment extends Fragment {
 
 
                         //get user input
-                        query = dbref.orderByChild("SID").equalTo(input.getText().toString());
+                        query = dbref.orderByChild("isMemberOf").equalTo(groupname);
 
-                        query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        query.addChildEventListener(new ChildEventListener() {
                             @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
+                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                                 if (dataSnapshot.exists()){
-
-                                    for (DataSnapshot issue : dataSnapshot.getChildren()){
-                                        issue.getRef().removeValue();
-
-
+                                    GroupStudentListModel temp = dataSnapshot.getValue(GroupStudentListModel.class);
+                                    if (dataSnapshot.getKey().equals(input.getText().toString())){
+                                        dataSnapshot.getRef().removeValue();
                                     }
                                 }
-                                else {
 
-                                    Toast.makeText(getContext(), "Student is not in group!", Toast.LENGTH_LONG).show();
+                            }
 
-                                }
+                            @Override
+                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                            }
+
+                            @Override
+                            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                            }
+
+                            @Override
+                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
                             }
 
                             @Override
@@ -205,6 +222,8 @@ public class GroupSelectAdminFragment extends Fragment {
 
                             }
                         });
+
+
 
                     }
                 });
@@ -310,10 +329,40 @@ public class GroupSelectAdminFragment extends Fragment {
 
     }
 
-
-
-    public void setStudentList(List<String> studentList) {
-        this.studentList = studentList;
+    @Override
+    public void onStart() {
+        super.onStart();
+        firebaseRecyclerAdapter.startListening();
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        firebaseRecyclerAdapter.stopListening();
+    }
+
+
+    public class GroupStudentListModelViewHolder extends RecyclerView.ViewHolder {
+        View mView;
+
+        public GroupStudentListModelViewHolder(View itemView) {
+            super (itemView);
+            mView = itemView;
+        }
+
+        public void setSid (String sid) {
+            TextView sidTextView = mView.findViewById(R.id.sidTextView);
+            sidTextView.setText(sid);
+        }
+
+        public void setFullname (String fullname) {
+            TextView fullnameTextView = mView.findViewById(R.id.fullnameTextView);
+            fullnameTextView.setText(fullname);
+        }
+
+    }
+
+
+
 
 }

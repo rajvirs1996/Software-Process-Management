@@ -10,14 +10,10 @@ import java.util.List;
 public class GroupModel {
 
     public String groupname;
-    public String sid;
-    public String fullname;
 
     public GroupModel() {}
 
-    public GroupModel(String groupname, String sid, String fullname){
-        this.sid = sid;
-        this.fullname = fullname;
+    public GroupModel(String groupname){
         this.groupname = groupname;
     }
 
@@ -25,23 +21,11 @@ public class GroupModel {
         this.groupname = groupname;
     }
 
-    public void setSID(String sid){
-        this.sid = sid;
-    }
 
-    public void setFullname(String fullname){
-        this.fullname = fullname;
-    }
 
     public String getGroupname() {
         return groupname;
     }
 
-    public String getSid() {
-        return sid;
-    }
 
-    public String getFullname(){
-        return fullname;
-    }
 }

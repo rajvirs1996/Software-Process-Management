@@ -191,7 +191,7 @@ public class GroupEventDetailsFragment extends Fragment {
                 args.putString("groupkey", eventOwnerFromEvents);
                 newFragment.setArguments(args);
 
-                transaction.replace(R.id.eventsFrame, newFragment);
+                transaction.replace(R.id.eventdetailsFrame, newFragment);
                 transaction.addToBackStack(null);
 
                 transaction.commit();

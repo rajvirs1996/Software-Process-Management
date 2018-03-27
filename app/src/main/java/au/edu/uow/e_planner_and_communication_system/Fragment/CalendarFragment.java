@@ -88,6 +88,7 @@ public class CalendarFragment extends Fragment {
 
         View backBtn = view.findViewById(R.id.calendarBackBtn);
         backBtn.setEnabled(false);
+        backBtn.setVisibility(View.INVISIBLE);
         //set up the vars
         //current user
         curruser = firebaseAuth.getInstance().getCurrentUser().getUid();

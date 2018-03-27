@@ -56,6 +56,7 @@ public class EventsFragment extends Fragment {
 
         View eventsbackbtn = view.findViewById(R.id.eventsBackBtn);
         eventsbackbtn.setEnabled(false);
+        eventsbackbtn.setVisibility(View.INVISIBLE);
 
         //get current user
         curruser = firebaseAuth.getInstance().getCurrentUser().getUid();

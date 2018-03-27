@@ -37,10 +37,6 @@
                     android:icon="@drawable/ic_contacts"
                     android:title="@string/contacts"/>
                 <item
-                    android:id="@+id/personal_option"
-                    android:icon="@drawable/ic_build"
-                    android:title="@string/options"/>
-                <item
                     android:id="@+id/personal_logout"
                     android:icon="@drawable/ic_logout"
                     android:title="@string/logout"/>

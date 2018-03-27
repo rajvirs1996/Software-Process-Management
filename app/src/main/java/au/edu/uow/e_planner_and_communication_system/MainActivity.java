@@ -239,12 +239,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_third_fragment:
                 fragmentClass = EventsFragment.class;
                 break;
-
             //courses
             case R.id.nav_fourth_fragment:
                 fragmentClass = CoursesFragment.class;
                 break;
-
             //all messages
             case R.id.nav_fifth_fragment:
                 fragmentClass = AllMessagesFragment.class;
@@ -254,12 +252,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.personal_manager:
                 fragmentClass = AccountManager.class;
                 break;
-
             //contacts
             case R.id.personal_contact:
                 fragmentClass = ContactsFragment.class;
                 break;
-
             //logout
             case R.id.personal_logout:
                 fragmentClass = LogoutFragment.class;

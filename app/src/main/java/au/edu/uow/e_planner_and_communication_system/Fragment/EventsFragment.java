@@ -6,17 +6,21 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import au.edu.uow.e_planner_and_communication_system.R;
 
@@ -30,7 +34,7 @@ public class EventsFragment extends Fragment {
     private String curruser;
     private RecyclerView allEventsList;
     private DatabaseReference allDatabaseEventReference;
-    private FirebaseRecyclerOptions<allEvents> options;
+    private FirebaseRecyclerOptions<allEvents> options ;
     private FirebaseRecyclerAdapter<allEvents, allEventsViewHolder> firebaseRecyclerAdapter;
     private FirebaseDatabase mDatabse;
 
@@ -70,7 +74,8 @@ public class EventsFragment extends Fragment {
 
         //Options needed for the firebaserecyleadpater/list
         options = new FirebaseRecyclerOptions.Builder<allEvents>().
-                setQuery(allDatabaseEventReference, allEvents.class).build();
+                setQuery(allDatabaseEventReference,allEvents.class).build();
+
 
 
         firebaseRecyclerAdapter =
@@ -86,7 +91,7 @@ public class EventsFragment extends Fragment {
                     @Override
                     public allEventsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                         View view1 = LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.all_events_layout, parent, false);
+                                .inflate(R.layout.all_events_layout,parent,false);
                         return new allEventsViewHolder(view1);
                     }
                 };
@@ -114,30 +119,32 @@ public class EventsFragment extends Fragment {
 
         View mView;
 
-        public allEventsViewHolder(View itemView) {
+        public allEventsViewHolder(View itemView)
+        {
             super(itemView);
             mView = itemView;
         }
 
-        public void setDate(String date) {
+        public void setDate(String date){
             TextView date_TextView = (TextView) mView.findViewById(R.id.all_events_date);
             date_TextView.setText(date);
         }
 
-        public void setEvent_name(String event_name) {
+        public void setEvent_name(String event_name)
+        {
             final Button name_ButtonView = mView.findViewById(R.id.Event_nameBtn);
             name_ButtonView.setText(event_name);
 
-            name_ButtonView.setOnClickListener(new View.OnClickListener() {
+            name_ButtonView.setOnClickListener(new View.OnClickListener(){
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view){
                     //handle click
                     Fragment newFragment = new EventDetailsFragment();
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                     Bundle args = new Bundle();
-                    args.putString("eventowner", curruser);
-                    args.putString("eventname", name_ButtonView.getText().toString());
+                    args.putString("eventowner",curruser);
+                    args.putString("eventname",name_ButtonView.getText().toString());
                     newFragment.setArguments(args);
 
                     transaction.replace(R.id.eventsFrame, newFragment);

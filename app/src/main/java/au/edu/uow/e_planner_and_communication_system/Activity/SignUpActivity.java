@@ -124,10 +124,14 @@ public class SignUpActivity extends BasicActivity implements View.OnClickListene
                             finish();
 
                         } else {
+                            // TODO Better exception handling
                             // If sign up fails, display a message to the user.
                             Log.w(this.getClass().getSimpleName(), "createUserWithEmail:failure", task.getException());
                             Toast.makeText(SignUpActivity.this, "User already existed.",
                                     Toast.LENGTH_SHORT).show();
+
+                            // Hide loading dialog
+                            //hideProgressDialog();
                         }
                     }
 
@@ -208,6 +212,16 @@ public class SignUpActivity extends BasicActivity implements View.OnClickListene
                 valid = false;
             } else {
                 confPasswordSignUp.setError(null);
+            }
+
+            if (password.length() <= 5 && valid) {
+                passwordSignUp.setText("");
+                confPasswordSignUp.setText("");
+                passwordSignUp.requestFocus();
+                passwordSignUp.setError("Password length must be greater than 6 digit");
+                valid = false;
+            } else {
+                passwordSignUp.setError(null);
             }
         }
         //</editor-fold>

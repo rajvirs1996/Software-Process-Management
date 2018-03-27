@@ -1,34 +1,21 @@
 package au.edu.uow.e_planner_and_communication_system.Fragment;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Build;;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,14 +24,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -53,11 +38,13 @@ import java.util.UUID;
 
 import au.edu.uow.e_planner_and_communication_system.R;
 
+;
+
 /**
  * Created by Tony on 19/2/2018.
  */
 
-public class CalendarFragment extends Fragment {
+public class GroupCalendarFragment extends Fragment {
 
     //text to appear in button
     private String m_Text = "";
@@ -67,16 +54,25 @@ public class CalendarFragment extends Fragment {
     private LinearLayout.LayoutParams eventsParam;
     private DatabaseReference dbref;
     private FirebaseDatabase database;
-    private FirebaseAuth firebaseAuth;
-    private String curruser;
+    private String groupname;
+    private String coursename;
     private CompactCalendarView compactCalendar;
     private List<Event> listofEvents;
+    private String groupkey;
 
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if (container != null ) {
+            container.removeAllViews();
+        }
+
+        coursename = getArguments().getString("coursename");
+        groupname = getArguments().getString("groupname");
+
         // Inflate the layout for this fragment
 
         return inflater.inflate(R.layout.activity_calendar, container, false);
@@ -86,11 +82,10 @@ public class CalendarFragment extends Fragment {
 
     public void onViewCreated(final View view, Bundle savedInstanceState) {
 
-        View backBtn = view.findViewById(R.id.calendarBackBtn);
-        backBtn.setEnabled(false);
         //set up the vars
-        //current user
-        curruser = firebaseAuth.getInstance().getCurrentUser().getUid();
+
+
+
         eventsList = view.findViewById(R.id.eventsList);
         eventsParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         //grab relevant events
@@ -151,9 +146,34 @@ public class CalendarFragment extends Fragment {
         //end getting holidays
 
 
+        //get Group Key ID from database here
+
+        dbref = database.getReference().child("Groups").child(coursename);
+
+        dbref.orderByChild("groupname").equalTo(groupname);
+
+        dbref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                    groupkey = issue.getKey().toString();
+                    Toast.makeText(getContext(),issue.getKey().toString(),Toast.LENGTH_LONG);
+                    setGroupkey(groupkey);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //end grabbing group key
 
 
-        dbref = database.getReference().child("Events").child(curruser);
+
+        dbref = database.getReference().child("GroupEvents").child(groupkey);
         //populate calendar
         dbref.orderByChild("date").addChildEventListener(new ChildEventListener(){
 
@@ -221,11 +241,11 @@ public class CalendarFragment extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 //handle click
-                                Fragment newFragment = new EventDetailsFragment();
+                                Fragment newFragment = new GroupEventDetailsFragment();
                                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                                 Bundle args = new Bundle();
-                                args.putString("eventowner",curruser);
+                                args.putString("eventowner",groupkey);
                                 args.putString("eventname",tempname);
                                 newFragment.setArguments(args);
 
@@ -301,8 +321,10 @@ public class CalendarFragment extends Fragment {
                         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                         Bundle args = new Bundle();
-                        args.putString("eventowner",curruser);
+                        args.putString("groupkey",groupkey);
                         args.putString("eventname",m_Text.toString());
+                        args.putString("coursename",coursename);
+                        args.putString("groupname",groupname);
                         newFragment.setArguments(args);
 
                         transaction.replace(R.id.calendarFrame, newFragment);
@@ -328,6 +350,31 @@ public class CalendarFragment extends Fragment {
         });
         //Add event end
 
+        //back button
+        View backBtn = view.findViewById(R.id.calendarBackBtn);
+        backBtn.setEnabled(true);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Fragment newFragment = new GroupCalendarFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                Bundle args = new Bundle();
+                args.putString("coursename",coursename);
+                args.putString("groupname",groupname);
+                newFragment.setArguments(args);
+
+                transaction.replace(R.id.studentGroupFrame, newFragment);
+                transaction.addToBackStack(null);
+
+                transaction.commit();
+
+
+            }
+        });
+        //end back button
+
 
     }
 
@@ -335,6 +382,10 @@ public class CalendarFragment extends Fragment {
         this.compactCalendar = calendar1;
         }
 
+
+        public void setGroupkey(String groupkey) {
+            this.groupkey = groupkey;
+        }
     }
 
 

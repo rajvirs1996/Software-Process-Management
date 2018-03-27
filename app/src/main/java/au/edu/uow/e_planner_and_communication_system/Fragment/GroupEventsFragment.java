@@ -6,21 +6,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
 import au.edu.uow.e_planner_and_communication_system.R;
 
@@ -28,15 +24,17 @@ import au.edu.uow.e_planner_and_communication_system.R;
  * Created by Tony on 19/2/2018.
  */
 
-public class EventsFragment extends Fragment {
+public class GroupEventsFragment extends Fragment {
 
     private FirebaseAuth firebaseAuth;
-    private String curruser;
+    private String groupkey;
     private RecyclerView allEventsList;
     private DatabaseReference allDatabaseEventReference;
     private FirebaseRecyclerOptions<allEvents> options ;
     private FirebaseRecyclerAdapter<allEvents, allEventsViewHolder> firebaseRecyclerAdapter;
     private FirebaseDatabase mDatabse;
+    private String groupname;
+    private String coursename;
 
 
     @Override
@@ -47,6 +45,10 @@ public class EventsFragment extends Fragment {
             container.removeAllViews();
         }
 
+        groupkey = getArguments().getString("groupkey");
+        coursename = getArguments().getString("coursename");
+        groupname = getArguments().getString("groupname");
+
         return inflater.inflate(R.layout.events, container, false);
 
 
@@ -54,11 +56,7 @@ public class EventsFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-        View eventsbackbtn = view.findViewById(R.id.eventsBackBtn);
-        eventsbackbtn.setEnabled(false);
 
-        //get current user
-        curruser = firebaseAuth.getInstance().getCurrentUser().getUid();
 
 
         mDatabse = FirebaseDatabase.getInstance();
@@ -69,7 +67,7 @@ public class EventsFragment extends Fragment {
         //must set the layout
         allEventsList.setLayoutManager(new LinearLayoutManager(getContext()));
         //grab all the events
-        allDatabaseEventReference = mDatabse.getReference().child("Events").child(curruser);
+        allDatabaseEventReference = mDatabse.getReference().child("GroupEvents").child(groupkey);
 
         //Options needed for the firebaserecyleadpater/list
         options = new FirebaseRecyclerOptions.Builder<allEvents>().
@@ -97,6 +95,32 @@ public class EventsFragment extends Fragment {
 
 
         allEventsList.setAdapter(firebaseRecyclerAdapter);
+
+        //back button
+        View backBtn = view.findViewById(R.id.eventsBackBtn);
+        backBtn.setVisibility(View.VISIBLE);
+        backBtn.setClickable(true);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Fragment newFragment = new GroupCalendarFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                Bundle args = new Bundle();
+                args.putString("coursename",coursename);
+                args.putString("groupname",groupname);
+                newFragment.setArguments(args);
+
+                transaction.replace(R.id.eventsFrame, newFragment);
+                transaction.addToBackStack(null);
+
+                transaction.commit();
+
+
+            }
+        });
+        //end back button
 
 
     }
@@ -142,8 +166,10 @@ public class EventsFragment extends Fragment {
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                     Bundle args = new Bundle();
-                    args.putString("eventowner",curruser);
+                    args.putString("eventowner",groupkey);
                     args.putString("eventname",name_ButtonView.getText().toString());
+                    args.putString("coursename",coursename);
+                    args.putString("groupname",groupname);
                     newFragment.setArguments(args);
 
                     transaction.replace(R.id.eventsFrame, newFragment);

@@ -102,6 +102,30 @@ public class CourseSelectFragment extends Fragment {
             }
         });
 
+        //'Your Group'
+        final TextView yourGroupTextView = view.findViewById(R.id.yourGroupTextView);
+        yourGroupTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //handle click
+                Fragment newFragment = new studentGroupFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                Bundle args = new Bundle();
+                //TODO get user's current group
+                args.putString("groupname","Group 1");
+                args.putString("coursename", coursename);
+                newFragment.setArguments(args);
+
+                transaction.replace(R.id.course_SelectFrame, newFragment);
+                transaction.addToBackStack(null);
+
+                transaction.commit();
+
+
+            }
+        });
+
         //editcourse
         View courseEditBtn = view.findViewById(R.id.editCourseBtn);
         courseEditBtn.setOnClickListener(new View.OnClickListener() {

@@ -17,7 +17,7 @@
             tools:layout_editor_absoluteY="8dp">
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/youreventsTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/common_google_signin_btn_text_dark_normal_background"

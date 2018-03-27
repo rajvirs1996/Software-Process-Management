@@ -57,6 +57,8 @@ public class GroupEventsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
 
+        TextView yourEventsTextView = view.findViewById(R.id.youreventsTextView);
+        yourEventsTextView.setText("Group Events");
 
 
         mDatabse = FirebaseDatabase.getInstance();
@@ -160,11 +162,12 @@ public class GroupEventsFragment extends Fragment {
                 @Override
                 public void onClick(View view){
                     //handle click
-                    Fragment newFragment = new EventDetailsFragment();
+                    Fragment newFragment = new GroupEventDetailsFragment();
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                     Bundle args = new Bundle();
                     args.putString("eventowner",groupkey);
+                    args.putString("groupkey",groupkey);
                     args.putString("eventname",name_ButtonView.getText().toString());
                     args.putString("coursename",coursename);
                     args.putString("groupname",groupname);

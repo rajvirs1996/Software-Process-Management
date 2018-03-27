@@ -40,6 +40,7 @@ public class GroupEventDetailsFragment extends Fragment {
     private Map<String,Object> updateDatabase;
     private String coursename;
     private String groupname;
+    private String groupkey;
 
 
     @Override
@@ -52,8 +53,10 @@ public class GroupEventDetailsFragment extends Fragment {
         updateDatabase = new HashMap<String,Object>();
         eventNameFromEvents = getArguments().getString("eventname");
         eventOwnerFromEvents = getArguments().getString("eventowner");
-        groupname = getArguments().getString("coursename");
-        coursename = getArguments().getString("groupname");
+        groupname = getArguments().getString("groupname");
+        groupkey = getArguments().getString("groupkey");
+        coursename = getArguments().getString("coursename");
+
 
         //inflater
         return inflater.inflate(R.layout.eventdetails, container, false);
@@ -182,13 +185,13 @@ public class GroupEventDetailsFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment newFragment = new GroupCalendarFragment();
+                Fragment newFragment = new GroupEventsFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                 Bundle args = new Bundle();
                 args.putString("coursename",coursename);
                 args.putString("groupname",groupname);
-                args.putString("groupkey", eventOwnerFromEvents);
+                args.putString("groupkey",groupkey);
                 newFragment.setArguments(args);
 
                 transaction.replace(R.id.eventdetailsFrame, newFragment);

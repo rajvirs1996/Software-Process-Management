@@ -105,7 +105,12 @@ public class GroupListFragment extends Fragment {
                         String uid = UUID.randomUUID().toString();
                         Map<String,Object> addToDatabase = new HashMap<>();
                         addToDatabase.put("groupname", input.getText().toString() );
-                        dbref.child(uid).updateChildren(addToDatabase);
+                        dbref.child(uid).child("info").updateChildren(addToDatabase);
+
+                        DatabaseReference groupsDetailsRef = FirebaseDatabase.getInstance().getReference()
+                                .child("Group_Details").child(course).child(input.getText().toString());
+
+                        groupsDetailsRef.child("Group_UID").setValue(uid);
 
 
                     }

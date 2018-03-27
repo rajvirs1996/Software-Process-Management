@@ -13,7 +13,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +38,24 @@ public class addTo extends DialogFragment {
     private Spinner thirdSpinner;
     private Button confirmButton;
     private Button cancelButton;
+    private String selectedUserID;
+    private String name;
+    private String SID;
+    private String email;
+
+    public  addTo()
+    {
+
+    }
+
+    public void setSelectedUserID(String ID,String name, String SID , String email)
+    {
+        selectedUserID = ID;
+        this.name = name;
+        this.SID =SID;
+        this.email = email;
+
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -75,7 +95,8 @@ public class addTo extends DialogFragment {
     firstSpinner.setAdapter(adapter1);
     firstSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         @Override
-        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        public void onItemSelected(AdapterView<?> adapterView, final View view, int i, long l) {
+            final View mView = view;
 
             switch (i)
             {
@@ -86,9 +107,9 @@ public class addTo extends DialogFragment {
                     thirdSpinner.setVisibility(Spinner.INVISIBLE);
                     break;
                 case 1:
-                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+                    final DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-                    reference.addValueEventListener(new ValueEventListener() {
+                    reference.child("Courses").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -96,9 +117,12 @@ public class addTo extends DialogFragment {
 
                             for (DataSnapshot courseSnapshot: dataSnapshot.getChildren())
                             {
-                                String courseName = courseSnapshot.getValue().toString();
-
+                                String courseName = courseSnapshot.getKey();
+                                courseList.add(courseName);
                             }
+                            ArrayAdapter<String> courseAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, courseList);
+                            courseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                            secondSpinner.setAdapter(courseAdapter);
 
 
                         }
@@ -115,16 +139,150 @@ public class addTo extends DialogFragment {
                     choice.setText("Course");
                     choice.setVisibility(TextView.VISIBLE);
                     secondSpinner.setVisibility(Spinner.VISIBLE);
+
+
+                    confirmButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String course = secondSpinner.getSelectedItem().toString().trim();
+                            Toast.makeText(getActivity(),course,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(),selectedUserID,Toast.LENGTH_SHORT).show();
+                           DatabaseReference courseRefSet =  FirebaseDatabase.getInstance().getReference().child("Courses_Student_List").child(course).child(selectedUserID);
+
+                           courseRefSet.child("Name").setValue(name);
+                            courseRefSet.child("SID").setValue(SID);
+                            courseRefSet.child("Email").setValue(email);
+
+
+
+                            addTo.this.dismiss();
+                        }
+                    });
+
                     break;
                 case 2:
 
-                    choice.setText("Course");
-
                     choice.setVisibility(TextView.VISIBLE);
+                    groupTextView.setVisibility(TextView.INVISIBLE);
+
+                    secondSpinner.setVisibility(Spinner.INVISIBLE);
+                    thirdSpinner.setVisibility(Spinner.INVISIBLE);
+
+                    DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference();
+
+                    reference2.child("Courses").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            final List<String> courseList = new ArrayList<String>();
+
+                            for (DataSnapshot courseSnapshot : dataSnapshot.getChildren()) {
+                                String courseName = courseSnapshot.getKey();
+                                courseList.add(courseName);
+                            }
+                            ArrayAdapter<String> courseAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, courseList);
+                            courseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                            secondSpinner.setAdapter(courseAdapter);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
                     secondSpinner.setVisibility(Spinner.VISIBLE);
+
+
+
+
+                    secondSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            String selectedChanged = adapterView.getItemAtPosition(i).toString().trim();
+                            Toast.makeText(getActivity(),selectedChanged,Toast.LENGTH_SHORT).show();
+
+                            FirebaseDatabase.getInstance().getReference().child("Group_Details").child(selectedChanged).
+                                    addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            final List<String> groupNameList = new ArrayList<String>();
+
+
+                                            for (DataSnapshot groupSnapShot : dataSnapshot.getChildren())
+                                            {
+                                                String groupName = groupSnapShot.getKey();
+                                                //Toast.makeText(getActivity(),groupName,Toast.LENGTH_SHORT).show();
+                                                groupNameList.add(groupName);
+                                            }
+                                            ArrayAdapter groupAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,groupNameList);
+                                            groupAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                                            thirdSpinner.setAdapter(groupAdapter);
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
 
                     groupTextView.setVisibility(TextView.VISIBLE);
                     thirdSpinner.setVisibility(Spinner.VISIBLE);
+
+
+
+                    confirmButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            final String course = secondSpinner.getSelectedItem().toString().trim();
+                            String group = thirdSpinner.getSelectedItem().toString().trim();
+
+                            final DatabaseReference groupRef1 = FirebaseDatabase.getInstance().getReference()
+                                    .child("Group_Details").child(course).child(group).child("Group_UID");
+
+                            groupRef1.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    String uid = dataSnapshot.getValue().toString();
+                                    Toast.makeText(getActivity(),uid,Toast.LENGTH_SHORT).show();
+                                    final DatabaseReference groupRef2 = FirebaseDatabase.getInstance().getReference().child("Groups")
+                                           .child(course).child(uid);
+                                    groupRef2.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                            groupRef2.child("Group__List").child(selectedUserID).child("name").setValue(name);
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+
+
+                            addTo.this.dismiss();
+                        }
+                    });
 
                     break;
 

@@ -36,6 +36,8 @@ public class viewProfileFragment extends DialogFragment {
     private CircleImageView profilePic;
     private String ID;
     private String namePass;
+    private String SIDPass;
+    private String emailPass;
 
     private DatabaseReference usersReference;
 
@@ -59,6 +61,7 @@ public class viewProfileFragment extends DialogFragment {
 
         FragmentManager manager = getFragmentManager();
         addTo addToDialog = new addTo();
+        addToDialog.setSelectedUserID(ID,namePass,SIDPass,emailPass);
         //viewProfileDialog.setID(idToPass);
         addToDialog.show(manager,"MyDialog");
 
@@ -71,6 +74,7 @@ public class viewProfileFragment extends DialogFragment {
 
         FragmentManager manager = getFragmentManager();
         removeFrom  removeFromDialog = new removeFrom();
+        removeFromDialog.setSelectedUserID(ID,namePass,SIDPass,emailPass);
         //viewProfileDialog.setID(idToPass);
         removeFromDialog.show(manager,"MyDialog");
 
@@ -168,7 +172,9 @@ public class viewProfileFragment extends DialogFragment {
                 String sName = dataSnapshot.child("name").getValue().toString();
                 namePass=sName;
                 String sid = dataSnapshot.child("SID").getValue().toString();
+                SIDPass = sid;
                 String sEmail = dataSnapshot.child("login_email").getValue().toString();
+                emailPass = sEmail;
                 String sImage = dataSnapshot.child("user_image").getValue().toString();
 
                 name.setText(sName);

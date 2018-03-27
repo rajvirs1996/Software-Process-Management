@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -61,12 +60,11 @@ public class GroupCalendarFragment extends Fragment {
     private String groupkey;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        if (container != null ) {
+        if (container != null) {
             container.removeAllViews();
         }
 
@@ -83,7 +81,6 @@ public class GroupCalendarFragment extends Fragment {
     public void onViewCreated(final View view, Bundle savedInstanceState) {
 
         //set up the vars
-
 
 
         eventsList = view.findViewById(R.id.eventsList);
@@ -106,7 +103,7 @@ public class GroupCalendarFragment extends Fragment {
         //get holidays//
         dbref = database.getReference().child("Events").child("HongKong2018");
 
-        dbref.orderByChild("date").addChildEventListener(new ChildEventListener(){
+        dbref.orderByChild("date").addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -158,7 +155,7 @@ public class GroupCalendarFragment extends Fragment {
 
                 for (DataSnapshot issue : dataSnapshot.getChildren()) {
                     groupkey = issue.getKey().toString();
-                    Toast.makeText(getContext(),issue.getKey().toString(),Toast.LENGTH_LONG);
+                    Toast.makeText(getContext(), issue.getKey().toString(), Toast.LENGTH_LONG);
                     setGroupkey(groupkey);
                 }
             }
@@ -172,23 +169,22 @@ public class GroupCalendarFragment extends Fragment {
         //end grabbing group key
 
 
-
         dbref = database.getReference().child("GroupEvents").child(groupkey);
         //populate calendar
-        dbref.orderByChild("date").addChildEventListener(new ChildEventListener(){
+        dbref.orderByChild("date").addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 final allEvents allev = dataSnapshot.getValue(allEvents.class);
                 try {
                     long epoch = df.parse(allev.getDate()).getTime();
-                Event ev1 = new Event(Color.RED, epoch, allev.getEvent_name());
-                compactCalendar.addEvent(ev1);
-                setCalendar(compactCalendar);
+                    Event ev1 = new Event(Color.RED, epoch, allev.getEvent_name());
+                    compactCalendar.addEvent(ev1);
+                    setCalendar(compactCalendar);
 
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -245,8 +241,8 @@ public class GroupCalendarFragment extends Fragment {
                                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                                 Bundle args = new Bundle();
-                                args.putString("eventowner",groupkey);
-                                args.putString("eventname",tempname);
+                                args.putString("eventowner", groupkey);
+                                args.putString("eventname", tempname);
                                 newFragment.setArguments(args);
 
                                 transaction.replace(R.id.calendarFrame, newFragment);
@@ -258,7 +254,7 @@ public class GroupCalendarFragment extends Fragment {
                             }
 
                         });
-                        eventsList.addView(newBtn,eventsParam);
+                        eventsList.addView(newBtn, eventsParam);
 
                     }
                 } catch (ParseException e) {
@@ -268,14 +264,12 @@ public class GroupCalendarFragment extends Fragment {
 
                 //end fetching today's list
 
-        }
+            }
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 showdate.setText(new SimpleDateFormat("MM-yyyy").format(firstDayOfNewMonth));
             }
-
-
 
 
         });
@@ -308,10 +302,10 @@ public class GroupCalendarFragment extends Fragment {
                         String uid = UUID.randomUUID().toString();
 
                         //get user input
-                        Map<String,Object> addToDatabase = new HashMap<>();
-                        addToDatabase.put("date",dateVar.toString() );
-                        addToDatabase.put("event_name",m_Text);
-                        addToDatabase.put("event_description","");
+                        Map<String, Object> addToDatabase = new HashMap<>();
+                        addToDatabase.put("date", dateVar.toString());
+                        addToDatabase.put("event_name", m_Text);
+                        addToDatabase.put("event_description", "");
 
                         //push to database
                         dbref.child(uid).updateChildren(addToDatabase);
@@ -321,10 +315,10 @@ public class GroupCalendarFragment extends Fragment {
                         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                         Bundle args = new Bundle();
-                        args.putString("groupkey",groupkey);
-                        args.putString("eventname",m_Text.toString());
-                        args.putString("coursename",coursename);
-                        args.putString("groupname",groupname);
+                        args.putString("groupkey", groupkey);
+                        args.putString("eventname", m_Text.toString());
+                        args.putString("coursename", coursename);
+                        args.putString("groupname", groupname);
                         newFragment.setArguments(args);
 
                         transaction.replace(R.id.calendarFrame, newFragment);
@@ -361,8 +355,8 @@ public class GroupCalendarFragment extends Fragment {
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                 Bundle args = new Bundle();
-                args.putString("coursename",coursename);
-                args.putString("groupname",groupname);
+                args.putString("coursename", coursename);
+                args.putString("groupname", groupname);
                 newFragment.setArguments(args);
 
                 transaction.replace(R.id.studentGroupFrame, newFragment);
@@ -378,15 +372,15 @@ public class GroupCalendarFragment extends Fragment {
 
     }
 
-        public void setCalendar(CompactCalendarView calendar1){
+    public void setCalendar(CompactCalendarView calendar1) {
         this.compactCalendar = calendar1;
-        }
-
-
-        public void setGroupkey(String groupkey) {
-            this.groupkey = groupkey;
-        }
     }
+
+
+    public void setGroupkey(String groupkey) {
+        this.groupkey = groupkey;
+    }
+}
 
 
 

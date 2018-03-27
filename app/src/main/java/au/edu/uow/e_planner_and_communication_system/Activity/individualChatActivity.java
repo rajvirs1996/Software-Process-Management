@@ -1,9 +1,9 @@
 package au.edu.uow.e_planner_and_communication_system.Activity;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -70,7 +69,7 @@ public class individualChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_individual_chat);
 
         //Passed in
-        ID_user =getIntent().getExtras().get("visit_profile_id").toString();
+        ID_user = getIntent().getExtras().get("visit_profile_id").toString();
         name_of_user = getIntent().getExtras().get("name").toString();
 
         rootRef = FirebaseDatabase.getInstance().getReference();
@@ -86,7 +85,7 @@ public class individualChatActivity extends AppCompatActivity {
 
         LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View action_bar_view = layoutInflater.inflate(R.layout.chat_custom_bar,null);
+        View action_bar_view = layoutInflater.inflate(R.layout.chat_custom_bar, null);
         //Connect Action bar to custom view
         actionBar.setCustomView(action_bar_view);
 
@@ -118,18 +117,17 @@ public class individualChatActivity extends AppCompatActivity {
         FetchMessages();
 
         //Used for last seen
-rootRef.child("Users").child(ID_user).addValueEventListener(new ValueEventListener() {
-    @Override
-    public void onDataChange(DataSnapshot dataSnapshot) {
+        rootRef.child("Users").child(ID_user).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-    }
+            }
 
-    @Override
-    public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-    }
-});
-
+            }
+        });
 
 
         sendMessgaeButton.setOnClickListener(new View.OnClickListener() {
@@ -143,13 +141,11 @@ rootRef.child("Users").child(ID_user).addValueEventListener(new ValueEventListen
 
     }
 
-    private void FetchMessages()
-    {
+    private void FetchMessages() {
         rootRef.child("Messages").child(messageSenderID).child(ID_user)
                 .addChildEventListener(new ChildEventListener() {
                     @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s)
-                    {
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                         Messages massages = dataSnapshot.getValue(Messages.class);
 
@@ -185,14 +181,14 @@ rootRef.child("Users").child(ID_user).addValueEventListener(new ValueEventListen
 
         //Input Validation
         //Empty First
-        if(TextUtils.isEmpty(messaeText)){
+        if (TextUtils.isEmpty(messaeText)) {
             //Empty message
         }
         //If not empty,
-        else{
+        else {
 
             String messenger_sender_ref = "Messages/" + messageSenderID + "/" + ID_user;
-            String messenger_receiver_ref =  "Messages/" + ID_user +  "/" + messageSenderID;
+            String messenger_receiver_ref = "Messages/" + ID_user + "/" + messageSenderID;
 
             //Create unique message key
             //---------------------------------------------------------------------------------------//
@@ -212,12 +208,12 @@ rootRef.child("Users").child(ID_user).addValueEventListener(new ValueEventListen
             //---------------------------------------------------------------------------------------//
 
             //---------------------------------------------------------------------------------------//
-            messageTextBody.put("message",messaeText);
-            messageTextBody.put("seen",false);
-            messageTextBody.put("type","text");
+            messageTextBody.put("message", messaeText);
+            messageTextBody.put("seen", false);
+            messageTextBody.put("type", "text");
             messageTextBody.put("time", ServerValue.TIMESTAMP);
-            messageTextBody.put("from",messageSenderID);
-            messageTextBody.put("to",ID_user);
+            messageTextBody.put("from", messageSenderID);
+            messageTextBody.put("to", ID_user);
 
 
             DatabaseReference usersConnected1 = FirebaseDatabase.getInstance().getReference().
@@ -246,16 +242,14 @@ rootRef.child("Users").child(ID_user).addValueEventListener(new ValueEventListen
             Map messageBodyDetails = new HashMap();
             messageBodyDetails.put(messenger_sender_ref + "/" + message_push_id, messageTextBody);
             //Receiver
-            messageBodyDetails.put(messenger_receiver_ref+"/"+message_push_id,messageTextBody);
+            messageBodyDetails.put(messenger_receiver_ref + "/" + message_push_id, messageTextBody);
 
             //Store into database
             rootRef.updateChildren(messageBodyDetails, new DatabaseReference.CompletionListener() {
                 @Override
-                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
-                {
-                    if(databaseError!=null)
-                    {
-                        Log.d("Chat_Log",databaseError.getMessage().toString());
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                    if (databaseError != null) {
+                        Log.d("Chat_Log", databaseError.getMessage().toString());
                     }
 
                     //Clear

@@ -129,34 +129,34 @@ public class AccountManager extends Fragment {
         });
 
 
-       DatabaseReference user_statusRef = FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id)
-               .child("user_status");
-       user_statusRef.addValueEventListener(new ValueEventListener() {
-           @Override
-           public void onDataChange(DataSnapshot dataSnapshot) {
+        DatabaseReference user_statusRef = FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id)
+                .child("user_status");
+        user_statusRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-               final String status = (String) dataSnapshot.getValue();
+                final String status = (String) dataSnapshot.getValue();
 
-               accountManagerChangeStatus.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View view) {
-                       if (status.equals("Online")){
-                           FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id).child("user_status").setValue("Offline");
+                accountManagerChangeStatus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (status.equals("Online")) {
+                            FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id).child("user_status").setValue("Offline");
 
-                       } else if (status.equals("Offline")){
-                           FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id).child("user_status").setValue("Online");
-                           
-                       }
-                   }
-               });
+                        } else if (status.equals("Offline")) {
+                            FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id).child("user_status").setValue("Online");
 
-           }
+                        }
+                    }
+                });
 
-           @Override
-           public void onCancelled(DatabaseError databaseError) {
+            }
 
-           }
-       });
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
     }

@@ -1,8 +1,5 @@
 package au.edu.uow.e_planner_and_communication_system.Fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by OWNE on 3/26/2018.
  */
@@ -11,16 +8,16 @@ public class GroupModel {
 
     public String groupname;
 
-    public GroupModel() {}
+    public GroupModel() {
+    }
 
-    public GroupModel(String groupname){
+    public GroupModel(String groupname) {
         this.groupname = groupname;
     }
 
-    public void setGroupname(String groupname){
+    public void setGroupname(String groupname) {
         this.groupname = groupname;
     }
-
 
 
     public String getGroupname() {

@@ -1,34 +1,20 @@
 package au.edu.uow.e_planner_and_communication_system.Fragment;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Build;;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,14 +23,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +35,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import au.edu.uow.e_planner_and_communication_system.R;
+
+;
 
 /**
  * Created by Tony on 19/2/2018.
@@ -71,7 +56,6 @@ public class CalendarFragment extends Fragment {
     private String curruser;
     private CompactCalendarView compactCalendar;
     private List<Event> listofEvents;
-
 
 
     @Override
@@ -111,7 +95,7 @@ public class CalendarFragment extends Fragment {
         //get holidays//
         dbref = database.getReference().child("Events").child("HongKong2018");
 
-        dbref.orderByChild("date").addChildEventListener(new ChildEventListener(){
+        dbref.orderByChild("date").addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -151,24 +135,22 @@ public class CalendarFragment extends Fragment {
         //end getting holidays
 
 
-
-
         dbref = database.getReference().child("Events").child(curruser);
         //populate calendar
-        dbref.orderByChild("date").addChildEventListener(new ChildEventListener(){
+        dbref.orderByChild("date").addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 final allEvents allev = dataSnapshot.getValue(allEvents.class);
                 try {
                     long epoch = df.parse(allev.getDate()).getTime();
-                Event ev1 = new Event(Color.RED, epoch, allev.getEvent_name());
-                compactCalendar.addEvent(ev1);
-                setCalendar(compactCalendar);
+                    Event ev1 = new Event(Color.RED, epoch, allev.getEvent_name());
+                    compactCalendar.addEvent(ev1);
+                    setCalendar(compactCalendar);
 
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -225,8 +207,8 @@ public class CalendarFragment extends Fragment {
                                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                                 Bundle args = new Bundle();
-                                args.putString("eventowner",curruser);
-                                args.putString("eventname",tempname);
+                                args.putString("eventowner", curruser);
+                                args.putString("eventname", tempname);
                                 newFragment.setArguments(args);
 
                                 transaction.replace(R.id.calendarFrame, newFragment);
@@ -238,7 +220,7 @@ public class CalendarFragment extends Fragment {
                             }
 
                         });
-                        eventsList.addView(newBtn,eventsParam);
+                        eventsList.addView(newBtn, eventsParam);
 
                     }
                 } catch (ParseException e) {
@@ -248,14 +230,12 @@ public class CalendarFragment extends Fragment {
 
                 //end fetching today's list
 
-        }
+            }
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 showdate.setText(new SimpleDateFormat("MM-yyyy").format(firstDayOfNewMonth));
             }
-
-
 
 
         });
@@ -288,10 +268,10 @@ public class CalendarFragment extends Fragment {
                         String uid = UUID.randomUUID().toString();
 
                         //get user input
-                        Map<String,Object> addToDatabase = new HashMap<>();
-                        addToDatabase.put("date",dateVar.toString() );
-                        addToDatabase.put("event_name",m_Text);
-                        addToDatabase.put("event_description","");
+                        Map<String, Object> addToDatabase = new HashMap<>();
+                        addToDatabase.put("date", dateVar.toString());
+                        addToDatabase.put("event_name", m_Text);
+                        addToDatabase.put("event_description", "");
 
                         //push to database
                         dbref.child(uid).updateChildren(addToDatabase);
@@ -301,8 +281,8 @@ public class CalendarFragment extends Fragment {
                         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                         Bundle args = new Bundle();
-                        args.putString("eventowner",curruser);
-                        args.putString("eventname",m_Text.toString());
+                        args.putString("eventowner", curruser);
+                        args.putString("eventname", m_Text.toString());
                         newFragment.setArguments(args);
 
                         transaction.replace(R.id.calendarFrame, newFragment);
@@ -331,11 +311,11 @@ public class CalendarFragment extends Fragment {
 
     }
 
-        public void setCalendar(CompactCalendarView calendar1){
+    public void setCalendar(CompactCalendarView calendar1) {
         this.compactCalendar = calendar1;
-        }
-
     }
+
+}
 
 
 

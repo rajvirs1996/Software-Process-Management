@@ -11,19 +11,19 @@
         <item
             android:id="@+id/nav_second_fragment"
             android:icon="@drawable/ic_calendar"
-            android:title="@string/calendar" />
+            android:title="@string/calendar"/>
         <item
             android:id="@+id/nav_third_fragment"
             android:icon="@drawable/ic_events_viewer"
-            android:title="@string/events_viewer" />
+            android:title="@string/events_viewer"/>
         <item
             android:id="@+id/nav_fourth_fragment"
             android:icon="@drawable/ic_courses"
-            android:title="@string/courses" />
+            android:title="@string/courses"/>
         <item
             android:id="@+id/nav_fifth_fragment"
             android:icon="@drawable/ic_chat"
-            android:title="All Messages" />
+            android:title="All Messages"/>
     </group>
     <item android:title="@string/personal">
         <menu>
@@ -31,19 +31,19 @@
                 <item
                     android:id="@+id/personal_manager"
                     android:icon="@drawable/ic_menu_manage"
-                    android:title="@string/manage" />
+                    android:title="@string/manage"/>
                 <item
                     android:id="@+id/personal_contact"
                     android:icon="@drawable/ic_contacts"
-                    android:title="@string/contacts" />
+                    android:title="@string/contacts"/>
                 <item
                     android:id="@+id/personal_option"
                     android:icon="@drawable/ic_build"
-                    android:title="@string/options" />
+                    android:title="@string/options"/>
                 <item
                     android:id="@+id/personal_logout"
                     android:icon="@drawable/ic_logout"
-                    android:title="@string/logout" />
+                    android:title="@string/logout"/>
             </group>
         </menu>
     </item>

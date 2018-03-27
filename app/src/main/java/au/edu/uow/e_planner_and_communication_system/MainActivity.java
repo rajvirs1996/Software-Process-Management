@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         //Glide.with(ivHeaderPhoto.getContext()).load("https://www.w3schools.com/howto/img_fjords.jpg")
         Glide.with(ivHeaderPhoto.getContext())
                 .load(pictureStorageReference + "/thumb_images/" + online_user_id)
-                .apply(new RequestOptions().circleCrop().placeholder(R.drawable.default_image_profile))
+                //.apply(new RequestOptions().placeholder(R.drawable.default_image_profile))
                 .into(ivHeaderPhoto);
         usernameTV.setText(Username);
         emailTV.setText(Email);

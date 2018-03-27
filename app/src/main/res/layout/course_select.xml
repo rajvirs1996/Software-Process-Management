@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/course_SelectFrame"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -21,7 +22,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="233dp"
+            android:layout_height="286dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:orientation="horizontal"
@@ -43,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@color/colorPrimary2"
-                    android:tint="@color/colorPrimary"
+                    android:tint="@color/browser_actions_bg_grey"
                     app:srcCompat="@drawable/ic_courses" />
 
                 <LinearLayout
@@ -55,7 +56,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@color/colorPrimary3"
-                    android:tint="@color/colorPrimary"
+                    android:tint="@color/browser_actions_bg_grey"
                     app:srcCompat="@drawable/ic_group" />
 
                 <LinearLayout
@@ -68,8 +69,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@color/colorPrimary4"
-                    android:tint="@color/colorPrimary"
+                    android:tint="@color/browser_actions_bg_grey"
                     app:srcCompat="@drawable/ic_chat" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:orientation="vertical"></LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/colorPrimary2"
+                    android:tint="@color/browser_actions_bg_grey"
+                    app:srcCompat="@drawable/ic_format_list_bulleted_black_24dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -78,12 +92,12 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/courseOverviewText"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@color/colorPrimary2"
                     android:text="Course Overview"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/browser_actions_bg_grey"
                     android:textSize="24sp" />
 
                 <LinearLayout
@@ -92,11 +106,12 @@
                     android:orientation="vertical"></LinearLayout>
 
                 <TextView
+                    android:id="@+id/yourGroupText"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@color/colorPrimary3"
-                    android:text="Groups"
-                    android:textColor="@color/colorPrimary"
+                    android:text="Your Group"
+                    android:textColor="@color/browser_actions_bg_grey"
                     android:textSize="24sp" />
 
                 <LinearLayout
@@ -105,13 +120,28 @@
                     android:orientation="vertical"></LinearLayout>
 
                 <TextView
-                    android:id="@+id/textView11"
+                    android:id="@+id/groupChatText"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@color/colorPrimary4"
-                    android:text="Chat"
-                    android:textColor="@color/colorPrimary"
+                    android:text="Group Chat"
+                    android:textColor="@color/browser_actions_bg_grey"
                     android:textSize="24sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:orientation="vertical"></LinearLayout>
+
+                <TextView
+                    android:id="@+id/listofGroupsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/colorPrimary2"
+                    android:text="List of Groups"
+                    android:textColor="@color/browser_actions_bg_grey"
+                    android:textSize="24sp" />
+
             </LinearLayout>
         </LinearLayout>
 
@@ -128,6 +158,25 @@
                 android:clickable="true"
                 app:backgroundTint="@color/colorPrimaryDark"
                 app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/editCourseBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/courseBackBtn"
+                android:layout_toStartOf="@+id/courseBackBtn"
+                android:clickable="true"
+                app:srcCompat="@android:drawable/ic_menu_edit" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/deleteCourseBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toStartOf="@+id/editCourseBtn"
+                android:clickable="true"
+                app:srcCompat="@android:drawable/ic_menu_delete" />
         </RelativeLayout>
+
     </LinearLayout>
 </FrameLayout>

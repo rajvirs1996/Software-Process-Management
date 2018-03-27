@@ -94,6 +94,23 @@ public class SignUpActivity extends BasicActivity implements View.OnClickListene
                             storeUserDefaultDataReference.child("user_status").setValue("Online");
                             storeUserDefaultDataReference.child("user_image").setValue("default_profile");
                             storeUserDefaultDataReference.child("user_thumb_image").setValue("default_image");
+                            storeUserDefaultDataReference.child("isStudent").setValue(true);
+                            storeUserDefaultDataReference.child("isAdmin").setValue(false);
+                            storeUserDefaultDataReference.child("isTeachingStaff").setValue(false);
+
+                            DatabaseReference studentListRef = FirebaseDatabase.getInstance().getReference().child("Students").child(currentUserID);
+                            //DatabaseReference adminListRef  = FirebaseDatabase.getInstance().getReference().child("Admins");
+                            //DatabaseReference teacherListRef  = FirebaseDatabase.getInstance().getReference().child("Teachers");
+
+                            studentListRef.child("name").setValue(name);
+                            studentListRef.child("SID").setValue(SID);
+
+                            //To be removed
+                            /*
+                            teacherListRef.child("name").setValue(name);
+                            teacherListRef.child("ID").setValue(SID);
+                            */
+
 
                             FirebaseUser user = mAuth.getCurrentUser();
                             setUpUserInfo(user);
@@ -107,10 +124,14 @@ public class SignUpActivity extends BasicActivity implements View.OnClickListene
                             finish();
 
                         } else {
+                            // TODO Better exception handling
                             // If sign up fails, display a message to the user.
                             Log.w(this.getClass().getSimpleName(), "createUserWithEmail:failure", task.getException());
                             Toast.makeText(SignUpActivity.this, "User already existed.",
                                     Toast.LENGTH_SHORT).show();
+
+                            // Hide loading dialog
+                            //hideProgressDialog();
                         }
                     }
 
@@ -182,14 +203,26 @@ public class SignUpActivity extends BasicActivity implements View.OnClickListene
             confPasswordSignUp.setError(null);
         }
 
-        if ((!TextUtils.equals(password, confPassword)) && valid) {
-            confPasswordSignUp.setError("Password does not match the confirm password");
-            passwordSignUp.setText("");
-            confPasswordSignUp.setText("");
-            passwordSignUp.requestFocus();
-            valid = false;
-        } else {
-            confPasswordSignUp.setError(null);
+        if ((!TextUtils.isEmpty(password) && !TextUtils.isEmpty(confPassword)) && valid) {
+            if (!TextUtils.equals(password, confPassword)) {
+                passwordSignUp.setText("");
+                confPasswordSignUp.setText("");
+                //passwordSignUp.requestFocus();
+                confPasswordSignUp.setError("Password does not match the confirm password");
+                valid = false;
+            } else {
+                confPasswordSignUp.setError(null);
+            }
+
+            if (password.length() <= 5 && valid) {
+                passwordSignUp.setText("");
+                confPasswordSignUp.setText("");
+                passwordSignUp.requestFocus();
+                passwordSignUp.setError("Password length must be greater than 6 digit");
+                valid = false;
+            } else {
+                passwordSignUp.setError(null);
+            }
         }
         //</editor-fold>
 

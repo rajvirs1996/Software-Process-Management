@@ -111,8 +111,8 @@ public class EventsFragment extends Fragment {
     }
 
 
-    public class allEventsViewHolder extends RecyclerView.ViewHolder
-    {
+    public class allEventsViewHolder extends RecyclerView.ViewHolder {
+
         View mView;
 
         public allEventsViewHolder(View itemView)

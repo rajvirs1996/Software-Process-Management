@@ -3,6 +3,7 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="au.edu.uow.e_planner_and_communication_system">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
@@ -35,7 +36,8 @@
             android:theme="@style/Base.Theme.AppCompat"/>
         <activity
             android:name=".Activity.individualChatActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".Activity.removeFrom"></activity>
     </application>
 
 </manifest>

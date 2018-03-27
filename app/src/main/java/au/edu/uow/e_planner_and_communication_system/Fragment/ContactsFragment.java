@@ -95,10 +95,6 @@ public class ContactsFragment extends Fragment {
                                 //Gets the unique when selected
                                 String vist_profile_id = getRef(position).getKey();
 
-                                /*Intent profileIntent = new Intent(getActivity(), viewProfileFragment.class);
-                                profileIntent.putExtra("visit_profile_id",vist_profile_id);
-                                startActivity(profileIntent);*/
-
                                 showDialog(view,vist_profile_id);
 
 

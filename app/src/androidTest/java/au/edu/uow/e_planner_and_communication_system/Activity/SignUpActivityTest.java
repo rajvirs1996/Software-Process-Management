@@ -127,9 +127,57 @@ public class SignUpActivityTest {
         viewInteractionConfPasswordText.check(matches(hasErrorText("Please enter the password again!")));
     }
 
+    @Test
+    public void test_diffConfPassword() {
+        ViewInteraction viewInteractionNameText = onView(withId(R.id.nameSignUp)).check(matches(isDisplayed()));
+        ViewInteraction viewInteractionEmailText = onView(withId(R.id.emailSignUp)).check(matches(isDisplayed()));
+        ViewInteraction viewInteractionSIDText = onView(withId(R.id.studentIDSignUp)).check(matches(isDisplayed()));
+        ViewInteraction viewInteractionPasswordText = onView(withId(R.id.passwordSignUp)).check(matches(isDisplayed()));
+        ViewInteraction viewInteractionConfPasswordText = onView(withId(R.id.confPasswordText)).check(matches(isDisplayed()));
+        ViewInteraction viewInteractionSignUpBtn = onView(withId(R.id.signUp)).check(matches(isDisplayed()));
+
+        String name = "test" + randomDigit();
+        String email = name + "@test.com";
+        String password = name;
+
+        viewInteractionNameText.perform(replaceText(name));
+        viewInteractionEmailText.perform(replaceText(email));
+        viewInteractionSIDText.perform(replaceText(name));
+        viewInteractionPasswordText.perform(replaceText(randomDigit()));
+        viewInteractionConfPasswordText.perform(replaceText(randomDigit()));
+        viewInteractionSignUpBtn.perform(click());
+        viewInteractionConfPasswordText.check(matches(hasErrorText("Password does not match the confirm password")));
+    }
+
+    @Test
+    public void test_5digitPassword() {
+        ViewInteraction viewInteractionNameText = onView(withId(R.id.nameSignUp)).check(matches(isDisplayed()));
+        ViewInteraction viewInteractionEmailText = onView(withId(R.id.emailSignUp)).check(matches(isDisplayed()));
+        ViewInteraction viewInteractionSIDText = onView(withId(R.id.studentIDSignUp)).check(matches(isDisplayed()));
+        ViewInteraction viewInteractionPasswordText = onView(withId(R.id.passwordSignUp)).check(matches(isDisplayed()));
+        ViewInteraction viewInteractionConfPasswordText = onView(withId(R.id.confPasswordText)).check(matches(isDisplayed()));
+        ViewInteraction viewInteractionSignUpBtn = onView(withId(R.id.signUp)).check(matches(isDisplayed()));
+
+        String name = "test" + randomDigit();
+        String email = name + "@test.com";
+        String password = "12345";
+
+        viewInteractionNameText.perform(replaceText(name));
+        viewInteractionEmailText.perform(replaceText(email));
+        viewInteractionSIDText.perform(replaceText(name));
+        viewInteractionPasswordText.perform(replaceText(password));
+        viewInteractionConfPasswordText.perform(replaceText(password));
+        viewInteractionSignUpBtn.perform(click());
+        viewInteractionPasswordText.check(matches(hasErrorText("Password length must be greater than 6 digit")));
+    }
+
+    @Test
+    public void test_successSignUp() {
+
+    }
 
     private String randomDigit() {
         Random random = new Random();
-        return String.valueOf(random.nextInt(99999));
+        return String.valueOf(random.nextInt(99999) + 10);
     }
 }

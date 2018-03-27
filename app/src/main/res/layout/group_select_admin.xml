@@ -2,44 +2,62 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coursesListFrame"
+    android:id="@+id/group_select_adminFrame"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/coursetextview"
+            android:id="@+id/group_name_admin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary5"
-            android:text="Courses"
+            android:text="Group_name_admin"
             android:textAlignment="center"
-            android:textColor="@color/browser_actions_text_color"
-            android:textSize="24sp" />
+            android:textSize="18sp" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/coursesList"
+            android:id="@+id/group_ListStudents_admin"
             android:layout_width="match_parent"
-            android:layout_height="468dp" />
+            android:layout_height="330dp" />
+
+        <Button
+            android:id="@+id/group_Add_Student"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            tools:text="Add Student" />
+
+        <Button
+            android:id="@+id/group_Remove_Student"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            tools:text="Remove Student" />
+
+        <Button
+            android:id="@+id/group_Delete_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete Group" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/createCourseBtn"
+                android:id="@+id/group_admin_backbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:clickable="true"
-                app:srcCompat="@android:drawable/ic_input_add" />
+                app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
         </RelativeLayout>
+
     </LinearLayout>
+
 </FrameLayout>

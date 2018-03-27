@@ -1,4 +1,4 @@
-package au.edu.uow.e_planner_and_communication_system;
+package au.edu.uow.e_planner_and_communication_system.Activity;
 
 import android.support.annotation.NonNull;
 import android.support.test.espresso.NoMatchingViewException;
@@ -6,6 +6,7 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.contrib.NavigationViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Rule;
@@ -14,10 +15,11 @@ import org.junit.runner.RunWith;
 
 import java.util.Random;
 
-import au.edu.uow.e_planner_and_communication_system.Activity.LoginActivity;
+import au.edu.uow.e_planner_and_communication_system.R;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
@@ -54,7 +56,7 @@ public class LoginActivityTest {
 
         // Select email field
         ViewInteraction viewInteractionEmailText = onView(
-                withId(R.id.emailText))
+                ViewMatchers.withId(R.id.emailText))
                 .check(matches(isDisplayed()));
         viewInteractionEmailText.perform(click());
         // Enter email address
@@ -65,6 +67,9 @@ public class LoginActivityTest {
                 withId(R.id.passwordText))
                 .check(matches(isDisplayed()));
         viewInteractionPasswordText.perform(replaceText(password));
+
+        // Close softKeyboard
+        onView(withId(R.id.emailText)).perform(closeSoftKeyboard());
 
         // Click login in
         ViewInteraction viewInteractionLoginBtn = onView(
@@ -104,6 +109,9 @@ public class LoginActivityTest {
                 .check(matches(isDisplayed()));
         viewInteractionPasswordText.perform(replaceText(password));
 
+        // Close softKeyboard
+        onView(withId(R.id.emailText)).perform(closeSoftKeyboard());
+
         // Click login in
         ViewInteraction viewInteractionLoginBtn = onView(
                 withId(R.id.loginBtn))
@@ -119,8 +127,8 @@ public class LoginActivityTest {
         // Wait until all toast disappear
         Thread.sleep(2000);
         // Generate random user
-        String email = "uowfirst@uowmail.edu.au";
-        String password = "123465789";
+        String email = "test123@test.com";
+        String password = "123456";
 
         // Go back to the sign in screen if we're logged in from a previous test
         logOutIfPossible();
@@ -138,6 +146,9 @@ public class LoginActivityTest {
                 withId(R.id.passwordText))
                 .check(matches(isDisplayed()));
         viewInteractionPasswordText.perform(replaceText(password));
+
+        // Close softKeyboard
+        onView(withId(R.id.emailText)).perform(closeSoftKeyboard());
 
         // Click login in
         ViewInteraction viewInteractionLoginBtn = onView(
@@ -179,6 +190,9 @@ public class LoginActivityTest {
                 withId(R.id.passwordText))
                 .check(matches(isDisplayed()));
 
+        // Close softKeyboard
+        onView(withId(R.id.emailText)).perform(closeSoftKeyboard());
+
         // Click login in
         ViewInteraction viewInteractionLoginBtn = onView(
                 withId(R.id.loginBtn))
@@ -192,8 +206,8 @@ public class LoginActivityTest {
     @Test
     public void test_successLogin() {
         // Generate random user
-        String username = "uowfirst";
-        String email = username + "@uowmail.edu.au";
+        String username = "test123";
+        String email = username + "@test.com";
         String password = username;
 
         // Go back to the sign in screen if we're logged in from a previous test
@@ -212,6 +226,9 @@ public class LoginActivityTest {
                 withId(R.id.passwordText))
                 .check(matches(isDisplayed()));
         viewInteractionPasswordText.perform(replaceText(password));
+
+        // Close softKeyboard
+        onView(withId(R.id.emailText)).perform(closeSoftKeyboard());
 
         // Click login in
         ViewInteraction viewInteractionLoginBtn = onView(

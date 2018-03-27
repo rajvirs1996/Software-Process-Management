@@ -98,8 +98,6 @@ public class GroupEventsFragment extends Fragment {
 
         //back button
         View backBtn = view.findViewById(R.id.eventsBackBtn);
-        backBtn.setVisibility(View.VISIBLE);
-        backBtn.setClickable(true);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

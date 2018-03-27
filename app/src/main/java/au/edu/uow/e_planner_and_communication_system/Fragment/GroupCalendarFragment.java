@@ -24,6 +24,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
@@ -59,6 +60,7 @@ public class GroupCalendarFragment extends Fragment {
     private CompactCalendarView compactCalendar;
     private List<Event> listofEvents;
     private String groupkey;
+    private Query query;
 
 
 
@@ -150,9 +152,10 @@ public class GroupCalendarFragment extends Fragment {
 
         dbref = database.getReference().child("Groups").child(coursename);
 
-        dbref.orderByChild("groupname").equalTo(groupname);
+        query = dbref.orderByChild("groupname").equalTo(groupname);
 
-        dbref.addListenerForSingleValueEvent(new ValueEventListener() {
+        Toast.makeText(getContext(),dbref.getRef().getKey(),Toast.LENGTH_LONG);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -173,7 +176,7 @@ public class GroupCalendarFragment extends Fragment {
 
 
 
-        dbref = database.getReference().child("GroupEvents").child(groupkey);
+        dbref = database.getReference().child("GroupEvents").child("group1");
         //populate calendar
         dbref.orderByChild("date").addChildEventListener(new ChildEventListener(){
 
@@ -352,7 +355,6 @@ public class GroupCalendarFragment extends Fragment {
 
         //back button
         View backBtn = view.findViewById(R.id.calendarBackBtn);
-        backBtn.setEnabled(true);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

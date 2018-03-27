@@ -260,6 +260,7 @@ public class GroupSelectAdminFragment extends Fragment {
                                     // continue with delete
 
                                     // FIND THE SPECIFIC KEY THROUGH QUERY
+                                    dbref = database.getReference().child("Groups").child(coursename);
                                     query = dbref.orderByChild("groupname").equalTo(groupname);
                                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override

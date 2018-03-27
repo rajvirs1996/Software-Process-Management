@@ -31,6 +31,21 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/all_events_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="444dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/eventsBackBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:clickable="true"
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+            </RelativeLayout>
         </LinearLayout>
     </FrameLayout>

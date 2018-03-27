@@ -102,6 +102,7 @@
                 android:layout_alignParentEnd="true"
                 android:clickable="true"
                 app:srcCompat="@android:drawable/ic_menu_delete" />
+
         </RelativeLayout>
     </LinearLayout>
 </FrameLayout>

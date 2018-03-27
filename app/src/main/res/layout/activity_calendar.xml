@@ -60,6 +60,16 @@
                     android:clickable="true"
                     android:src="@android:drawable/ic_input_add" />
 
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/calendarBackBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/addEventBtn"
+                    android:layout_toStartOf="@+id/addEventBtn"
+                    android:clickable="true"
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -70,14 +80,15 @@
                         android:id="@+id/eventsList"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical" >
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView10"
+                            android:id="@+id/textView11"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Click on a date to view events" />
+                            android:text="Select a date to show events" />
                     </LinearLayout>
+
                 </ScrollView>
 
             </RelativeLayout>

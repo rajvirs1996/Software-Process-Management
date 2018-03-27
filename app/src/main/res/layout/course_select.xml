@@ -106,7 +106,7 @@
                     android:orientation="vertical"></LinearLayout>
 
                 <TextView
-                    android:id="@+id/yourGroupText"
+                    android:id="@+id/yourGroupTextView"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@color/colorPrimary3"

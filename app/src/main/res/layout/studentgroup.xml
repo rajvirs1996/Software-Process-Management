@@ -1,6 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/studentGroupFrame"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/studentgroupTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Group_name"
+            android:textAlignment="center"
+            android:textColorLink="@color/browser_actions_text_color"
+            android:textSize="24sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/studentGroupListRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="86dp"
+                android:layout_height="match_parent"
+                android:background="@color/browser_actions_bg_grey"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimary"
+                    android:tint="@color/cardview_light_background"
+                    app:srcCompat="@drawable/ic_calendar" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/groupCalendarTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="67dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:text="Group Calendar"
+                android:textColor="@color/browser_actions_bg_grey"
+                android:textColorLink="@color/browser_actions_bg_grey"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="86dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimary2"
+                    android:tint="@color/browser_actions_bg_grey"
+                    app:srcCompat="@drawable/ic_format_list_bulleted_black_24dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/groupEventsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="67dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary2"
+                android:text="Group Events"
+                android:textColor="@color/browser_actions_bg_grey"
+                android:textColorLink="@color/browser_actions_bg_grey"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="86dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimary4"
+                    android:tint="@color/browser_actions_bg_grey"
+                    app:srcCompat="@drawable/ic_chat" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/groupChat2TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="67dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary4"
+                android:text="Group Chat"
+                android:textColor="@color/browser_actions_bg_grey"
+                android:textColorLink="@color/browser_actions_bg_grey"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/studentGroupBackBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:clickable="true"
+                app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</FrameLayout>

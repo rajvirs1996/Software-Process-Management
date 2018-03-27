@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         //Glide.with(ivHeaderPhoto.getContext()).load("https://www.w3schools.com/howto/img_fjords.jpg")
         Glide.with(ivHeaderPhoto.getContext())
                 .load(pictureStorageReference + "/thumb_images/" + online_user_id)
-                //.apply(new RequestOptions().placeholder(R.drawable.default_image_profile))
+                .apply(new RequestOptions().circleCrop().placeholder(R.drawable.default_image_profile))
                 .into(ivHeaderPhoto);
         usernameTV.setText(Username);
         emailTV.setText(Email);
@@ -239,10 +240,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_third_fragment:
                 fragmentClass = EventsFragment.class;
                 break;
+
             //courses
             case R.id.nav_fourth_fragment:
                 fragmentClass = CoursesFragment.class;
                 break;
+
             //all messages
             case R.id.nav_fifth_fragment:
                 fragmentClass = AllMessagesFragment.class;
@@ -252,10 +255,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.personal_manager:
                 fragmentClass = AccountManager.class;
                 break;
+
             //contacts
             case R.id.personal_contact:
                 fragmentClass = ContactsFragment.class;
                 break;
+
             //logout
             case R.id.personal_logout:
                 fragmentClass = LogoutFragment.class;

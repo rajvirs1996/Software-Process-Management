@@ -4,14 +4,16 @@ package au.edu.uow.e_planner_and_communication_system.Fragment;
  * Created by Manish on 20/03/2018.
  */
 
-public class Messages {
+public class Messages
+{
 
     private String message, type;
     private long time;
     private boolean seen;
     private String from;
 
-    public Messages() {
+    public Messages()
+    {
 
 
     }

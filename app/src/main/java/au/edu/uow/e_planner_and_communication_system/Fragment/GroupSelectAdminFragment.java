@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -28,8 +29,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import au.edu.uow.e_planner_and_communication_system.R;
 
@@ -66,6 +71,7 @@ public class GroupSelectAdminFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
 
+
         TextView groupName = view.findViewById(R.id.group_name_admin);
         groupName.setText(groupname);
 
@@ -79,7 +85,7 @@ public class GroupSelectAdminFragment extends Fragment {
         group_ListStudents_admin.setLayoutManager(new LinearLayoutManager(getContext()));
 
         options = new FirebaseRecyclerOptions.Builder<GroupStudentListModel>().
-                setQuery(dbref.orderByChild("isMemberOf").equalTo(groupname), GroupStudentListModel.class).build();
+                setQuery(dbref.orderByChild("isMemberOf").equalTo(groupname),GroupStudentListModel.class).build();
 
         firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<GroupStudentListModel, GroupStudentListModelViewHolder>(options) {
@@ -93,7 +99,7 @@ public class GroupSelectAdminFragment extends Fragment {
                     @Override
                     public GroupStudentListModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                         View view1 = LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.all_studentlist, parent, false);
+                                .inflate(R.layout.all_studentlist,parent,false);
                         return new GroupStudentListModelViewHolder(view1);
                     }
                 };
@@ -138,8 +144,8 @@ public class GroupSelectAdminFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
 
                         //get user input
-                        final Map<String, Object> addToDatabase = new HashMap<>();
-                        addToDatabase.put("sid", input1.getText().toString());
+                        final Map<String,Object> addToDatabase = new HashMap<>();
+                        addToDatabase.put("sid", input1.getText().toString() );
                         addToDatabase.put("fullname", input2.getText().toString());
                         addToDatabase.put("isMemberOf", groupname);
 
@@ -180,15 +186,16 @@ public class GroupSelectAdminFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
 
 
+
                         //get user input
                         query = dbref.orderByChild("isMemberOf").equalTo(groupname);
 
                         query.addChildEventListener(new ChildEventListener() {
                             @Override
                             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                if (dataSnapshot.exists()) {
+                                if (dataSnapshot.exists()){
                                     GroupStudentListModel temp = dataSnapshot.getValue(GroupStudentListModel.class);
-                                    if (dataSnapshot.getKey().equals(input.getText().toString())) {
+                                    if (dataSnapshot.getKey().equals(input.getText().toString())){
                                         dataSnapshot.getRef().removeValue();
                                     }
                                 }
@@ -217,6 +224,7 @@ public class GroupSelectAdminFragment extends Fragment {
                         });
 
 
+
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -235,71 +243,71 @@ public class GroupSelectAdminFragment extends Fragment {
 
         //delete group
 
-        group_Delete_Group.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Ask for user confirmation
-                android.support.v7.app.AlertDialog.Builder builder;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    builder = new android.support.v7.app.AlertDialog.Builder(getContext(), android.R.style.Theme_Material_Dialog_Alert);
-                } else {
-                    builder = new android.support.v7.app.AlertDialog.Builder(getContext());
-                }
-                builder.setTitle("Delete group")
-                        .setMessage("Are you sure you want to delete this group?")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // continue with delete
+            group_Delete_Group.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Ask for user confirmation
+                    android.support.v7.app.AlertDialog.Builder builder;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        builder = new android.support.v7.app.AlertDialog.Builder(getContext(), android.R.style.Theme_Material_Dialog_Alert);
+                    } else {
+                        builder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                    }
+                    builder.setTitle("Delete group")
+                            .setMessage("Are you sure you want to delete this group?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // continue with delete
 
-                                // FIND THE SPECIFIC KEY THROUGH QUERY
-                                dbref = database.getReference().child("Groups").child(coursename);
-                                query = dbref.orderByChild("groupname").equalTo(groupname);
-                                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        if (dataSnapshot.exists()) {
+                                    // FIND THE SPECIFIC KEY THROUGH QUERY
+                                    dbref = database.getReference().child("Groups").child(coursename);
+                                    query = dbref.orderByChild("groupname").equalTo(groupname);
+                                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot.exists()) {
 
-                                            //get the values of the retrieved node
-                                            for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                                                //get the values of the retrieved node
+                                                for (DataSnapshot issue : dataSnapshot.getChildren()) {
 
-                                                //delete node (this points to the event child node)
-                                                issue.getRef().removeValue();
+                                                    //delete node (this points to the event child node)
+                                                    issue.getRef().removeValue();
 
-                                                Bundle args = new Bundle();
-                                                args.putString("course", coursename);
-                                                //make a hasty retreat to grouplistfragment before everything crashes
-                                                Fragment newFragment = new GroupListFragment();
-                                                newFragment.setArguments(args);
-                                                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                                                    Bundle args = new Bundle();
+                                                    args.putString("course", coursename);
+                                                    //make a hasty retreat to grouplistfragment before everything crashes
+                                                    Fragment newFragment = new GroupListFragment();
+                                                    newFragment.setArguments(args);
+                                                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-                                                transaction.replace(R.id.group_select_adminFrame, newFragment);
-                                                transaction.addToBackStack(null);
+                                                    transaction.replace(R.id.group_select_adminFrame, newFragment);
+                                                    transaction.addToBackStack(null);
 
-                                                transaction.commit();
+                                                    transaction.commit();
+                                                }
+
                                             }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
 
                                         }
-                                    }
+                                    });
+                                    //end query
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                    //end of confirmation
 
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
-                                //end query
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
-                //end of confirmation
-
-            }
-        });
+                }
+            });
 
 
         //backbutton
@@ -339,21 +347,23 @@ public class GroupSelectAdminFragment extends Fragment {
         View mView;
 
         public GroupStudentListModelViewHolder(View itemView) {
-            super(itemView);
+            super (itemView);
             mView = itemView;
         }
 
-        public void setSid(String sid) {
+        public void setSid (String sid) {
             TextView sidTextView = mView.findViewById(R.id.sidTextView);
             sidTextView.setText(sid);
         }
 
-        public void setFullname(String fullname) {
+        public void setFullname (String fullname) {
             TextView fullnameTextView = mView.findViewById(R.id.fullnameTextView);
             fullnameTextView.setText(fullname);
         }
 
     }
+
+
 
 
 }

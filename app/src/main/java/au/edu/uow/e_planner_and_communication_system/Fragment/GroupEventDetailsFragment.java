@@ -37,10 +37,9 @@ public class GroupEventDetailsFragment extends Fragment {
     private String eventOwnerFromEvents = "";
     private DatabaseReference reference;
     private Query query;
-    private Map<String, Object> updateDatabase;
+    private Map<String,Object> updateDatabase;
     private String coursename;
     private String groupname;
-    private String groupkey;
 
 
     @Override
@@ -50,13 +49,11 @@ public class GroupEventDetailsFragment extends Fragment {
         if (container != null) {
             container.removeAllViews();
         }
-        updateDatabase = new HashMap<String, Object>();
+        updateDatabase = new HashMap<String,Object>();
         eventNameFromEvents = getArguments().getString("eventname");
         eventOwnerFromEvents = getArguments().getString("eventowner");
-        groupname = getArguments().getString("groupname");
-        groupkey = getArguments().getString("groupkey");
-        coursename = getArguments().getString("coursename");
-
+        groupname = getArguments().getString("coursename");
+        coursename = getArguments().getString("groupname");
 
         //inflater
         return inflater.inflate(R.layout.eventdetails, container, false);
@@ -101,7 +98,7 @@ public class GroupEventDetailsFragment extends Fragment {
                 builder.show();
 
 
-                //Add event end
+        //Add event end
             }
         });
 
@@ -117,13 +114,13 @@ public class GroupEventDetailsFragment extends Fragment {
                 if (dataSnapshot.exists()) {
 
                     //get the values of the retrieved node
-                    for (DataSnapshot issue : dataSnapshot.getChildren()) {
-                        allEvents selectedevent = issue.getValue(allEvents.class);
+                    for (DataSnapshot issue : dataSnapshot.getChildren()){
+                    allEvents selectedevent = issue.getValue(allEvents.class);
 
-                        event_title.setText(selectedevent.getEvent_name());
-                        event_date.setText(selectedevent.getDate());
-                        event_description.setText(selectedevent.getEvent_description());
-                    }
+                    event_title.setText(selectedevent.getEvent_name());
+                    event_date.setText(selectedevent.getDate());
+                    event_description.setText(selectedevent.getEvent_description());
+                }
 
                 }
             }
@@ -143,9 +140,9 @@ public class GroupEventDetailsFragment extends Fragment {
                 //put the needed data into hashtable
                 // .put (KEY, THE NEW VALUES)
                 updateDatabase.put("date", event_date.getText().toString());
-                updateDatabase.put("event_name", event_title.getText().toString());
+                updateDatabase.put("event_name",event_title.getText().toString());
                 updateDatabase.put("event_description", event_description
-                        .getText().toString());
+                .getText().toString());
 
                 // FIND THE SPECIFIC KEY THROUGH QUERY
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -154,7 +151,7 @@ public class GroupEventDetailsFragment extends Fragment {
                         if (dataSnapshot.exists()) {
 
                             //get the values of the retrieved node
-                            for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                            for (DataSnapshot issue : dataSnapshot.getChildren()){
 
                                 //update child using datasnapshot
                                 issue.getRef().updateChildren(updateDatabase);
@@ -175,6 +172,7 @@ public class GroupEventDetailsFragment extends Fragment {
             }
 
 
+
         });
         //SAVE END
 
@@ -184,13 +182,13 @@ public class GroupEventDetailsFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment newFragment = new GroupEventsFragment();
+                Fragment newFragment = new GroupCalendarFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                 Bundle args = new Bundle();
                 args.putString("coursename",coursename);
                 args.putString("groupname",groupname);
-                args.putString("groupkey",groupkey);
+                args.putString("groupkey", eventOwnerFromEvents);
                 newFragment.setArguments(args);
 
                 transaction.replace(R.id.eventdetailsFrame, newFragment);
@@ -230,7 +228,7 @@ public class GroupEventDetailsFragment extends Fragment {
                                         if (dataSnapshot.exists()) {
 
                                             //get the values of the retrieved node
-                                            for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                                            for (DataSnapshot issue : dataSnapshot.getChildren()){
 
                                                 //delete node (this points to the event child node)
                                                 issue.getRef().removeValue();
@@ -272,6 +270,7 @@ public class GroupEventDetailsFragment extends Fragment {
 
 
     }
+
 
 
 }

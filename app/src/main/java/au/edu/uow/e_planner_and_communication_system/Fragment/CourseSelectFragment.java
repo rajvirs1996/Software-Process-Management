@@ -10,9 +10,11 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,7 +36,7 @@ public class CourseSelectFragment extends Fragment {
 
     private String coursename = "";
     private DatabaseReference reference;
-    private Map<String, Object> updateDatabase;
+    private Map<String,Object> updateDatabase;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,7 +53,7 @@ public class CourseSelectFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-        updateDatabase = new HashMap<String, Object>();
+        updateDatabase = new HashMap<String,Object>();
         reference = FirebaseDatabase.getInstance()
                 .getReference().child("Courses").child(coursename);
 
@@ -111,7 +113,7 @@ public class CourseSelectFragment extends Fragment {
 
                 Bundle args = new Bundle();
                 //TODO get user's current group
-                args.putString("groupname", "Group 1");
+                args.putString("groupname","Group 1");
                 args.putString("coursename", coursename);
                 newFragment.setArguments(args);
 
@@ -206,7 +208,7 @@ public class CourseSelectFragment extends Fragment {
                                         if (dataSnapshot.exists()) {
 
                                             //get the values of the retrieved node
-                                            for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                                            for (DataSnapshot issue : dataSnapshot.getChildren()){
 
                                                 //delete node (this points to the courses child node)
                                                 issue.getRef().removeValue();

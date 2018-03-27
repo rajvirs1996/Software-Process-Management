@@ -11,10 +11,9 @@ public class allCourses {
     public String grouplist;
     public String studentlist;
 
-    public allCourses() {
-    }
+    public allCourses() {}
 
-    public allCourses(String coursehead, String coursename, String grouplist, String studentlist) {
+    public allCourses (String coursehead, String coursename, String grouplist, String studentlist){
 
         this.coursehead = coursehead;
         this.coursename = coursename;

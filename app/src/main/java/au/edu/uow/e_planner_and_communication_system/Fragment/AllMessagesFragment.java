@@ -1,10 +1,10 @@
 package au.edu.uow.e_planner_and_communication_system.Fragment;
 
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,8 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.firebase.ui.auth.data.model.User;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -71,6 +73,8 @@ public class AllMessagesFragment extends Fragment {
         //
 
 
+
+
         //Options needed for the FirebaseRecylerAdpater
         firebaseOptions = new FirebaseRecyclerOptions.Builder<allMessagesDisplay>().
                 setQuery(userReference, allMessagesDisplay.class).build();
@@ -98,9 +102,9 @@ public class AllMessagesFragment extends Fragment {
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         String visit_profile_id = getRef(position).getKey();
                                         String name = dataSnapshot.child(visit_profile_id).child("name").getValue().toString();
-                                        Intent individualChat = new Intent(getContext(), individualChatActivity.class);
-                                        individualChat.putExtra("visit_profile_id", visit_profile_id);
-                                        individualChat.putExtra("name", name);
+                                        Intent individualChat = new Intent(getContext(),individualChatActivity.class);
+                                        individualChat.putExtra("visit_profile_id",visit_profile_id);
+                                        individualChat.putExtra("name",name);
                                         startActivity(individualChat);
                                     }
 
@@ -109,6 +113,8 @@ public class AllMessagesFragment extends Fragment {
 
                                     }
                                 });
+
+
 
 
                             }

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <Button
         android:id="@+id/account_managment_password_button"
@@ -10,7 +12,7 @@
         android:layout_above="@+id/account_managment_button__status"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="12dp"
-        android:text="Change Password"/>
+        android:text="Change Password" />
 
     <Button
         android:id="@+id/account_managment_button__status"
@@ -20,7 +22,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginBottom="12dp"
         android:background="?attr/colorButtonNormal"
-        android:text="Change status"/>
+        android:text="Change status" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/account_management_image"
@@ -29,7 +31,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="34dp"
-        android:src="@drawable/default_image_profile"/>
+        android:src="@drawable/default_image_profile" />
 
     <TextView
         android:id="@+id/display_name"
@@ -39,7 +41,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
         android:text="PlaceHolder"
-        android:textSize="36sp"/>
+        android:textSize="36sp" />
 
     <TextView
         android:id="@+id/status_display"
@@ -51,7 +53,7 @@
         android:text="Online"
         android:textColor="@android:color/holo_green_dark"
         android:textColorLink="@color/colorAccent"
-        android:textSize="24sp"/>
+        android:textSize="24sp" />
 
     <Button
         android:id="@+id/accountmanager_image_button"
@@ -60,6 +62,6 @@
         android:layout_above="@+id/account_managment_password_button"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="11dp"
-        android:text="Change Image"/>
+        android:text="Change Image" />
 
 </RelativeLayout>

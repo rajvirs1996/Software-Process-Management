@@ -38,7 +38,6 @@ public class GroupListFragment extends Fragment {
     private FirebaseRecyclerOptions<GroupModel> options;
     private FirebaseRecyclerAdapter<GroupModel, GroupModelViewHolder> firebaseRecyclerAdapter;
     private FirebaseDatabase database;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,7 +60,7 @@ public class GroupListFragment extends Fragment {
         dbref = database.getReference().child("Groups").child(course);
 
         options = new FirebaseRecyclerOptions.Builder<GroupModel>().
-                setQuery(dbref, GroupModel.class).build();
+                setQuery(dbref,GroupModel.class).build();
 
         firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<GroupModel, GroupModelViewHolder>(options) {
@@ -74,7 +73,7 @@ public class GroupListFragment extends Fragment {
                     @Override
                     public GroupModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                         View view1 = LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.all_groups_list, parent, false);
+                                .inflate(R.layout.all_groups_list,parent,false);
                         return new GroupModelViewHolder(view1);
                     }
                 };
@@ -104,7 +103,6 @@ public class GroupListFragment extends Fragment {
                         //get user input
 
                         String uid = UUID.randomUUID().toString();
-<<<<<<< HEAD
                         Map<String,Object> addToDatabase = new HashMap<>();
                         addToDatabase.put("groupname", input.getText().toString() );
                         dbref.child(uid).child("info").updateChildren(addToDatabase);
@@ -113,11 +111,6 @@ public class GroupListFragment extends Fragment {
                                 .child("Group_Details").child(course).child(input.getText().toString());
 
                         groupsDetailsRef.child("Group_UID").setValue(uid);
-=======
-                        Map<String, Object> addToDatabase = new HashMap<>();
-                        addToDatabase.put("groupname", input.getText().toString());
-                        dbref.child(uid).updateChildren(addToDatabase);
->>>>>>> 8017459e8e0b4d2d8d943828bc8a7c132a6faa60
 
 
                     }
@@ -150,7 +143,7 @@ public class GroupListFragment extends Fragment {
         firebaseRecyclerAdapter.stopListening();
     }
 
-    public class GroupModelViewHolder extends RecyclerView.ViewHolder {
+    public class GroupModelViewHolder extends RecyclerView.ViewHolder{
         View mView;
 
         public GroupModelViewHolder(View itemView) {
@@ -158,19 +151,19 @@ public class GroupListFragment extends Fragment {
             mView = itemView;
         }
 
-        public void setGroupName(String groupname) {
+        public void setGroupName(String groupname){
             final Button group_ButtonView = mView.findViewById(R.id.groupBtn);
             group_ButtonView.setText(groupname);
 
-            group_ButtonView.setOnClickListener(new View.OnClickListener() {
+            group_ButtonView.setOnClickListener(new View.OnClickListener(){
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view){
                     //handle click
                     Fragment newFragment = new GroupSelectAdminFragment();
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                     Bundle args = new Bundle();
-                    args.putString("groupname", group_ButtonView.getText().toString());
+                    args.putString("groupname",group_ButtonView.getText().toString());
                     args.putString("coursename", course);
                     newFragment.setArguments(args);
 

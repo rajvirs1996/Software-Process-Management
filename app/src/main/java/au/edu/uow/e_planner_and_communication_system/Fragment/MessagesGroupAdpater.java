@@ -1,6 +1,5 @@
 package au.edu.uow.e_planner_and_communication_system.Fragment;
 
-import android.app.Notification;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -18,42 +17,39 @@ import au.edu.uow.e_planner_and_communication_system.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by Manish on 20/03/2018.
+ * Created by Manish on 28/03/2018.
  */
 
-public class MessagesAdpater extends  RecyclerView.Adapter<MessagesAdpater.MessageViewHolder> {
+public class MessagesGroupAdpater extends RecyclerView.Adapter<MessagesGroupAdpater.MessagesGroupViewHolder> {
 
-    private List<Messages> userMessagesList;
+    private List<MessagesGroup> userGroupsMessagesList;
 
     private FirebaseAuth mAuth;
 
-    public MessagesAdpater (List<Messages> userMessagesList)
+    public MessagesGroupAdpater (List<MessagesGroup> userMessagesList)
     {
-        this.userMessagesList = userMessagesList;
+        this.userGroupsMessagesList = userGroupsMessagesList;
 
     }
 
-
-    @NonNull
-    @Override
-    public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MessagesGroupAdpater.MessagesGroupViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View V = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.messages_layout_of_users,parent,false);
+                .inflate(R.layout.group_messages_layout_of_users,parent,false);
 
         mAuth = FirebaseAuth.getInstance();
 
-    return new MessageViewHolder(V);
+        return new MessagesGroupAdpater.MessagesGroupViewHolder(V);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MessageViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull MessagesGroupAdpater.MessagesGroupViewHolder holder, int position)
     {
         String message_sender_id = mAuth.getCurrentUser().getUid();
 
-        Messages message = userMessagesList.get(position);
+        MessagesGroup messagesGroup = userGroupsMessagesList.get(position);
 
-        String fromUserID = message.getFrom();
+        String fromUserID = messagesGroup.getFrom();
 
         if(fromUserID.equals(message_sender_id))
         {
@@ -74,27 +70,29 @@ public class MessagesAdpater extends  RecyclerView.Adapter<MessagesAdpater.Messa
 
         }
 
-        holder.messageTextView.setText(message.getMessage());
+        holder.messageTextView.setText(messagesGroup.getMessage());
     }
 
     @Override
     public int getItemCount() {
-        return userMessagesList.size();
+        return userGroupsMessagesList.size();
     }
 
-    public class MessageViewHolder extends RecyclerView.ViewHolder
+    public class MessagesGroupViewHolder extends RecyclerView.ViewHolder
     {
         public TextView messageTextView;
         public TextView userNameTextView;
         public CircleImageView userProfileImage;
 
-        public MessageViewHolder(View view)
+        public MessagesGroupViewHolder(View view)
         {
             super(view);
 
-            messageTextView = (TextView) view.findViewById(R.id.messages_chat_show);
+            messageTextView = (TextView) view.findViewById(R.id.group_messages_chat_show);
+            userNameTextView = (TextView) view.findViewById(R.id.group_messages_user_name_display);
 
             // userProfileImage = (CircleImageView) view.findViewById(R.id.messages_profile_picture);
         }
     }
+
 }

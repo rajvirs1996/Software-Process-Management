@@ -12,6 +12,7 @@ public class Messages
     private boolean seen;
     private String from;
 
+
     public Messages()
     {
 
@@ -25,6 +26,7 @@ public class Messages
         this.time = time;
         this.seen = seen;
         this.from = from;
+
     }
 
     public String getMessage() {
@@ -67,4 +69,6 @@ public class Messages
     public void setSeen(boolean seen) {
         this.seen = seen;
     }
+
+
 }

@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -77,7 +76,7 @@ public class individualChatActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         messageSenderID = mAuth.getCurrentUser().getUid();
 
-        ChatToolBar = (Toolbar) findViewById(R.id.chatBar);
+        ChatToolBar = (Toolbar) findViewById(R.id.group_chatbar);
         setSupportActionBar(ChatToolBar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -218,6 +217,7 @@ rootRef.child("Users").child(ID_user).addValueEventListener(new ValueEventListen
             messageTextBody.put("time", ServerValue.TIMESTAMP);
             messageTextBody.put("from",messageSenderID);
             messageTextBody.put("to",ID_user);
+
 
 
             DatabaseReference usersConnected1 = FirebaseDatabase.getInstance().getReference().

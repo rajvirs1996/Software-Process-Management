@@ -1,6 +1,8 @@
 package au.edu.uow.e_planner_and_communication_system.Fragment;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -8,10 +10,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -130,6 +135,53 @@ public class AccountManager extends Fragment {
             }
         });
 
+
+        accountManagerChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final android.support.v7.app.AlertDialog.Builder alertDialog = new android.support.v7.app.AlertDialog.Builder(getContext());
+                alertDialog.setTitle("Password");
+                final EditText oldPass = new EditText(getContext());
+                final EditText newPass = new EditText(getContext());
+                final EditText confirmPass = new EditText(getContext());
+
+                oldPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                newPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                confirmPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+                oldPass.setHint("Old Password");
+                newPass.setHint("New Password");
+                confirmPass.setHint("Confirm Password");
+
+                LinearLayout linearLayout = new LinearLayout(getContext());
+
+                linearLayout.setOrientation(linearLayout.VERTICAL);
+                linearLayout.addView(oldPass);
+                linearLayout.addView(newPass);
+                linearLayout.addView(confirmPass);
+                alertDialog.setView(linearLayout);
+                alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+
+
+
+                    }
+                });
+
+                alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
+
+                android.support.v7.app.AlertDialog alertll = alertDialog.create();
+                alertll.show();
+            }
+        });
 
 
        DatabaseReference user_statusRef = FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id)

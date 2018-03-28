@@ -78,14 +78,28 @@ public class GroupSelectAdminFragment extends Fragment {
         //start database for queries
         database = FirebaseDatabase.getInstance();
         //set reference to Groups > COURSENAME
-        dbref = database.getReference().child("GroupsLists").child(coursename);
+        dbref = database.getReference().child("Groups").child(coursename);
+
+
+        database.getReference().child("Group_Details").child(coursename).child("Group_UID").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String grabUID =  dataSnapshot.getValue().toString();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         group_ListStudents_admin = view.findViewById(R.id.group_ListStudents_admin);
         group_ListStudents_admin.setHasFixedSize(true);
         group_ListStudents_admin.setLayoutManager(new LinearLayoutManager(getContext()));
 
         options = new FirebaseRecyclerOptions.Builder<GroupStudentListModel>().
-                setQuery(dbref.orderByChild("isMemberOf").equalTo(groupname),GroupStudentListModel.class).build();
+                setQuery(dbref.child("").equalTo(groupname),GroupStudentListModel.class).build();
 
         firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<GroupStudentListModel, GroupStudentListModelViewHolder>(options) {

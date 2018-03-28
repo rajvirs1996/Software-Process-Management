@@ -106,6 +106,9 @@ public class viewProfileFragment extends DialogFragment {
 
         addButton.setVisibility(Button.INVISIBLE);
         removeButton.setVisibility(Button.INVISIBLE);
+        messageButton.setVisibility(Button.INVISIBLE);
+
+
 
 
        checkStatusRef.child("isAdmin").addValueEventListener(new ValueEventListener() {
@@ -113,16 +116,20 @@ public class viewProfileFragment extends DialogFragment {
            public void onDataChange(DataSnapshot dataSnapshot) {
                String boolIsAdmin = dataSnapshot.getValue().toString();
 
-               if (boolIsAdmin.equals("true") ){
+               if (boolIsAdmin.equals("true") && !(ID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) ){
 
                    addButton.setVisibility(Button.VISIBLE);
                    removeButton.setVisibility(Button.VISIBLE);
+                   messageButton.setVisibility(Button.VISIBLE);
 
-               } else{
 
-                   addButton.setVisibility(Button.INVISIBLE);
-                   removeButton.setVisibility(Button.INVISIBLE);
+               } else if(boolIsAdmin.equals("false") && !(ID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))){
 
+                 messageButton.setVisibility(Button.VISIBLE);
+               }
+               else if (boolIsAdmin.equals("true") && (ID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) || boolIsAdmin.equals("false") && ID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
+               {
+               messageButton.setVisibility(Button.INVISIBLE);
                }
 
            }
@@ -140,17 +147,22 @@ public class viewProfileFragment extends DialogFragment {
 
                String boolIsTeachingStaff = dataSnapshot.getValue().toString();
 
-               if (boolIsTeachingStaff.equals("true") ){
+               if (boolIsTeachingStaff.equals("true") && !(ID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) ){
 
                    addButton.setVisibility(Button.VISIBLE);
                    removeButton.setVisibility(Button.VISIBLE);
+                   messageButton.setVisibility(Button.VISIBLE);
 
-               } else{
 
-                   addButton.setVisibility(Button.INVISIBLE);
-                   removeButton.setVisibility(Button.INVISIBLE);
+               } else if(boolIsTeachingStaff.equals("false") && !(ID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))){
 
+                   messageButton.setVisibility(Button.VISIBLE);
                }
+               else if (boolIsTeachingStaff.equals("true") && (ID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) || boolIsTeachingStaff.equals("false") && ID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
+               {
+                   messageButton.setVisibility(Button.INVISIBLE);
+               }
+
 
            }
 

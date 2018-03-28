@@ -22,7 +22,7 @@ class AnimationHandler {
         this.compactCalendarView = compactCalendarView;
     }
 
-    void setCompactCalendarAnimationListener(CompactCalendarView.CompactCalendarAnimationListener compactCalendarAnimationListener){
+    void setCompactCalendarAnimationListener(CompactCalendarView.CompactCalendarAnimationListener compactCalendarAnimationListener) {
         this.compactCalendarAnimationListener = compactCalendarAnimationListener;
     }
 

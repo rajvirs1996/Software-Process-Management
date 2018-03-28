@@ -31,7 +31,7 @@ public class EventsContainerTest {
     private EventsContainer underTest;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         Locale.setDefault(Locale.ENGLISH);
         TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
 
@@ -39,10 +39,10 @@ public class EventsContainerTest {
     }
 
     @Test
-    public void testItRemovesAllEvents(){
+    public void testItRemovesAllEvents() {
         //Sun, 01 Feb 2015 00:00:00 GMT
         List<Event> events = CompactCalendarHelper.getOneEventPerDayForMonth(0, 30, 1422748800000L);
-        for(Event event : events){
+        for (Event event : events) {
             underTest.addEvent(event);
         }
 
@@ -53,10 +53,10 @@ public class EventsContainerTest {
     }
 
     @Test
-    public void testItAddsAndGetsEvents(){
+    public void testItAddsAndGetsEvents() {
         //Sun, 01 Feb 2015 00:00:00 GMT
         List<Event> events = CompactCalendarHelper.getOneEventPerDayForMonth(0, 30, 1422748800000L);
-        for(Event event : events){
+        for (Event event : events) {
             underTest.addEvent(event);
         }
 
@@ -67,7 +67,7 @@ public class EventsContainerTest {
     }
 
     @Test
-    public void testItAddsEventsUsingList(){
+    public void testItAddsEventsUsingList() {
         //Sun, 01 Feb 2015 00:00:00 GMT
         List<Event> events = CompactCalendarHelper.getOneEventPerDayForMonth(0, 30, 1422748800000L);
 
@@ -81,10 +81,10 @@ public class EventsContainerTest {
     }
 
     @Test
-    public void testItRemovesEvents(){
+    public void testItRemovesEvents() {
         //Sun, 01 Feb 2015 00:00:00 GMT
         List<Event> events = CompactCalendarHelper.getOneEventPerDayForMonth(0, 30, 1422748800000L);
-        for(Event event : events){
+        for (Event event : events) {
             underTest.addEvent(event);
         }
 
@@ -107,7 +107,7 @@ public class EventsContainerTest {
     }
 
     @Test
-    public void testItRemovesEventFromCacheIfEmpty(){
+    public void testItRemovesEventFromCacheIfEmpty() {
         //Sun, 01 Feb 2015 00:00:00 GMT
         Event event = new Event(Color.BLUE, 1422748800001L);
         Event event2 = new Event(Color.BLUE, 1442758800000L);
@@ -123,7 +123,7 @@ public class EventsContainerTest {
     }
 
     @Test
-    public void testItRemovesEventFromCacheIfEmptyUsingEpoch(){
+    public void testItRemovesEventFromCacheIfEmptyUsingEpoch() {
         //Sun, 01 Feb 2015 00:00:00 GMT
         Event event = new Event(Color.BLUE, 1422748800001L);
         Event event2 = new Event(Color.BLUE, 1442758800000L);
@@ -139,7 +139,7 @@ public class EventsContainerTest {
     }
 
     @Test
-    public void testItDoesNotInterfereWithOtherEventsWhenRemovingUnknownEvent(){
+    public void testItDoesNotInterfereWithOtherEventsWhenRemovingUnknownEvent() {
         //Sun, 01 Feb 2015 00:00:00 GMT
         List<Event> expectedEvents = CompactCalendarHelper.getOneEventPerDayForMonth(0, 28, 1422748800000L);
 
@@ -156,27 +156,27 @@ public class EventsContainerTest {
     }
 
     @Test
-    public void testItGetsMultipleEventsThatWereAddedForADay(){
+    public void testItGetsMultipleEventsThatWereAddedForADay() {
         //Add 3 events per a day for Feb starting from Sun, 01 Feb 2015 00:00:00 GMT
         Map<Long, List<Event>> events = getMultipleEventsForEachDayAsMap(0, 30, 1422748800000L);
-        for(Map.Entry<Long, List<Event>> entry : events.entrySet()){
-            for (Event event: entry.getValue()) {
+        for (Map.Entry<Long, List<Event>> entry : events.entrySet()) {
+            for (Event event : entry.getValue()) {
                 underTest.addEvent(event);
             }
         }
 
         //if multiple events were added for every day, then check that all events are present by day
-        for(Map.Entry<Long, List<Event>> entry : events.entrySet()){
+        for (Map.Entry<Long, List<Event>> entry : events.entrySet()) {
             List<Event> actualEvents = underTest.getEventsFor(entry.getKey());
             Assert.assertEquals(entry.getValue(), actualEvents);
         }
     }
 
     @Test
-    public void testItRemovesEventsUsingList(){
+    public void testItRemovesEventsUsingList() {
         //Sun, 01 Feb 2015 00:00:00 GMT
         List<Event> events = CompactCalendarHelper.getOneEventPerDayForMonth(0, 30, 1422748800000L);
-        for(Event event : events){
+        for (Event event : events) {
             underTest.addEvent(event);
         }
 
@@ -193,18 +193,18 @@ public class EventsContainerTest {
     }
 
     @Test
-    public void testItGetsEventsForSpecificDay(){
+    public void testItGetsEventsForSpecificDay() {
         //Sun, 07 Jun 2015 18:20:51 GMT
         //get 30 events in total
         List<Event> events = CompactCalendarHelper.getOneEventPerDayForMonth(0, 30, 1433701251000L);
-        for(Event event : events){
+        for (Event event : events) {
             underTest.addEvent(event);
         }
 
         //Wed, 24 Aug 2016 09:21:09 GMT
         //get 30 events in total
         List<Event> events2 = CompactCalendarHelper.getOneEventPerDayForMonth(0, 30, 1472030469000L);
-        for(Event event : events2){
+        for (Event event : events2) {
             underTest.addEvent(event);
         }
 
@@ -217,7 +217,7 @@ public class EventsContainerTest {
     }
 
     @Test
-    public void testItGetsEventsForMonth(){
+    public void testItGetsEventsForMonth() {
         //Sun, 07 Jun 2015 18:20:51 GMT
         //get 30 events in total
         List<Event> events = CompactCalendarHelper.getOneEventPerDayForMonth(0, 30, 1433701251000L);
@@ -229,11 +229,11 @@ public class EventsContainerTest {
         Collections.shuffle(events, new Random());
         Collections.shuffle(events2, new Random());
 
-        for(Event event : events){
+        for (Event event : events) {
             underTest.addEvent(event);
         }
 
-        for(Event event : events2){
+        for (Event event : events2) {
             underTest.addEvent(event);
         }
 
@@ -246,7 +246,7 @@ public class EventsContainerTest {
     }
 
     @Test
-    public void testItReturnsEmptyForMonthWithNotEvents(){
+    public void testItReturnsEmptyForMonthWithNotEvents() {
         //Sun, 07 Jun 2015 18:20:51 GMT
         //get 30 events in total
         List<Event> events = CompactCalendarHelper.getOneEventPerDayForMonth(0, 30, 1433701251000L);
@@ -259,11 +259,11 @@ public class EventsContainerTest {
 
 
     @Test
-    public void testItRemovesEventByDate(){
+    public void testItRemovesEventByDate() {
         //Sun, 07 Jun 2015 18:20:51 GMT
         //get 30 events in total
         List<Event> events = CompactCalendarHelper.getOneEventPerDayForMonth(0, 30, 1433701251000L);
-        for(Event event : events){
+        for (Event event : events) {
             underTest.addEvent(event);
         }
 
@@ -279,11 +279,11 @@ public class EventsContainerTest {
     }
 
     @Test
-    public void testItUpdatesEvents(){
+    public void testItUpdatesEvents() {
         //Sun, 07 Jun 2015 18:20:51 GMT
         //get 30 events in total
         List<Event> events = CompactCalendarHelper.getOneEventPerDayForMonth(0, 30, 1433701251000L);
-        for(Event event : events){
+        for (Event event : events) {
             underTest.addEvent(event);
         }
 
@@ -303,7 +303,7 @@ public class EventsContainerTest {
     }
 
     @Test
-    public void testItAddsEventsToExistingList(){
+    public void testItAddsEventsToExistingList() {
         //Sun, 07 Jun 2015 18:20:51 GMT
         //get 30 events in total
         List<Event> events = CompactCalendarHelper.getOneEventPerDayForMonth(0, 30, 1433701251000L);

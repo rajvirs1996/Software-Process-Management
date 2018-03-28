@@ -60,17 +60,17 @@ public class EventsContainer {
         }
     }
 
-    List<Events> getEventsForMonthAndYear(int month, int year) {
+    List<Events> getEventsForMonthAndYear(int month, int year){
         return eventsByMonthAndYearMap.get(year + "_" + month);
     }
 
-    List<Event> getEventsForMonth(long eventTimeInMillis) {
+    List<Event> getEventsForMonth(long eventTimeInMillis){
         eventsCalendar.setTimeInMillis(eventTimeInMillis);
         String keyForCalendarEvent = getKeyForCalendarEvent(eventsCalendar);
         List<Events> events = eventsByMonthAndYearMap.get(keyForCalendarEvent);
         List<Event> allEventsForMonth = new ArrayList<>();
         if (events != null) {
-            for (Events eve : events) {
+            for(Events eve : events){
                 if (eve != null) {
                     allEventsForMonth.addAll(eve.getEvents());
                 }
@@ -80,7 +80,7 @@ public class EventsContainer {
         return allEventsForMonth;
     }
 
-    private Events getEventDayEvent(long eventTimeInMillis) {
+    private Events getEventDayEvent(long eventTimeInMillis){
         eventsCalendar.setTimeInMillis(eventTimeInMillis);
         int dayInMonth = eventsCalendar.get(Calendar.DAY_OF_MONTH);
         String keyForCalendarEvent = getKeyForCalendarEvent(eventsCalendar);
@@ -125,7 +125,7 @@ public class EventsContainer {
         List<Events> eventsForMonthAndYear = eventsByMonthAndYearMap.get(key);
         if (eventsForMonthAndYear != null) {
             Iterator<Events> eventsForMonthYrItr = eventsForMonthAndYear.iterator();
-            while (eventsForMonthYrItr.hasNext()) {
+            while(eventsForMonthYrItr.hasNext()) {
                 Events events = eventsForMonthYrItr.next();
                 int indexOfEvent = events.getEvents().indexOf(event);
                 if (indexOfEvent >= 0) {

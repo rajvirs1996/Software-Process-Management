@@ -8,18 +8,16 @@ public class GroupStudentListModel {
     public String isMemberOf;
     public String sid;
     public String fullname;
-
-    public GroupStudentListModel() {
-    }
+    public GroupStudentListModel(){}
 
     public GroupStudentListModel(String isMemberOf, String sid,
-                                 String fullname) {
+                            String fullname){
         this.isMemberOf = isMemberOf;
         this.fullname = fullname;
         this.sid = sid;
     }
 
-    public void setIsMemberOf(String isMemberOf) {
+    public void setIsMemberOf(String isMemberOf){
         this.isMemberOf = isMemberOf;
     }
 

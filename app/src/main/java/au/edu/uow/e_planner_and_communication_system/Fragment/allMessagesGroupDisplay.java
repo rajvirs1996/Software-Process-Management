@@ -1,22 +1,21 @@
 package au.edu.uow.e_planner_and_communication_system.Fragment;
 
 /**
- * Created by Manish on 24/03/2018.
+ * Created by Manish on 28/03/2018.
  */
 
-//Recycler view ->>>>>for list
-public class allMessagesDisplay
-{
+public class allMessagesGroupDisplay {
+
     public String name;
     public String user_image;
     public String user_status;
     private String user_thumb_image;
 
-    public allMessagesDisplay(){
+    public allMessagesGroupDisplay(){
 
     }
 
-    public allMessagesDisplay(String name, String user_image, String user_status,String user_thumb_image) {
+    public allMessagesGroupDisplay(String name, String user_image, String user_status,String user_thumb_image) {
         this.name = name;
         this.user_image = user_image;
         this.user_status = user_status;
@@ -53,3 +52,5 @@ public class allMessagesDisplay
 
 
 }
+
+

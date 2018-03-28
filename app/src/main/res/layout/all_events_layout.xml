@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
 
     <TextView
@@ -12,7 +12,7 @@
         android:layout_weight="1"
         android:text="Event_date"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="14sp"/>
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/Event_nameBtn"
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="?attr/actionBarItemBackground"
-        android:text="Event_name"/>
+        android:text="Event_name" />
 
 
 </LinearLayout>

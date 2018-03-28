@@ -14,17 +14,30 @@
         android:src="@drawable/default_image_profile" /!>-->
 
     <TextView
-        android:id="@+id/messages_chat_show"
+        android:id="@+id/group_messages_chat_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/message_text_background"
-        android:padding="20dp"
+        android:padding="30dp"
         android:text="TextView"
         android:textColor="@android:color/background_light"
         android:textSize="14sp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/group_messages_user_name_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="11dp"
+        android:text="TextView"
+        android:textColor="@color/colorPrimary2"
+        android:textSize="10sp"
+        android:textStyle="bold|italic" />
 
 </RelativeLayout>

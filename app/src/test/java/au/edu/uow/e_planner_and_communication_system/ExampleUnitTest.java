@@ -2,7 +2,7 @@ package au.edu.uow.e_planner_and_communication_system;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

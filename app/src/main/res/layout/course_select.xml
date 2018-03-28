@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:id="@+id/course_SelectFrame"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/course_SelectFrame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +18,7 @@
             android:text="Course_Name"
             android:textAlignment="center"
             android:textColor="@color/browser_actions_text_color"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,7 +45,7 @@
                     android:layout_height="40dp"
                     android:background="@color/colorPrimary2"
                     android:tint="@color/browser_actions_bg_grey"
-                    app:srcCompat="@drawable/ic_courses"/>
+                    app:srcCompat="@drawable/ic_courses" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -56,7 +57,7 @@
                     android:layout_height="40dp"
                     android:background="@color/colorPrimary3"
                     android:tint="@color/browser_actions_bg_grey"
-                    app:srcCompat="@drawable/ic_group"/>
+                    app:srcCompat="@drawable/ic_group" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -69,7 +70,7 @@
                     android:layout_height="40dp"
                     android:background="@color/colorPrimary4"
                     android:tint="@color/browser_actions_bg_grey"
-                    app:srcCompat="@drawable/ic_chat"/>
+                    app:srcCompat="@drawable/ic_chat" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -82,7 +83,7 @@
                     android:layout_height="40dp"
                     android:background="@color/colorPrimary2"
                     android:tint="@color/browser_actions_bg_grey"
-                    app:srcCompat="@drawable/ic_format_list_bulleted_black_24dp"/>
+                    app:srcCompat="@drawable/ic_format_list_bulleted_black_24dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -97,7 +98,7 @@
                     android:background="@color/colorPrimary2"
                     android:text="Course Overview"
                     android:textColor="@color/browser_actions_bg_grey"
-                    android:textSize="24sp"/>
+                    android:textSize="24sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -111,7 +112,7 @@
                     android:background="@color/colorPrimary3"
                     android:text="Your Group"
                     android:textColor="@color/browser_actions_bg_grey"
-                    android:textSize="24sp"/>
+                    android:textSize="24sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -125,7 +126,7 @@
                     android:background="@color/colorPrimary4"
                     android:text="Group Chat"
                     android:textColor="@color/browser_actions_bg_grey"
-                    android:textSize="24sp"/>
+                    android:textSize="24sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -139,7 +140,7 @@
                     android:background="@color/colorPrimary2"
                     android:text="List of Groups"
                     android:textColor="@color/browser_actions_bg_grey"
-                    android:textSize="24sp"/>
+                    android:textSize="24sp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -156,7 +157,7 @@
                 android:layout_alignParentEnd="true"
                 android:clickable="true"
                 app:backgroundTint="@color/colorPrimaryDark"
-                app:srcCompat="@drawable/ic_arrow_back_black_24dp"/>
+                app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/editCourseBtn"
@@ -165,7 +166,7 @@
                 android:layout_alignBottom="@+id/courseBackBtn"
                 android:layout_toStartOf="@+id/courseBackBtn"
                 android:clickable="true"
-                app:srcCompat="@android:drawable/ic_menu_edit"/>
+                app:srcCompat="@android:drawable/ic_menu_edit" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/deleteCourseBtn"
@@ -174,7 +175,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_toStartOf="@+id/editCourseBtn"
                 android:clickable="true"
-                app:srcCompat="@android:drawable/ic_menu_delete"/>
+                app:srcCompat="@android:drawable/ic_menu_delete" />
         </RelativeLayout>
 
     </LinearLayout>

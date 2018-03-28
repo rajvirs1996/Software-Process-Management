@@ -29,6 +29,7 @@ import com.google.firebase.storage.StorageReference;
 
 import au.edu.uow.e_planner_and_communication_system.Fragment.AccountManager;
 import au.edu.uow.e_planner_and_communication_system.Fragment.AllMessagesFragment;
+import au.edu.uow.e_planner_and_communication_system.Fragment.AllMessagesGroupFragment;
 import au.edu.uow.e_planner_and_communication_system.Fragment.CalendarFragment;
 import au.edu.uow.e_planner_and_communication_system.Fragment.ContactsFragment;
 import au.edu.uow.e_planner_and_communication_system.Fragment.CoursesFragment;
@@ -249,6 +250,10 @@ public class MainActivity extends AppCompatActivity {
             //all messages
             case R.id.nav_fifth_fragment:
                 fragmentClass = AllMessagesFragment.class;
+                break;
+
+            case R.id.nav_sixth_fragment:
+                fragmentClass = AllMessagesGroupFragment.class;
                 break;
 
             //manage

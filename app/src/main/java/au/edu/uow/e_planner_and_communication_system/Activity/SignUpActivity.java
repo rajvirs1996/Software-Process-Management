@@ -99,7 +99,7 @@ public class SignUpActivity extends BasicActivity implements View.OnClickListene
                             storeUserDefaultDataReference.child("isTeachingStaff").setValue(false);
 
                             DatabaseReference studentListRef = FirebaseDatabase.getInstance().getReference().child("Students").child(currentUserID);
-                            //DatabaseReference adminListRef  = FirebaseDatabase.getInstance().getReference().child("Admins");
+                            //DatabaseReference adminListRef  = FirebaseDatabase.getInstance().getReference().child("Admins").child(currentUserID);
                             //DatabaseReference teacherListRef  = FirebaseDatabase.getInstance().getReference().child("Teachers");
 
                             studentListRef.child("name").setValue(name);

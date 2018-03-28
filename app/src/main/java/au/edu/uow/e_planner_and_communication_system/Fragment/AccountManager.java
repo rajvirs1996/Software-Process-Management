@@ -1,6 +1,8 @@
 package au.edu.uow.e_planner_and_communication_system.Fragment;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -8,16 +10,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -107,7 +112,6 @@ public class AccountManager extends Fragment {
                 getAccountManagerDisplaystatus.setText(status);
 
 
-
                 if (!image.equals("default_image")) {
                     //Load Profile Picture
                     Picasso.get().load(image).placeholder(R.drawable.default_image_profile).into(accountManagerDisplayImagae);
@@ -119,7 +123,6 @@ public class AccountManager extends Fragment {
 
             }
         });
-
         accountManagerChangeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,48 +134,88 @@ public class AccountManager extends Fragment {
         });
 
 
+        DatabaseReference user_statusRef = FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id)
+                .child("user_status");
+        user_statusRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-       DatabaseReference user_statusRef = FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id)
-               .child("user_status");
-       user_statusRef.addValueEventListener(new ValueEventListener() {
-           @Override
-           public void onDataChange(DataSnapshot dataSnapshot) {
+                final String status = (String) dataSnapshot.getValue();
 
-               final String status = (String) dataSnapshot.getValue();
+                if (status.equals("Offline")) {
 
-               if(status.equals("Offline")){
+                    getAccountManagerDisplaystatus.setTextColor(Color.RED);
 
-                   getAccountManagerDisplaystatus.setTextColor(Color.RED);
+                } else if (status.equals("Online")) {
+                    getAccountManagerDisplaystatus.setTextColor(Color.GREEN);
+                }
 
-               } else if(status.equals("Online"))
-               {
-                   getAccountManagerDisplaystatus.setTextColor(Color.GREEN);
-               }
+                accountManagerChangeStatus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (status.equals("Online")) {
+                            FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id).child("user_status").setValue("Offline");
+                            getAccountManagerDisplaystatus.setTextColor(Color.RED);
+                        } else if (status.equals("Offline")) {
+                            FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id).child("user_status").setValue("Online");
+                            getAccountManagerDisplaystatus.setTextColor(Color.GREEN);
+                        }
+                    }
+                });
 
-               accountManagerChangeStatus.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View view) {
-                       if (status.equals("Online")){
-                           FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id).child("user_status").setValue("Offline");
-                           getAccountManagerDisplaystatus.setTextColor(Color.RED);
-                       } else if (status.equals("Offline")){
-                           FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id).child("user_status").setValue("Online");
-                           getAccountManagerDisplaystatus.setTextColor(Color.GREEN);
-                       }
-                   }
-               });
+            }
 
-           }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-           @Override
-           public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 
-           }
-       });
+        accountManagerChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //EditText oldPW = view.findViewById(R.id.oldPw);
+                final EditText newPW = view.findViewById(R.id.newPw);
+                final EditText confNewPW = view.findViewById(R.id.confNewPw);
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
+                LayoutInflater inflater = getActivity().getLayoutInflater();
 
-
+                builder.setTitle("Change Password")
+                        .setView(inflater.inflate(R.layout.pw_change, null))
+                        // Add action buttons
+                        .setPositiveButton("Yes",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        if (TextUtils.isEmpty(newPW.getText().toString()) && TextUtils.isEmpty(confNewPW.getText().toString())) {
+                                            newPW.setText("");
+                                            confNewPW.setText("");
+                                            newPW.setError("You must enter the password in both field");
+                                        } else if (TextUtils.equals(newPW.getText().toString(), confNewPW.getText().toString())) {
+                                            newPW.setText("");
+                                            confNewPW.setText("");
+                                            newPW.setError("You must enter the same password in both field");
+                                        } else {
+                                            FirebaseUser fbUser = mAuth.getCurrentUser();
+                                            fbUser.updatePassword(newPW.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    Toast.makeText(getActivity(), "Password has been updated successfully", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
+                                        //Toast.makeText(getActivity(), android.R.string.yes, Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //Toast.makeText(getActivity(), android.R.string.no, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                builder.show();
+            }
+        });
     }
 
     @Override

@@ -110,7 +110,6 @@ public class viewProfileFragment extends DialogFragment {
 
 
 
-
        checkStatusRef.child("isAdmin").addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(DataSnapshot dataSnapshot) {
@@ -174,12 +173,14 @@ public class viewProfileFragment extends DialogFragment {
 
 
 
+        //
+        final String statusString;
 
 
         usersReference.child(visit_profile_id).addValueEventListener(new ValueEventListener() {
 
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(final DataSnapshot dataSnapshot) {
 
                 String sName = dataSnapshot.child("name").getValue().toString();
                 namePass=sName;
@@ -189,10 +190,29 @@ public class viewProfileFragment extends DialogFragment {
                 emailPass = sEmail;
                 String sImage = dataSnapshot.child("user_image").getValue().toString();
 
+
+
                 name.setText(sName);
                 studentID.setText(sid);
                 email.setText(sEmail);
                 Picasso.get().load(sImage).placeholder(R.drawable.default_image_profile).into(profilePic);
+
+                messageButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent individualChat = new Intent(getContext(),individualChatActivity.class);
+                        individualChat.putExtra("visit_profile_id",visit_profile_id);
+                        individualChat.putExtra("name",namePass);
+
+                        final String statusString;
+                        statusString = dataSnapshot.child("user_status").getValue().toString();
+                        individualChat.putExtra("user_status",statusString);
+
+                        String url = dataSnapshot.child("user_thumb_image").getValue().toString();
+                        individualChat.putExtra("user_thumb_image",url);
+                        startActivity(individualChat);
+                    }
+                });
             }
 
 
@@ -202,15 +222,7 @@ public class viewProfileFragment extends DialogFragment {
             }
         });
 
-        messageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent individualChat = new Intent(getContext(),individualChatActivity.class);
-                individualChat.putExtra("visit_profile_id",visit_profile_id);
-                individualChat.putExtra("name",namePass);
-                startActivity(individualChat);
-            }
-        });
+
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override

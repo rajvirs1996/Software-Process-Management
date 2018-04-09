@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +40,8 @@ public class individualChatActivity extends AppCompatActivity {
 
     private String ID_user;
     private String name_of_user;
+    private String user_status_string;
+    private String thumb_image_url;
 
     private Toolbar ChatToolBar;
 
@@ -71,6 +74,11 @@ public class individualChatActivity extends AppCompatActivity {
         //Passed in
         ID_user =getIntent().getExtras().get("visit_profile_id").toString();
         name_of_user = getIntent().getExtras().get("name").toString();
+        user_status_string = getIntent().getExtras().get("user_status").toString();
+        thumb_image_url = getIntent().getExtras().get("user_thumb_image").toString();
+
+
+
 
         rootRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -99,6 +107,11 @@ public class individualChatActivity extends AppCompatActivity {
         inputtedMessae = (EditText) findViewById(R.id.individual_chat_message_input);
 
         nameTitle.setText(name_of_user);
+        userLastSeen.setText(user_status_string);
+
+        Picasso.get().load(thumb_image_url).placeholder(R.drawable.default_image_profile).into(profileImageChat);
+
+
 
 
         messagesAdpater = new MessagesAdpater(messagesList);

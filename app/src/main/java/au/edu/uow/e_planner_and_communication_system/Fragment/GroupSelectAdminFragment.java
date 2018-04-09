@@ -78,7 +78,7 @@ public class GroupSelectAdminFragment extends Fragment {
         //start database for queries
         database = FirebaseDatabase.getInstance();
         //set reference to Groups > COURSENAME
-        dbref = database.getReference().child("GroupsLists").child(coursename);
+        dbref = database.getReference().child("GroupsLists").child(coursename).child(groupname);
 
 
         group_ListStudents_admin = view.findViewById(R.id.group_ListStudents_admin);

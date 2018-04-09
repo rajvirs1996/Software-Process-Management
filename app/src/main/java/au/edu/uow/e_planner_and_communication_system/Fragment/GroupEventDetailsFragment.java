@@ -52,8 +52,8 @@ public class GroupEventDetailsFragment extends Fragment {
         updateDatabase = new HashMap<String,Object>();
         eventNameFromEvents = getArguments().getString("eventname");
         eventOwnerFromEvents = getArguments().getString("eventowner");
-        groupname = getArguments().getString("coursename");
-        coursename = getArguments().getString("groupname");
+        groupname = getArguments().getString("groupname");
+        coursename = getArguments().getString("coursename");
 
         //inflater
         return inflater.inflate(R.layout.eventdetails, container, false);
@@ -234,8 +234,14 @@ public class GroupEventDetailsFragment extends Fragment {
                                                 issue.getRef().removeValue();
 
                                                 //make a hasty retreat to eventsfragment before everything crashes
-                                                Fragment newFragment = new EventsFragment();
+                                                Fragment newFragment = new GroupEventsFragment();
                                                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                                                Bundle args = new Bundle();
+                                                args.putString("coursename",coursename);
+                                                args.putString("groupname",groupname);
+                                                args.putString("groupkey",eventOwnerFromEvents);
+                                                newFragment.setArguments(args);
 
                                                 transaction.replace(R.id.eventdetailsFrame, newFragment);
                                                 transaction.addToBackStack(null);

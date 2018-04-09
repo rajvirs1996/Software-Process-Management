@@ -15,8 +15,12 @@ import android.widget.TextView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import au.edu.uow.e_planner_and_communication_system.R;
 
@@ -35,6 +39,7 @@ public class GroupEventsFragment extends Fragment {
     private FirebaseDatabase mDatabse;
     private String groupname;
     private String coursename;
+    private Query query;
 
 
     @Override
@@ -55,6 +60,7 @@ public class GroupEventsFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
 
 
 
@@ -159,8 +165,22 @@ public class GroupEventsFragment extends Fragment {
             name_ButtonView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view){
+
+                    allDatabaseEventReference = mDatabse.getReference().child("Groups").child(coursename);
+
+                    query = allDatabaseEventReference.orderByChild("groupname").equalTo(groupname);
+
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                                String groupkey = "";
+                                groupkey = issue.getKey().toString();
+
+
                     //handle click
-                    Fragment newFragment = new EventDetailsFragment();
+                    Fragment newFragment = new GroupEventDetailsFragment();
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                     Bundle args = new Bundle();
@@ -174,7 +194,16 @@ public class GroupEventsFragment extends Fragment {
                     transaction.addToBackStack(null);
 
                     transaction.commit();
+                            }
+                        }
 
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                    //end grabbing group key
 
                 }
             });

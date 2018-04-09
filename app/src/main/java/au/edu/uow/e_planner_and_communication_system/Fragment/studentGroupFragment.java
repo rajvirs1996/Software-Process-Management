@@ -14,9 +14,12 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import au.edu.uow.e_planner_and_communication_system.R;
 
@@ -118,19 +121,47 @@ public class studentGroupFragment extends Fragment {
         groupEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //handle click
+
+
+                dbref = database.getReference().child("Groups").child(coursename);
+
+                query = dbref.orderByChild("groupname").equalTo(groupname);
+
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                            String groupkey = "";
+                            groupkey = issue.getKey().toString();
+
+
+                            //handle click
                 Fragment newFragment = new GroupEventsFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                 Bundle args = new Bundle();
                 args.putString("coursename",coursename);
                 args.putString("groupname",groupname);
+                args.putString("groupkey",groupkey);
                 newFragment.setArguments(args);
 
                 transaction.replace(R.id.studentGroupFrame, newFragment);
                 transaction.addToBackStack(null);
 
                 transaction.commit();
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                //end grabbing group key
+
 
             }
         });

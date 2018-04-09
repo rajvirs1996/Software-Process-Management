@@ -154,29 +154,18 @@ public class GroupCalendarFragment extends Fragment {
 
         query = dbref.orderByChild("groupname").equalTo(groupname);
 
-        Toast.makeText(getContext(),dbref.getRef().getKey(),Toast.LENGTH_LONG);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot issue : dataSnapshot.getChildren()) {
                     groupkey = issue.getKey().toString();
-                    Toast.makeText(getContext(),issue.getKey().toString(),Toast.LENGTH_LONG);
                     setGroupkey(groupkey);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        //end grabbing group key
 
 
 
-        dbref = database.getReference().child("GroupEvents").child("group1");
+
+        dbref = database.getReference().child("GroupEvents").child(groupkey);
         //populate calendar
         dbref.orderByChild("date").addChildEventListener(new ChildEventListener(){
 
@@ -243,6 +232,17 @@ public class GroupCalendarFragment extends Fragment {
                         newBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                dbref = database.getReference().child("Groups").child(coursename);
+
+                                query = dbref.orderByChild("groupname").equalTo(groupname);
+
+                                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                        for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                                            String groupkey = "";
+                                            groupkey = issue.getKey().toString();
                                 //handle click
                                 Fragment newFragment = new GroupEventDetailsFragment();
                                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -250,12 +250,25 @@ public class GroupCalendarFragment extends Fragment {
                                 Bundle args = new Bundle();
                                 args.putString("eventowner",groupkey);
                                 args.putString("eventname",tempname);
+                                args.putString("coursename",coursename);
+                                args.putString("groupname",groupname);
                                 newFragment.setArguments(args);
 
                                 transaction.replace(R.id.calendarFrame, newFragment);
                                 transaction.addToBackStack(null);
 
                                 transaction.commit();
+
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                                //end grabbing group key
 
 
                             }
@@ -320,11 +333,23 @@ public class GroupCalendarFragment extends Fragment {
                         dbref.child(uid).updateChildren(addToDatabase);
 
                         //escape to eventdetails
-                        Fragment newFragment = new EventDetailsFragment();
+
+                        dbref = database.getReference().child("Groups").child(coursename);
+
+                        query = dbref.orderByChild("groupname").equalTo(groupname);
+
+                        query.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                                    String groupkey = "";
+                                    groupkey = issue.getKey().toString();
+                        Fragment newFragment = new GroupEventDetailsFragment();
                         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                         Bundle args = new Bundle();
-                        args.putString("groupkey",groupkey);
+                        args.putString("eventowner",groupkey);
                         args.putString("eventname",m_Text.toString());
                         args.putString("coursename",coursename);
                         args.putString("groupname",groupname);
@@ -334,6 +359,17 @@ public class GroupCalendarFragment extends Fragment {
                         transaction.addToBackStack(null);
 
                         transaction.commit();
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        //end grabbing group key
 
 
                     }
@@ -359,7 +395,7 @@ public class GroupCalendarFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Fragment newFragment = new GroupCalendarFragment();
+                Fragment newFragment = new studentGroupFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                 Bundle args = new Bundle();
@@ -367,7 +403,7 @@ public class GroupCalendarFragment extends Fragment {
                 args.putString("groupname",groupname);
                 newFragment.setArguments(args);
 
-                transaction.replace(R.id.studentGroupFrame, newFragment);
+                transaction.replace(R.id.calendarFrame, newFragment);
                 transaction.addToBackStack(null);
 
                 transaction.commit();
@@ -376,6 +412,18 @@ public class GroupCalendarFragment extends Fragment {
             }
         });
         //end back button
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //end grabbing group key
 
 
     }

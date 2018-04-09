@@ -49,7 +49,7 @@ public class EventDetailsFragment extends Fragment {
         }
         updateDatabase = new HashMap<String,Object>();
         eventNameFromEvents = getArguments().getString("eventname");
-        eventOwnerFromEvents = getArguments().getString("eventowner");
+        eventOwnerFromEvents = getArguments().getString("groupkey");
 
         //inflater
         return inflater.inflate(R.layout.eventdetails, container, false);
@@ -100,7 +100,7 @@ public class EventDetailsFragment extends Fragment {
 
         //initialize the start
         reference = FirebaseDatabase.getInstance()
-                .getReference().child("Events").child(eventOwnerFromEvents);
+                .getReference().child("Events").child("cf8d61fe-9a2a-4935-911b-66520f5892cb");
 
         //gets the node that has the key
         query = reference.orderByChild("event_name").equalTo(eventNameFromEvents);

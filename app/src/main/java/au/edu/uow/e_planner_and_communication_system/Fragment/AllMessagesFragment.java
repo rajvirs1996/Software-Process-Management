@@ -105,6 +105,8 @@ public class AllMessagesFragment extends Fragment {
                                         Intent individualChat = new Intent(getContext(),individualChatActivity.class);
                                         individualChat.putExtra("visit_profile_id",visit_profile_id);
                                         individualChat.putExtra("name",name);
+                                        individualChat.putExtra("user_status",dataSnapshot.child(visit_profile_id).child("user_status").getValue().toString());
+                                        individualChat.putExtra("user_thumb_image",dataSnapshot.child(visit_profile_id).child("user_thumb_image").getValue().toString());
                                         startActivity(individualChat);
                                     }
 

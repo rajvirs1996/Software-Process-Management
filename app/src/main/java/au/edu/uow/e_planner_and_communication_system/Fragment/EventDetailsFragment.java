@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -100,7 +101,8 @@ public class EventDetailsFragment extends Fragment {
 
         //initialize the start
         reference = FirebaseDatabase.getInstance()
-                .getReference().child("Events").child("cf8d61fe-9a2a-4935-911b-66520f5892cb");
+                //change group string to actual fetched group id
+                .getReference().child("Events").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         //gets the node that has the key
         query = reference.orderByChild("event_name").equalTo(eventNameFromEvents);

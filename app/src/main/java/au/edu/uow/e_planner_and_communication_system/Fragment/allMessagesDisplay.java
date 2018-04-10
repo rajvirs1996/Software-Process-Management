@@ -49,6 +49,7 @@ public class allMessagesDisplay
     }
 
     public String getUser_thumb_image() { return  user_thumb_image;}
+
     public void  setUser_thumb_image(String user_thumb_image){this.user_thumb_image = user_thumb_image;}
 
 

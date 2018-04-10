@@ -139,58 +139,59 @@ public class AccountManager extends Fragment {
         accountManagerChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final android.support.v7.app.AlertDialog.Builder alertDialog = new android.support.v7.app.AlertDialog.Builder(getContext());
-                alertDialog.setTitle("Password");
-                final EditText oldPass = new EditText(getContext());
-                final EditText newPass = new EditText(getContext());
-                final EditText confirmPass = new EditText(getContext());
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                View changePWView = inflater.inflate(R.layout.pw_change, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(changePWView);
+                builder.setTitle("Change Password");
+                builder.setPositiveButton("Done", null);
+                builder.setNegativeButton("Cancel", null);
 
-                oldPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                newPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                confirmPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                final AlertDialog alertDialog = builder.create();
 
-                oldPass.setHint("Old Password");
-                newPass.setHint("New Password");
-                confirmPass.setHint("Confirm Password");
+                final EditText newPW = changePWView.findViewById(R.id.newPw);
+                final EditText confNewPW = changePWView.findViewById(R.id.confNewPw);
 
-                LinearLayout linearLayout = new LinearLayout(getContext());
-
-                linearLayout.setOrientation(linearLayout.VERTICAL);
-                linearLayout.addView(oldPass);
-                linearLayout.addView(newPass);
-                linearLayout.addView(confirmPass);
-                alertDialog.setView(linearLayout);
-                alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-
-
-
+                    public void onShow(DialogInterface dialog) {
+                        Button doneBtn = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                        doneBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (TextUtils.isEmpty(newPW.getText().toString()) && TextUtils.isEmpty(confNewPW.getText().toString())) {
+                                    newPW.setText("");
+                                    confNewPW.setText("");
+                                    newPW.setError("You must enter the password in both field to proceed");
+                                } else if (!(TextUtils.equals(newPW.getText().toString(), confNewPW.getText().toString()))) {
+                                    newPW.setText("");
+                                    confNewPW.setText("");
+                                    newPW.setError("You must enter the same password in both field");
+                                } else {
+                                    FirebaseUser fbUser = mAuth.getCurrentUser();
+                                    fbUser.updatePassword(newPW.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Toast.makeText(getActivity(), "Password has been updated successfully", Toast.LENGTH_SHORT).show();
+                                            alertDialog.dismiss();
+                                        }
+                                    });
+                                }
+                            }
+                        });
                     }
                 });
-
-                alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-
-
-                android.support.v7.app.AlertDialog alertll = alertDialog.create();
-                alertll.show();
+                alertDialog.show();
             }
         });
 
+        DatabaseReference user_statusRef = FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id)
+                .child("user_status");
+        user_statusRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-       DatabaseReference user_statusRef = FirebaseDatabase.getInstance().getReference().child("Users").child(online_user_id)
-               .child("user_status");
-       user_statusRef.addValueEventListener(new ValueEventListener() {
-           @Override
-           public void onDataChange(DataSnapshot dataSnapshot) {
-
-               final String status = (String) dataSnapshot.getValue();
+                final String status = (String) dataSnapshot.getValue();
 
                 if (status.equals("Offline")) {
 
@@ -221,51 +222,7 @@ public class AccountManager extends Fragment {
             }
         });
 
-        accountManagerChangePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //EditText oldPW = view.findViewById(R.id.oldPw);
-                final EditText newPW = view.findViewById(R.id.newPw);
-                final EditText confNewPW = view.findViewById(R.id.confNewPw);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-
-                builder.setTitle("Change Password")
-                        .setView(inflater.inflate(R.layout.pw_change, null))
-                        // Add action buttons
-                        .setPositiveButton("Yes",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        if (TextUtils.isEmpty(newPW.getText().toString()) && TextUtils.isEmpty(confNewPW.getText().toString())) {
-                                            newPW.setText("");
-                                            confNewPW.setText("");
-                                            newPW.setError("You must enter the password in both field");
-                                        } else if (TextUtils.equals(newPW.getText().toString(), confNewPW.getText().toString())) {
-                                            newPW.setText("");
-                                            confNewPW.setText("");
-                                            newPW.setError("You must enter the same password in both field");
-                                        } else {
-                                            FirebaseUser fbUser = mAuth.getCurrentUser();
-                                            fbUser.updatePassword(newPW.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    Toast.makeText(getActivity(), "Password has been updated successfully", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                        }
-                                        //Toast.makeText(getActivity(), android.R.string.yes, Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                //Toast.makeText(getActivity(), android.R.string.no, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                builder.show();
-            }
-        });
     }
 
     @Override

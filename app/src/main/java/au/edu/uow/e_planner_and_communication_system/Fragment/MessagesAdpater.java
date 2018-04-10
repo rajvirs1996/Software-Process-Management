@@ -8,9 +8,17 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -26,6 +34,8 @@ public class MessagesAdpater extends  RecyclerView.Adapter<MessagesAdpater.Messa
     private List<Messages> userMessagesList;
 
     private FirebaseAuth mAuth;
+
+    private DatabaseReference usersDatabaseReference;
 
     public MessagesAdpater (List<Messages> userMessagesList)
     {
@@ -55,26 +65,68 @@ public class MessagesAdpater extends  RecyclerView.Adapter<MessagesAdpater.Messa
 
         String fromUserID = message.getFrom();
 
-        if(fromUserID.equals(message_sender_id))
-        {
-            holder.messageTextView.setBackgroundResource(R.drawable.message_text_background_two);
+        String fromMessagetype = message.getType();
 
-            holder.messageTextView.setTextColor(Color.BLACK);
+        usersDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(fromUserID);
+        usersDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-            holder.messageTextView.setGravity(Gravity.RIGHT);
-        }
+                String userName = dataSnapshot.child("name").getValue().toString();
+                String userImage = dataSnapshot.child("user_thumb_image").getValue().toString();
 
-        else
-        {
-            holder.messageTextView.setBackgroundResource(R.drawable.message_text_background);
+            }
 
-            holder.messageTextView.setTextColor(Color.BLACK);
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-            holder.messageTextView.setGravity(Gravity.LEFT);
+            }
+        });
 
-        }
+        if(fromMessagetype.equals("text")){
 
-        holder.messageTextView.setText(message.getMessage());
+            holder.messagePicture.setVisibility(View.INVISIBLE);
+
+            if(fromUserID.equals(message_sender_id))
+            {
+                holder.messageTextView.setBackgroundResource(R.drawable.message_text_background_two);
+                holder.messageTextView.setTextColor(Color.BLACK);
+                holder.messageTextView.setGravity(Gravity.RIGHT);
+            }
+
+            else
+            {
+                holder.messageTextView.setBackgroundResource(R.drawable.message_text_background);
+                holder.messageTextView.setTextColor(Color.BLACK);
+                holder.messageTextView.setGravity(Gravity.LEFT);
+
+            }
+
+            holder.messageTextView.setText(message.getMessage());
+        } else
+            {
+                holder.messageTextView.setVisibility(View.INVISIBLE);
+                holder.messageTextView.setPadding(0,0,0,0);
+
+                if(fromUserID.equals(message_sender_id))
+                {
+                    holder.messageTextView.setGravity(Gravity.RIGHT);
+                    holder.messagePicture.setForegroundGravity(Gravity.RIGHT);
+                    Picasso.get().load(message.getMessage()).placeholder(R.drawable.default_image_profile).into(holder.messagePicture);
+                } else
+                    {
+                        holder.messageTextView.setGravity(Gravity.LEFT);
+                        holder.messagePicture.setForegroundGravity(Gravity.LEFT);
+                        Picasso.get().load(message.getMessage()).placeholder(R.drawable.default_image_profile).into(holder.messagePicture);
+                    }
+
+                //holder.messagePicture.set
+
+            }
+
+
+
+
     }
 
     @Override
@@ -87,13 +139,14 @@ public class MessagesAdpater extends  RecyclerView.Adapter<MessagesAdpater.Messa
         public TextView messageTextView;
         public TextView userNameTextView;
         public CircleImageView userProfileImage;
+        public ImageView messagePicture;
 
         public MessageViewHolder(View view)
         {
             super(view);
 
             messageTextView = (TextView) view.findViewById(R.id.messages_chat_show);
-
+            messagePicture = (ImageView) view.findViewById(R.id.message_imagge_view);
             // userProfileImage = (CircleImageView) view.findViewById(R.id.messages_profile_picture);
         }
     }

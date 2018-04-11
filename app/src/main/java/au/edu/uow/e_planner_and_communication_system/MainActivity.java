@@ -117,15 +117,15 @@ public class MainActivity extends AppCompatActivity {
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header);
 
         // Setup header image/username/email
-        ImageView ivHeaderPhoto = headerLayout.findViewById(R.id.headerImage);
+        //ImageView ivHeaderPhoto = headerLayout.findViewById(R.id.headerImage);
         TextView usernameTV = headerLayout.findViewById(R.id.headUsername);
         TextView emailTV = headerLayout.findViewById(R.id.headerUserEmail);
         // TODO Use usericon from firebase db using glide
         //Glide.with(ivHeaderPhoto.getContext()).load("https://www.w3schools.com/howto/img_fjords.jpg")
-        Glide.with(ivHeaderPhoto.getContext())
-                .load(pictureStorageReference + "/thumb_images/" + online_user_id)
-                //.apply(new RequestOptions().circleCrop().placeholder(R.drawable.default_image_profile))
-                .into(ivHeaderPhoto);
+//        Glide.with(ivHeaderPhoto.getContext())
+//                .load(pictureStorageReference + "/thumb_images/" + online_user_id)
+//                //.apply(new RequestOptions().circleCrop().placeholder(R.drawable.default_image_profile))
+//                .into(ivHeaderPhoto);
         usernameTV.setText(Username);
         emailTV.setText(Email);
     }
